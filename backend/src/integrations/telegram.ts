@@ -11,10 +11,7 @@ export function telegramStatus(): IntegrationStatus {
   }
 }
 
-/**
- * PHASE 2: send the owner an Approve / Reject inline keyboard, and route the callback to
- * POST /approvals/:id with via = "telegram". For now approvals are decided in the desktop app.
- */
+
 export async function requestApprovalOnPhone(approval: Approval): Promise<void> {
   log('info', `Approval needed: ${approval.action} (Telegram delivery is stubbed; approve in the desktop app)`)
 }

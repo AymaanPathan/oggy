@@ -237,19 +237,28 @@ async function adminRegistrationKey(url: string): Promise<{ key: string; done: (
   }
 }
 
-/** Registers Oggy (or re-registers it under the same name, which gives it a new key). */
-async function registerOggy(url: string, registrationKey: string, agentName: string): Promise<{ id: string; api_key: string }> {
+/**
+ * Registers Oggy. With `overwrite`, an agent already called `agentName` is re-registered: same id
+ * and rooms, but a new key, so whatever used the old key stops working.
+ */
+async function registerOggy(url: string, registrationKey: string, agentName: string, overwrite: boolean): Promise<{ id: string; api_key: string }> {
   try {
     const { body } = await call<{ id: string; api_key: string }>(`${url}/agents`, {
       method: 'POST',
       headers: { authorization: `Bearer ${registrationKey}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ name: agentName, overwrite: true, ...OGGY_REGISTRATION })
+      body: JSON.stringify({ name: agentName, overwrite, ...OGGY_REGISTRATION })
     })
     if (!body?.api_key) throw new SetupError('Switch registered Oggy but sent back no key.')
     return body
   } catch (err) {
     const status = (err as { status?: number }).status
-    if (status === 409) throw new SetupError(`Someone else in Switch already has an agent called "${agentName}". Pick another name for Oggy.`)
+    if (status === 409) {
+      throw new SetupError(
+        overwrite
+          ? `Someone else in Switch already has an agent called "${agentName}". Pick another name for Oggy.`
+          : `Switch already has an agent called "${agentName}", maybe an Oggy on another PC. Pick another name for this one.`
+      )
+    }
     if (status === 401) throw new SetupError("Switch didn't accept that registration key. Check it, or make a new one.")
     throw err
   }
@@ -270,25 +279,30 @@ async function connect(req: ConnectRequest): Promise<ConnectResult> {
     if (!(await healthy(url))) throw new SetupError(`Nothing answers as Switch at ${url}. Check the address.`)
   }
 
-  // Already connected from an earlier setup on this PC, and the login still works: keep it.
+  // This PC's Oggy from an earlier setup: if its login works on this server, keep it, so its key
+  // never changes. The login itself is the test, not the address: localhost and 127.0.0.1 are the
+  // same server written two ways.
   const existing = readConfig()?.switch
-  if (existing?.agentId && existing.agentApiKey && existing.agentName === agentName && cleanUrl(existing.apiUrl || '') === url) {
-    if (await loginWorks(url, existing.agentId, existing.agentApiKey)) {
-      connection = { apiUrl: url, agentId: existing.agentId, agentName, apiKey: existing.agentApiKey }
-      return { apiUrl: url, agentId: existing.agentId, agentName }
-    }
+  const mine = existing?.agentName === agentName
+  if (mine && existing.agentId && existing.agentApiKey && (await loginWorks(url, existing.agentId, existing.agentApiKey))) {
+    const apiUrl = existing.apiUrl ? cleanUrl(existing.apiUrl) : url
+    connection = { apiUrl, agentId: existing.agentId, agentName, apiKey: existing.agentApiKey }
+    return { apiUrl, agentId: existing.agentId, agentName }
   }
 
+  // Taking over an existing name gives it a new key. Fine for this PC's own Oggy, or on your own
+  // local Switch; on a shared server it could cut off someone else's Oggy, so there it must be new.
+  const overwrite = mine || req.mode === 'local'
   let registered: { id: string; api_key: string }
   if (req.mode === 'local') {
     const reg = await adminRegistrationKey(url)
     try {
-      registered = await registerOggy(url, reg.key, agentName)
+      registered = await registerOggy(url, reg.key, agentName, overwrite)
     } finally {
       await reg.done()
     }
   } else {
-    registered = await registerOggy(url, req.registrationKey.trim(), agentName)
+    registered = await registerOggy(url, req.registrationKey.trim(), agentName, overwrite)
   }
   connection = { apiUrl: url, agentId: registered.id, agentName, apiKey: registered.api_key }
   return { apiUrl: url, agentId: registered.id, agentName }
@@ -420,10 +434,10 @@ export function runSetup(load: (win: BrowserWindow) => void, webPreferences: Web
     connection = null
     let saved = false
     const win = new BrowserWindow({
-      width: 760,
-      height: 720,
-      minWidth: 620,
-      minHeight: 600,
+      width: 1040,
+      height: 700,
+      minWidth: 860,
+      minHeight: 560,
       title: 'Set up Oggy',
       backgroundColor: '#0d0d0f',
       autoHideMenuBar: true,

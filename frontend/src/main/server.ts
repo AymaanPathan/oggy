@@ -6,7 +6,7 @@ import { join } from 'path'
 
 /**
  * The installed Oggy (Oggy-Setup.exe) carries its own backend: the bundled server, Node 22 to run it
- * and the bridge, under resources/oggy (see scripts/pack.mjs). It starts with the app and stops with
+ * and the bridge, under resources/oggy (see frontend/scripts/pack.mjs). It starts with the app and stops with
  * it. The first time, a small setup window asks for what ~/.oggy/config.json needs.
  * From the repo (`pnpm start`), the backend runs on its own and none of this happens.
  */
@@ -88,8 +88,8 @@ function setupPage(): string {
   <h1>Set up Oggy</h1><p class="lead">Once. You can change it later in ~/.oggy/config.json.</p>
   <h2>SWITCH</h2>
   ${field('apiUrl', 'Switch address', 'Shown in Switch Console, for example http://localhost:53754', 'http://localhost:')}
-  ${field('agentId', 'Oggy agent id', 'Switch Console → Agents → your Oggy agent')}
-  ${field('agentKey', 'Oggy agent API key', 'From the same page', '', 'password')}
+  ${field('agentId', 'Oggy agent id', 'The id Switch returned when Oggy was registered (POST /agents)')}
+  ${field('agentKey', 'Oggy agent API key', 'Shown once, at registration. Lost it? See “Rotate Oggy’s Switch API key” in the README', '', 'password')}
   <h2>YOU</h2>
   ${field('name', 'Your name', 'How Oggy talks about you')}
   ${field('username', 'Your chat username', 'Your Discord (or Slack, Teams) username')}

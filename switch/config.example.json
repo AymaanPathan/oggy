@@ -1,0 +1,70 @@
+{
+  "switch": {
+    "apiUrl": "http://localhost:PORT",
+    "agentId": "YOUR-OGGY-AGENT-ID",
+    "agentApiKey": "YOUR-OGGY-AGENT-KEY",
+    "agentName": "oggy",
+    "packages": []
+  },
+  "owner": {
+    "name": "Your name",
+    "discordUsername": "your-chat-username",
+    "switchUserId": ""
+  },
+  "rooms": {
+    "team": "",
+    "friends": "",
+    "oggyDaily": ""
+  },
+  "team": [],
+  "deploy": {},
+  "agents": {
+    "claude": {
+      "name": "claude-code",
+      "default": true,
+      "does": "General-purpose coder for anything that isn't clearly frontend or backend, like setup, scripts, configs or new projects."
+    },
+    "scout": {
+      "name": "scout",
+      "does": "Read-only investigator. Finds the cause of bugs and explains how code works, with file names and lines. Never edits."
+    },
+    "frontend": {
+      "name": "frontend",
+      "does": "Builds and fixes UI code (pages, components, styles) in any project. Never touches backend code."
+    },
+    "backend": {
+      "name": "backend",
+      "does": "Builds and fixes backend code (APIs, server, database, business logic) in any project. Never touches frontend UI."
+    },
+    "tester": {
+      "name": "tester",
+      "does": "Writes and runs tests. Proves a bug with a failing test, then confirms the fix passes. Only changes test files."
+    },
+    "reviewer": {
+      "name": "reviewer",
+      "does": "Reviews every change for bugs, security issues and rule breaks. Replies LOOKS GOOD or CHANGES NEEDED. Never edits."
+    },
+    "release": {
+      "name": "release-agent",
+      "does": "Release manager. Writes the release notes before a team vote, then merges to main, pushes and checks the live site once everyone says yes. Never edits code."
+    },
+    "assistant": {
+      "name": "assistant",
+      "does": "Your everyday assistant: reads your Gmail and Google Calendar, writes to-dos and notes in Notion, and drafts emails (never sends them). Not for code."
+    }
+  },
+  "doneMarkers": {
+    "done": "DONE:",
+    "blocked": "BLOCKED:",
+    "looksGood": "LOOKS GOOD",
+    "changesNeeded": "CHANGES NEEDED",
+    "ask": "ASK:"
+  },
+  "paths": {
+    "codeFolder": ""
+  },
+  "safety": {
+    "needsApproval": ["deploy", "git push", "delete", "install"],
+    "onlyObeyOwner": true
+  }
+}

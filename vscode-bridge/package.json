@@ -1,0 +1,30 @@
+{
+  "name": "oggy-bridge",
+  "displayName": "Oggy Bridge",
+  "description": "Lets Oggy start and stop a project's dev server in a VS Code terminal you can see, read its output, and show what it changed as a diff.",
+  "version": "0.3.0",
+  "publisher": "oggy",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Oggy Bridge",
+      "properties": {
+        "oggy.backendUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:4317",
+          "description": "Where Oggy's backend runs on this computer."
+        }
+      }
+    }
+  }
+}

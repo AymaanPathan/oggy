@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <canvas class="matrix" aria-hidden="true"></canvas>
+  <div class="progress" aria-hidden="true"></div>
 
   <header class="nav">
     <div class="nav-in">
@@ -26,9 +26,11 @@
       </a>
       <nav class="nav-links" aria-label="Sections">
         <a href="#demo">Demo</a>
-        <a href="#board">Features</a>
+        <a href="#board">Board</a>
+        <a href="#team">Team</a>
         <a href="#workflows">Workflows</a>
         <a href="#discord">Discord</a>
+        <a href="#daily">Daily</a>
       </nav>
       <div class="nav-cta">
         <a class="icon-btn" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener" aria-label="Oggy on GitHub">
@@ -45,48 +47,77 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <p class="pill reveal"><span class="dot"></span> Free &amp; open source · Windows</p>
-      <h1 class="reveal">Say it once.<br /><span class="grad">Your agent team ships it.</span></h1>
-      <p class="lede reveal">
-        Oggy is a desktop app that runs a team of agents for your code and your day.
-        Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> or just talk. Oggy plans the work, hands each step
-        to the right agent, asks before anything risky, and reports back on your desktop and in Discord.
-      </p>
-      <div class="cta reveal">
-        <a class="btn btn-light" href="https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe">
-          <svg class="win" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zm7.3-1L16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zm7.3 0H16V16l-8.7-1.2z"/></svg>
-          Download for Windows
-        </a>
-        <a class="btn btn-dark" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          View on GitHub
-        </a>
-      </div>
-      <p class="fine reveal">Windows 10 / 11 · 64-bit · MIT licensed</p>
+      <canvas class="matrix" aria-hidden="true"></canvas>
+      <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 
-      <div class="hero-shot reveal">
+      <div class="wrap hero-grid">
+        <div class="hero-l">
+          <p class="pill rise"><span class="dot"></span> Free &amp; open source · Windows</p>
+          <h1 class="rise"><span class="line">Say it once.</span><span class="line grad">Your agent team</span><span class="line grad">ships it.</span></h1>
+        </div>
+        <div class="hero-r">
+          <p class="lede rise">
+            Oggy is a desktop app that runs a team of agents for your code and your day.
+            Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> or just talk. Oggy plans the work, hands each step
+            to the right agent, asks before anything risky, and reports back on your desktop and in Discord.
+          </p>
+          <div class="cta rise">
+            <a class="btn btn-light" href="https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe">
+              <svg class="win" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zm7.3-1L16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zm7.3 0H16V16l-8.7-1.2z"/></svg>
+              Download for Windows
+            </a>
+            <a class="btn btn-dark" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              View on GitHub
+            </a>
+          </div>
+          <p class="fine rise">Windows 10 / 11 · 64-bit · MIT licensed</p>
+        </div>
+      </div>
+
+      <div class="wrap hero-shot rise">
         <div class="cat-track" aria-hidden="true"><canvas class="cat walker" data-cat="walk" data-size="44"></canvas></div>
-        <figure class="window tilt">
-          <img src="assets/screens/board.webp" width="1535" height="806" alt="Oggy's Coding board: jobs sorted into Queued, Working, Needs you and Done columns, each card showing the agents on it and the project." fetchpriority="high" />
-        </figure>
+        <div class="tilt-scene">
+          <figure class="window tilt zoomable">
+            <img src="assets/screens/board.webp" width="1535" height="806" alt="Oggy's Coding board: jobs sorted into Queued, Working, Needs you and Done columns, each card showing the agents on it and the project." fetchpriority="high" />
+          </figure>
+        </div>
       </div>
     </section>
 
-    <!-- ============ WORKS WITH ============ -->
-    <section class="works reveal" aria-label="Works with">
+    <!-- ============ WORKS WITH (marquee) ============ -->
+    <section class="works" aria-label="Works with">
       <span class="works-label">Works with</span>
-      <ul>
-        <li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
-      </ul>
+      <div class="marquee">
+        <ul>
+          <li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
+        </ul>
+        <ul aria-hidden="true">
+          <li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="wrap how">
+      <ol class="steps">
+        <li class="reveal"><span class="n">01</span><h3>Say it</h3><p>Press <kbd>Ctrl</kbd> + <kbd>Space</kbd>, speak, or post in your project's Discord channel.</p></li>
+        <li class="reveal"><span class="n">02</span><h3>Oggy plans</h3><p>The job is split into steps, and each step goes to the agent built for it.</p></li>
+        <li class="reveal"><span class="n">03</span><h3>You allow</h3><p>Nothing runs until you OK the plan. Shipping waits for the whole team's yes.</p></li>
+        <li class="reveal"><span class="n">04</span><h3>It reports back</h3><p>On your desktop and in the job's Discord thread: what was done, and what wasn't confirmed.</p></li>
+      </ol>
     </section>
 
     <!-- ============ DEMO ============ -->
-    <section id="demo" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">demo</p>
-        <h2>Watch Oggy work<span class="sub">from one sentence to a shipped fix</span></h2>
+    <section id="demo" class="wrap demo">
+      <div class="demo-head">
+        <div class="reveal">
+          <p class="eyebrow">demo</p>
+          <h2>Watch Oggy work<span class="sub">from one sentence to a shipped fix</span></h2>
+        </div>
+        <p class="body reveal">A real 6:45 recording: a voice request in Discord, the plan on the desktop, the agents at work, the team vote and the deploy.</p>
       </div>
-      <div class="stage reveal">
+      <div class="stage stage-wide" data-scale>
         <div class="video-wrap">
           <video id="demo-video" preload="none" playsinline poster="assets/oggy-demo-poster.jpg">
             <source src="assets/oggy-demo.mp4" type="video/mp4" />
@@ -100,137 +131,157 @@
     </section>
 
     <!-- ============ BOARD ============ -->
-    <section id="board" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">board</p>
-        <h2>Every job, at a glance<span class="sub">sorted by what it needs from you</span></h2>
-        <p class="body">
+    <section id="board" class="feature">
+      <div class="f-text">
+        <p class="eyebrow reveal">board</p>
+        <h2 class="reveal">Every job, at a glance<span class="sub">sorted by what it needs from you</span></h2>
+        <p class="body reveal">
           Jobs move from Queued to Working to Done on their own. Anything waiting on you, such as an
           approval, a question, or a step that hit a problem, lands in <em>Needs you</em>. Each card shows which
           agents touched it and which project it's in.
         </p>
+        <ul class="tags reveal"><li><i style="--c:#8a8a92"></i>Queued</li><li><i style="--c:#6ea8fe"></i>Working</li><li><i style="--c:#e8b04b"></i>Needs you</li><li><i style="--c:#5ec48a"></i>Done</li></ul>
       </div>
-      <div class="stage reveal">
-        <figure class="window zoomable"><img loading="lazy" src="assets/screens/board.webp" width="1535" height="806" alt="The Coding board with jobs for the paytrack project." /></figure>
+      <div class="f-visual">
+        <div class="stage bleed" data-scale>
+          <figure class="window zoomable" data-drift><img loading="lazy" src="assets/screens/board.webp" width="1535" height="806" alt="The Coding board with jobs for the paytrack project." /></figure>
+        </div>
       </div>
     </section>
 
     <!-- ============ CTRL+SPACE ============ -->
-    <section id="ask" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">ctrl + space</p>
-        <h2>Ask from anywhere<span class="sub">nothing runs until you say Allow</span></h2>
-        <p class="body">
+    <section id="ask" class="feature flip">
+      <div class="f-text">
+        <p class="eyebrow reveal">ctrl + space</p>
+        <h2 class="reveal">Ask from anywhere<span class="sub">nothing runs until you say Allow</span></h2>
+        <p class="body reveal">
           Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> over any app, type or speak what you need, and Oggy writes a plan:
           who does what, in order. You see the plan before any agent starts, and you can stop it there.
         </p>
       </div>
-      <div class="stage duo reveal">
-        <figure class="card-shot">
-          <img loading="lazy" class="zoomable-img" src="assets/screens/command-bar.webp" width="620" height="154" alt="The Ctrl+Space command bar: 'What should Oggy do?' with recent requests like 'run todo workflow'." />
-          <figcaption><span class="step">1</span> Say what you need</figcaption>
-        </figure>
-        <figure class="card-shot tall">
-          <img loading="lazy" class="zoomable-img" src="assets/screens/island-approve.webp" width="364" height="414" alt="Oggy's floating panel showing a plan for Scout, Backend and Tester, with Allow and Not now buttons." />
-          <figcaption><span class="step">2</span> Check the plan, then Allow</figcaption>
-        </figure>
+      <div class="f-visual">
+        <div class="stage bleed duo" data-scale>
+          <figure class="card-shot" data-drift="-1">
+            <img loading="lazy" class="zoomable-img" src="assets/screens/command-bar.webp" width="620" height="154" alt="The Ctrl+Space command bar: 'What should Oggy do?' with recent requests like 'run todo workflow'." />
+            <figcaption><span class="step">1</span> Say what you need</figcaption>
+          </figure>
+          <figure class="card-shot tall" data-drift="1">
+            <img loading="lazy" class="zoomable-img" src="assets/screens/island-approve.webp" width="364" height="414" alt="Oggy's floating panel showing a plan for Scout, Backend and Tester, with Allow and Not now buttons." />
+            <figcaption><span class="step">2</span> Check the plan, then Allow</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
     <!-- ============ TEAM ============ -->
-    <section id="team" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">team</p>
-        <h2>Eight agents, one job each<span class="sub">so each one stays inside its lane</span></h2>
-        <p class="body">
+    <section id="team" class="feature">
+      <div class="f-text">
+        <p class="eyebrow reveal">team</p>
+        <h2 class="reveal">Eight agents, one job each<span class="sub">so each one stays inside its lane</span></h2>
+        <p class="body reveal">
           Scout only reads and explains. Frontend never touches the backend. Tester only changes test files.
           Reviewer answers <span class="mono">LOOKS GOOD</span> or <span class="mono">CHANGES NEEDED</span>.
           Release writes notes, waits for a team vote, then ships. Assistant handles your mail, calendar and notes.
         </p>
+        <ul class="agents reveal" aria-label="The agents">
+          <li><b style="--c:#7b5cc4">C</b>Claude</li><li><b style="--c:#3c6e8a">S</b>Scout</li><li><b style="--c:#3f8a4f">F</b>Frontend</li><li><b style="--c:#8a3c48">B</b>Backend</li>
+          <li><b style="--c:#7a3c7a">T</b>Tester</li><li><b style="--c:#3b7a52">R</b>Reviewer</li><li><b style="--c:#8a5a3c">R</b>Release</li><li><b style="--c:#5a3c8a">A</b>Assistant</li>
+        </ul>
       </div>
-      <div class="stage reveal">
-        <figure class="window zoomable"><img loading="lazy" src="assets/screens/team.webp" width="1535" height="817" alt="The Team page listing eight agents: Claude, Scout, Frontend, Backend, Tester, Reviewer, Release and Assistant." /></figure>
+      <div class="f-visual">
+        <div class="stage bleed" data-scale>
+          <figure class="window zoomable" data-drift><img loading="lazy" src="assets/screens/team.webp" width="1535" height="817" alt="The Team page listing eight agents: Claude, Scout, Frontend, Backend, Tester, Reviewer, Release and Assistant." /></figure>
+        </div>
       </div>
-      <ul class="agents reveal" aria-label="The agents">
-        <li><b style="--c:#7b5cc4">C</b>Claude</li><li><b style="--c:#3c6e8a">S</b>Scout</li><li><b style="--c:#3f8a4f">F</b>Frontend</li><li><b style="--c:#8a3c48">B</b>Backend</li>
-        <li><b style="--c:#7a3c7a">T</b>Tester</li><li><b style="--c:#3b7a52">R</b>Reviewer</li><li><b style="--c:#8a5a3c">R</b>Release</li><li><b style="--c:#5a3c8a">A</b>Assistant</li>
-      </ul>
     </section>
 
     <!-- ============ WORKFLOWS ============ -->
-    <section id="workflows" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">workflows</p>
-        <h2>Save it once, run it by name<span class="sub">steps in parallel, approvals where they matter</span></h2>
-        <p class="body">
+    <section id="workflows" class="feature flip">
+      <div class="f-text">
+        <p class="eyebrow reveal">workflows</p>
+        <h2 class="reveal">Save it once, run it by name<span class="sub">steps in parallel, approvals where they matter</span></h2>
+        <p class="body reveal">
           Describe a routine in a sentence and Oggy saves it as a workflow: which agents, in what order, and where it
           stops for your OK. Then say <span class="mono">run Release Day workflow</span> and it runs. Every run is kept, so you can see what passed and what failed.
         </p>
       </div>
-      <div class="stage reveal">
-        <div class="tabs" role="tablist" aria-label="Workflow screens">
-          <button role="tab" aria-selected="true" data-src="assets/screens/workflow-release-day.webp" data-w="1535" data-h="810" data-alt="The Release Day workflow: tests and review run at the same time, then a deploy after you approve.">Release Day</button>
-          <button role="tab" aria-selected="false" data-src="assets/screens/workflow-todo.webp" data-w="1532" data-h="812" data-alt="The todo workflow: Assistant checks mail and adds to-dos to Notion, then Oggy posts a report.">Mail &rarr; Notion to-do</button>
-          <button role="tab" aria-selected="false" data-src="assets/screens/workflows-coding.webp" data-w="1535" data-h="812" data-alt="Saved coding workflows and their past runs with status and duration.">Coding runs</button>
-          <button role="tab" aria-selected="false" data-src="assets/screens/workflows-everyday.webp" data-w="1535" data-h="811" data-alt="Everyday routines and their recent results.">Everyday routines</button>
+      <div class="f-visual">
+        <div class="stage bleed" data-scale>
+          <div class="tabs" role="tablist" aria-label="Workflow screens">
+            <span class="tab-ind" aria-hidden="true"></span>
+            <button role="tab" aria-selected="true" data-i="0">Release Day</button>
+            <button role="tab" aria-selected="false" data-i="1">Mail &rarr; Notion to-do</button>
+            <button role="tab" aria-selected="false" data-i="2">Coding runs</button>
+            <button role="tab" aria-selected="false" data-i="3">Everyday routines</button>
+          </div>
+          <figure class="window zoomable swap" data-drift>
+            <img class="on" loading="lazy" src="assets/screens/workflow-release-day.webp" width="1535" height="810" alt="The Release Day workflow: tests and review run at the same time, then a deploy after you approve." />
+            <img loading="lazy" src="assets/screens/workflow-todo.webp" width="1532" height="812" alt="The todo workflow: Assistant checks mail and adds to-dos to Notion, then Oggy posts a report." />
+            <img loading="lazy" src="assets/screens/workflows-coding.webp" width="1535" height="812" alt="Saved coding workflows and their past runs with status and duration." />
+            <img loading="lazy" src="assets/screens/workflows-everyday.webp" width="1535" height="811" alt="Everyday routines and their recent results." />
+          </figure>
         </div>
-        <figure class="window zoomable swap"><img id="wf-img" loading="lazy" src="assets/screens/workflow-release-day.webp" width="1535" height="810" alt="The Release Day workflow: tests and review run at the same time, then a deploy after you approve." /></figure>
       </div>
     </section>
 
     <!-- ============ DISCORD ============ -->
-    <section id="discord" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">discord</p>
-        <h2>The team votes before it ships<span class="sub">every project gets a room, every job a thread</span></h2>
-        <p class="body">
+    <section id="discord" class="feature">
+      <div class="f-text">
+        <p class="eyebrow reveal">discord</p>
+        <h2 class="reveal">The team votes before it ships<span class="sub">every project gets a room, every job a thread</span></h2>
+        <p class="body reveal">
           Oggy posts each job to your project's Discord channel as its own thread. Anything that can't be undone,
           like merging to main and deploying, waits until everyone on the project replies <span class="mono">yes</span>.
           Then Release ships it, checks the live health page, and tells you plainly what went out and what it couldn't confirm.
         </p>
       </div>
-      <div class="stage trio reveal">
-        <figure class="card-shot"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote.webp" width="502" height="717" alt="Discord: Oggy asks for a team vote to ship paytrack to production." /><figcaption><span class="step">1</span> Oggy calls a vote</figcaption></figure>
-        <figure class="card-shot"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote-team.webp" width="355" height="527" alt="Discord: Aymaan and Rahul both reply yes, and Oggy hands the job to the release agent." /><figcaption><span class="step">2</span> Everyone says yes</figcaption></figure>
-        <figure class="card-shot"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-shipped.webp" width="489" height="676" alt="Discord: the release agent reports what shipped, what's confirmed, and what isn't confirmed live." /><figcaption><span class="step">3</span> Release reports back</figcaption></figure>
+      <div class="f-visual">
+        <div class="stage bleed trio" data-scale>
+          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote.webp" width="502" height="717" alt="Discord: Oggy asks for a team vote to ship paytrack to production." /><figcaption><span class="step">1</span> Oggy calls a vote</figcaption></figure>
+          <figure class="card-shot" data-drift="-1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote-team.webp" width="355" height="527" alt="Discord: Aymaan and Rahul both reply yes, and Oggy hands the job to the release agent." /><figcaption><span class="step">2</span> Everyone says yes</figcaption></figure>
+          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-shipped.webp" width="489" height="676" alt="Discord: the release agent reports what shipped, what's confirmed, and what isn't confirmed live." /><figcaption><span class="step">3</span> Release reports back</figcaption></figure>
+        </div>
       </div>
     </section>
 
     <!-- ============ DAILY ============ -->
-    <section id="daily" class="block">
-      <div class="head reveal">
-        <p class="eyebrow">daily</p>
-        <h2>Not just your code<span class="sub">your inbox, your notes, your desktop</span></h2>
-        <p class="body">
+    <section id="daily" class="feature flip">
+      <div class="f-text">
+        <p class="eyebrow reveal">daily</p>
+        <h2 class="reveal">Not just your code<span class="sub">your inbox, your notes, your desktop</span></h2>
+        <p class="body reveal">
           The Daily view handles the small things: take a screenshot, open a folder, mute the sound, read your
           unread mail and turn what needs action into a Notion to-do list. Oggy refuses what it shouldn't do. It won't
           open a <span class="mono">.env</span> file, for example.
         </p>
       </div>
-      <div class="stage split reveal">
-        <figure class="window zoomable"><img loading="lazy" src="assets/screens/daily.webp" width="1532" height="812" alt="The Daily view: quick actions and a log of today's tasks with Done, Asked and Failed states." /></figure>
-        <figure class="card-shot side"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-todo.webp" width="489" height="676" alt="Discord: the assistant reports 20 unread emails read and 4 tasks added to the Notion To-do page." /><figcaption>The todo routine's report in Discord</figcaption></figure>
+      <div class="f-visual">
+        <div class="stage bleed split" data-scale>
+          <figure class="window zoomable" data-drift="-1"><img loading="lazy" src="assets/screens/daily.webp" width="1532" height="812" alt="The Daily view: quick actions and a log of today's tasks with Done, Asked and Failed states." /></figure>
+          <figure class="card-shot side" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-todo.webp" width="489" height="676" alt="Discord: the assistant reports 20 unread emails read and 4 tasks added to the Notion To-do page." /><figcaption>The todo routine's report</figcaption></figure>
+        </div>
       </div>
     </section>
 
     <!-- ============ FINAL CTA ============ -->
-    <section class="final reveal">
-      <canvas class="cat big" data-cat="hop" data-size="88" aria-hidden="true"></canvas>
-      <h2>Put Oggy on your desktop</h2>
-      <p>Install it, press <kbd>Ctrl</kbd> + <kbd>Space</kbd>, and tell it what you need.</p>
-      <div class="cta">
+    <section class="final">
+      <div class="final-glow" aria-hidden="true"></div>
+      <canvas class="cat big reveal" data-cat="hop" data-size="88" aria-hidden="true"></canvas>
+      <h2 class="reveal">Put Oggy on your desktop</h2>
+      <p class="reveal">Install it, press <kbd>Ctrl</kbd> + <kbd>Space</kbd>, and tell it what you need.</p>
+      <div class="cta reveal">
         <a class="btn btn-light" href="https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe">
           <svg class="win" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zm7.3-1L16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zm7.3 0H16V16l-8.7-1.2z"/></svg>
           Download for Windows
         </a>
         <a class="btn btn-dark" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">View on GitHub</a>
       </div>
-      <p class="fine">Oggy-Setup.exe · Windows 10 / 11 · 64-bit</p>
+      <p class="fine reveal">Oggy-Setup.exe · Windows 10 / 11 · 64-bit</p>
     </section>
   </main>
 
   <footer class="foot">
-    <div class="foot-in">
+    <div class="wrap foot-in">
       <span class="brand small"><canvas class="cat" data-cat="sleep" data-size="18" aria-hidden="true"></canvas> Oggy</span>
       <span>MIT licensed · built by Aymaan Pathan</span>
       <a href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">GitHub</a>
@@ -238,6 +289,7 @@
   </footer>
 
   <div class="lightbox" hidden><img alt="" /></div>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

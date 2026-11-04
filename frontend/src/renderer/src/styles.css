@@ -1,0 +1,202 @@
+/* ============================================================================
+   The bar and the island: one surface, two shapes. The stage is a single point
+   on screen, and the island hangs off it by --ax / --ay, so moving between the
+   centre and any corner is a transform, and it always grows away from its corner.
+   ============================================================================ */
+
+body.is-bar { background: transparent; overflow: hidden; user-select: none; }
+
+.stage {
+  --px: 50vw;
+  --py: 21vh;
+  --ax: 0.5;
+  --ay: 0;
+  --w: 620px;
+  position: fixed; left: 0; top: 0; width: 0; height: 0;
+  translate: var(--px) var(--py);
+  transition: translate var(--t-snap) var(--spring-snap);
+}
+.stage.is-docked { --w: 360px; }
+.stage.is-docked.at-tr { --px: calc(100vw - 16px); --py: 16px; --ax: 1; --ay: 0; }
+.stage.is-docked.at-tl { --px: 16px; --py: 16px; --ax: 0; --ay: 0; }
+.stage.is-docked.at-br { --px: calc(100vw - 16px); --py: calc(100vh - 16px); --ax: 1; --ay: 1; }
+.stage.is-docked.at-bl { --px: 16px; --py: calc(100vh - 16px); --ax: 0; --ay: 1; }
+
+.isle {
+  position: absolute; left: 0; top: 0; width: var(--w);
+  translate: calc(var(--ax) * -100%) calc(var(--ay) * -100%);
+  transition:
+    translate var(--t-snap) var(--spring-snap),
+    width var(--t-snap) var(--spring-snap),
+    opacity 200ms var(--ease-out),
+    scale var(--t-snap) var(--spring-snap);
+}
+
+/* In your hand, or landing from a throw: the pointer and the spring drive it, not CSS. */
+.stage.is-held { transition: none; }
+.stage.is-held .isle { transition-property: width, opacity, scale; }
+.stage.is-lifted .isle { scale: 1.018; }
+.stage.is-lifted .isle-shell { cursor: grabbing; }
+
+/* Hidden: it goes straight to where it belongs next, with nothing to see on the way. */
+.stage.is-out { transition: none; }
+.stage.is-out .isle { opacity: 0; scale: 0.975; transition-duration: var(--t-quick); transition-timing-function: ease-in; }
+.stage.is-behind .isle { opacity: 0; scale: 0.96; pointer-events: none; }
+
+.isle-shell {
+  height: 58px; overflow: hidden; border-radius: 14px;
+  transition: height var(--t-snap) var(--spring-snap);
+}
+
+/* ---------- inside, as the bar ---------- */
+.isle-inner { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 12px; padding: 15px 14px 15px 16px; }
+.isle-top { display: contents; }
+.isle-top .pet { grid-column: 1; grid-row: 1; align-self: start; margin-top: 2px; }
+.isle-trail { grid-column: 3; grid-row: 1; display: flex; align-items: center; gap: 2px; height: 28px; }
+.field { grid-column: 2; grid-row: 1; position: relative; min-width: 0; }
+.isle-note, .isle-recents { grid-column: 1 / -1; }
+
+.isle-trail kbd {
+  display: grid; place-items: center; width: 26px; height: 22px; border-radius: 7px;
+  font: 500 12px var(--sans); color: var(--paper-3);
+  background: var(--wash); box-shadow: inset 0 0 0 1px var(--hair);
+  opacity: 0; scale: 0.85;
+  transition: opacity 180ms var(--ease-out), scale 280ms var(--spring-snap), color 180ms;
+}
+.isle-trail kbd.is-ready { opacity: 1; scale: 1; color: var(--paper-2); }
+
+/* Field: a textarea with a ghost layer that mirrors it (for sizing and the word reveal). */
+.field textarea, .ghost {
+  display: block; width: 100%; margin: 0; padding: 0; border: 0;
+  font: 400 16px/28px var(--sans); letter-spacing: -0.006em;
+  white-space: pre-wrap; overflow-wrap: break-word;
+}
+.field textarea {
+  resize: none; outline: 0; background: transparent; color: var(--paper);
+  caret-color: var(--paper); overflow-y: auto; scrollbar-width: none; user-select: text;
+  transition: opacity 180ms var(--ease-out), translate 260ms var(--ease-out);
+}
+.field textarea::-webkit-scrollbar { display: none; }
+.field textarea::placeholder { color: var(--paper-3); }
+.field textarea::selection { background: rgba(255, 255, 255, 0.18); }
+/* Top-anchored with no bottom, so its scrollHeight is the text's and the field can shrink. */
+.ghost { position: absolute; left: 0; right: 0; top: 0; max-height: 168px; overflow: hidden; color: var(--paper); pointer-events: none; visibility: hidden; }
+.field.is-revealing textarea { color: transparent; }
+.field.is-revealing .ghost { visibility: visible; }
+
+.word { display: inline-block; white-space: pre; animation: word-in 460ms var(--ease-out) both; }
+@keyframes word-in { from { opacity: 0; translate: 0 5px; } }
+
+.is-sending .field textarea { opacity: 0.5; }
+.is-sent .field textarea { opacity: 0; translate: 0 -6px; }
+
+.isle-note {
+  margin: 14px 0 0; padding: 11px 0 0; border-top: 1px solid var(--hair);
+  font-size: 12.5px; color: var(--paper-2);
+}
+.isle-note code { padding: 2px 6px; border-radius: 6px; font-size: 11.5px; color: var(--paper); background: var(--wash-2); }
+
+/* What you asked for lately: just the words, no chrome. */
+.isle-recents { list-style: none; margin: 14px -8px -8px; padding: 8px 0 0; border-top: 1px solid var(--hair); }
+.isle-recents li { animation: settle-in 300ms var(--ease-out) both; }
+.isle-recents button {
+  width: 100%; padding: 6px 10px; border: 0; border-radius: 9px; background: transparent; text-align: left;
+  font: 400 13.5px var(--sans); color: var(--paper-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: background var(--t-quick), color var(--t-quick);
+}
+.isle-recents button:hover, .isle-recents button.is-on { background: var(--wash); color: var(--paper); }
+
+.team-chip {
+  display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 11px; border: 0; border-radius: 999px;
+  font: 500 12px var(--sans); color: var(--paper-2);
+  background: var(--wash); box-shadow: inset 0 0 0 1px var(--hair);
+  transition: background var(--t-quick), color var(--t-quick);
+}
+.team-chip:hover { background: var(--wash-2); color: var(--paper); }
+.team-chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
+.team-chip.is-waiting i { background: var(--ember); }
+
+/* ---------- inside, as the island ---------- */
+.is-docked .isle-inner { display: block; padding: 0; }
+.is-docked .isle-top {
+  display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 8px 10px 13px; cursor: grab;
+}
+.is-docked .isle-trail { flex: none; height: auto; }
+.isle-time { padding: 0 4px; font: 400 11.5px var(--mono); font-variant-numeric: tabular-nums; color: var(--paper-3); }
+
+.jl { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.jl-what { font-size: 14px; font-weight: 500; letter-spacing: -0.006em; color: var(--paper); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jl-project { margin-right: 6px; font-weight: 400; color: var(--paper-3); }
+.jl-live { font-size: 12.5px; color: var(--paper-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Everything below the head fades as the island closes; only the shell's height moves. */
+.isle-body, .is-docked .field { opacity: 0; transition: opacity 160ms var(--ease-out); }
+.is-open .isle-body, .is-open.is-docked .field { opacity: 1; transition: opacity 220ms var(--ease-out) 60ms; }
+.isle-board { height: 26px; padding: 0 9px; font-size: 12px; }
+
+.isle-body { max-height: min(56vh, 460px); padding: 2px 16px 4px; overflow-y: auto; scrollbar-width: none; }
+.isle-body::-webkit-scrollbar { display: none; }
+
+.is-docked .field { margin: 10px 8px 8px; padding: 7px 10px; border-radius: 8px; background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px var(--hair); transition-property: opacity, box-shadow; }
+.is-docked .field:focus-within { box-shadow: inset 0 0 0 1px var(--hair-2); }
+.is-docked .field textarea, .is-docked .ghost { font-size: 13.5px; line-height: 21px; }
+.is-docked .ghost { left: 10px; right: 10px; top: 7px; }
+
+/* ---------- the job, inside the island ---------- */
+.jp-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.jp-step { position: relative; padding: 4px 0; font-size: 13px; color: var(--paper-3); transition: color 300ms; }
+.jp-step:not(:last-child)::before { content: ''; position: absolute; left: 7px; top: 19px; bottom: -5px; width: 1px; background: var(--hair-2); }
+.jp-step.is-running, .jp-step.is-waiting_approval { color: var(--paper); }
+.jp-step.is-done, .jp-step.is-stubbed { color: var(--paper-2); }
+.jp-step.is-failed { color: var(--bad); }
+.jp-step.is-skipped .jp-step-text { text-decoration: line-through; opacity: 0.6; }
+.jp-step-row { width: 100%; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; }
+button.jp-step-row:hover .jp-more { color: var(--paper); }
+.jp-step-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jp-step-text b { margin-right: 6px; font-weight: 600; text-transform: capitalize; }
+.jp-more { flex: none; font-size: 11.5px; color: var(--paper-3); transition: color var(--t-quick); }
+.jp-live { margin: 2px 0 0 25px; font-size: 12px; color: var(--paper-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jp-step.is-failed .jp-live { color: var(--bad); white-space: normal; }
+.jp-said { margin: 6px 0 2px 25px; max-height: 170px; overflow-y: auto; font-size: 12.5px; line-height: 1.55; color: var(--paper-2); white-space: pre-wrap; }
+.jp-general { margin: 6px 0 0; font-size: 12.5px; color: var(--paper-3); }
+
+/* A step's mark. */
+.nd { flex: none; position: relative; z-index: 1; display: grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; }
+.nd svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nd.is-ok { color: var(--ok); animation: nd-in 420ms var(--spring-soft) both; }
+.nd.is-bad { color: var(--bad); animation: nd-in 420ms var(--spring-soft) both; }
+.nd.is-now { background: none; border: 1.5px solid rgba(255, 255, 255, 0.14); border-top-color: var(--blue); animation: spin 800ms linear infinite; }
+.nd.is-wait { background: var(--ember); animation: nd-beat 1.2s ease-in-out infinite; }
+.nd.is-next, .nd.is-skip { box-shadow: inset 0 0 0 1.5px var(--paper-4); scale: 0.75; }
+.nd.is-skip { opacity: 0.5; }
+@keyframes nd-in { from { scale: 0.4; opacity: 0; } }
+@keyframes nd-beat { 50% { scale: 0.6; opacity: 0.6; } }
+
+.jp-changing {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-top: 10px; padding: 9px 11px; border: 0; border-radius: 12px; background: var(--wash);
+  font-size: 12.5px; color: var(--paper-2); text-align: left;
+  transition: background var(--t-quick);
+}
+.jp-changing:hover { background: var(--wash-2); }
+.jp-link { font-weight: 500; color: var(--paper); }
+
+.jp-result { margin-top: 10px; }
+.jp-facts { margin: 0; font-size: 12px; color: var(--paper-3); }
+.jp-facts .is-ok { color: var(--ok); }
+.jp-facts .is-bad { color: var(--bad); }
+.jp-facts .is-warn { color: var(--ember-hi); }
+.jp-sum { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--paper-2); }
+.jp-sum.is-loading { color: var(--paper-3); }
+.jp-outcome { margin: 8px 0 0; font-size: 13px; }
+.jp-outcome.is-kept { color: var(--ok); }
+.jp-outcome.is-undone { color: var(--paper-2); }
+.jp-outcome.is-changing { color: var(--ember-hi); }
+.jp-actions { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+.jp-actions.is-foot { margin-top: 12px; }
+.jp-ask { margin-top: 10px; padding: 11px 12px 12px; border-radius: 14px; background: var(--ember-wash); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ember) 24%, transparent); }
+.jp-ask p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--paper); }
+.jp-ask .jp-actions { margin-top: 10px; }
+.jp-voice { margin: 8px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--paper-3); }
+

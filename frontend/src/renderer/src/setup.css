@@ -1,130 +1,78 @@
-/* The first-run setup window (#/setup). Same quiet dark look as the dashboard. */
+/* The first-run setup window (#/setup). It is the dashboard's own shell (app.css): sidebar,
+   toolbar, tables, buttons. Only what setup adds lives here. */
 
-body.is-setup { background: var(--ink-0); overflow: auto; }
+body.is-setup { background: var(--ink-0); }
+.oggy-app.su { user-select: text; }
 
-.setup {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 34px 32px 40px;
-  font-size: 14px;
-  line-height: 1.5;
+.su-side-lead { margin: 14px 8px 0; font: 500 12.5px var(--sans); color: var(--paper-3); }
+.su .side-nav button:disabled { cursor: default; }
+.su .side-nav button:disabled:not(.is-on) { color: var(--paper-3); }
+.su .side-nav button:disabled:hover:not(.is-on) { background: transparent; }
+
+.su-page {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+  width: 100%; max-width: 760px; padding: 18px 22px 90px;
+  animation: settle-in 240ms var(--ease-out) both;
 }
+.su-intro { margin: 0 0 2px; color: var(--paper-2); line-height: 1.5; }
+.su-muted { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 12.5px; color: var(--paper-3); }
+.su-switch { align-self: flex-start; margin-left: -4px; }
 
-.su-head { display: flex; align-items: center; gap: 16px; }
-.su-head h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
-.su-head p { margin: 2px 0 0; color: var(--paper-3); }
+/* A line inside a .table, like the Team page's rows. */
+.su-line { display: flex; align-items: center; gap: 11px; min-height: 52px; padding: 9px 13px; border-top: 1px solid var(--hair); }
+.su-line-what { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.su-line-what b { font-weight: 500; }
+.su-line-what small { font-size: 12px; color: var(--paper-3); }
+.su-line-acts { flex: none; display: flex; gap: 6px; }
+.su-foot-note { margin: 0; padding: 10px 13px 11px; border-top: 1px solid var(--hair); font-size: 12px; line-height: 1.5; color: var(--paper-3); }
 
-.su-steps { display: flex; gap: 6px; margin: 26px 0 18px; padding: 0; list-style: none; }
-.su-steps li {
-  flex: 1; display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; border-radius: 10px; background: var(--ink-1);
-  color: var(--paper-3); font-size: 13px;
-  box-shadow: inset 0 0 0 1px var(--hair);
-  transition: color var(--t-calm) var(--ease-out), box-shadow var(--t-calm) var(--ease-out);
+.su-agent {
+  display: grid; grid-template-columns: 16px 20px minmax(0, 1fr) 220px; align-items: center; column-gap: 11px;
+  min-height: 48px; padding: 6px 13px; border-top: 1px solid var(--hair); cursor: pointer;
+  transition: background var(--t-quick), opacity var(--t-quick);
 }
-.su-steps li.is-now { color: var(--paper); box-shadow: inset 0 0 0 1px var(--hair-2); background: var(--ink-2); }
-.su-steps li.is-done { color: var(--paper-2); }
-.su-num {
-  display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
-  font: 600 11px var(--mono); background: var(--wash-2); color: var(--paper-2);
-}
-.is-now .su-num { background: var(--ember); color: #17110a; }
-.is-done .su-num { background: var(--ok-wash); color: var(--ok); }
+.su-agent:hover { background: var(--wash); }
+.su-agent:not(.is-on) { opacity: 0.55; }
+.su-agent input[type='checkbox'] { width: 14px; height: 14px; margin: 0; accent-color: var(--paper); }
 
-.su-body { animation: su-in var(--t-soft) var(--spring-calm) both; }
-@keyframes su-in { from { opacity: 0; transform: translateY(8px); } }
+.su-fields { display: flex; flex-direction: column; gap: 12px; padding: 12px 13px 13px; border-top: 1px solid var(--hair); }
+.su-field { display: flex; flex-direction: column; gap: 6px; }
+.su-field > span { font-size: 12.5px; font-weight: 500; color: var(--paper-2); }
+.su-field > small { font-size: 12px; line-height: 1.45; color: var(--paper-3); }
+.su-pick { display: flex; gap: 6px; }
+.su-pick .su-input { flex: 1; }
 
-.su-card {
-  padding: 22px 22px 18px; border-radius: 16px; background: var(--ink-1);
-  box-shadow: inset 0 0 0 1px var(--hair);
-}
-.su-card h2 { margin: 0; font-size: 16px; font-weight: 600; }
-.su-lead { margin: 4px 0 18px; color: var(--paper-2); }
-
-.su-status { display: flex; gap: 12px; align-items: flex-start; padding: 13px 14px; border-radius: 12px; }
-.su-status b { display: block; font-weight: 600; }
-.su-status small { display: block; color: var(--paper-2); margin-top: 1px; }
-.su-status .mono { font-family: var(--mono); font-size: 12px; color: var(--paper-3); }
-.su-dot { flex: none; width: 9px; height: 9px; margin-top: 6px; border-radius: 50%; }
-.su-status.is-ok { background: var(--ok-wash); }
-.su-status.is-ok .su-dot { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
-.su-status.is-warn { background: var(--ember-wash); }
-.su-status.is-warn .su-dot { background: var(--ember); }
-
-.su-note { margin: 14px 0 0; color: var(--paper-3); font-size: 13px; }
-.su-error {
-  margin: 14px 0 0; padding: 10px 12px; border-radius: 10px;
-  background: var(--bad-wash); color: var(--bad); font-size: 13px;
-}
-.su-loading { display: flex; align-items: center; gap: 10px; margin: 6px 0; color: var(--paper-2); }
-
-.su-field { display: block; margin-top: 14px; }
-.su-field > span { display: block; font-weight: 500; margin-bottom: 6px; }
-.su-field > small { display: block; margin-top: 5px; color: var(--paper-3); font-size: 12.5px; }
-.su-field input, .su-agents select {
-  width: 100%; height: 38px; padding: 0 12px; border: 0; border-radius: 9px;
-  background: var(--ink-2); color: var(--paper); font: 13.5px var(--sans);
-  box-shadow: inset 0 0 0 1px var(--hair-2);
+/* Inputs look like the dashboard's composer. */
+.su-input, .su-select {
+  width: 100%; min-width: 0; height: 32px; padding: 0 10px; border: 0; outline: 0; border-radius: 7px;
+  background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--hair-2);
+  color: var(--paper); font: 400 13px var(--sans);
   transition: box-shadow var(--t-quick);
 }
-.su-field input:focus, .su-agents select:focus { outline: 0; box-shadow: inset 0 0 0 1.5px var(--ember); }
-.su-pick { display: flex; gap: 8px; }
-.su-pick input { flex: 1; font-family: var(--mono); font-size: 12.5px; }
+.su-input.mono { font: 400 12px var(--mono); }
+.su-input::placeholder { color: var(--paper-3); }
+.su-input:focus, .su-select:focus { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24); }
+.su-select { height: 28px; padding: 0 6px; font-size: 12.5px; color: var(--paper-2); cursor: pointer; }
+.su-select:disabled { cursor: default; }
+.su-select option { background: var(--ink-2); color: var(--paper); }
 
-.su-more { margin-top: 16px; }
-.su-more summary { cursor: pointer; color: var(--paper-3); font-size: 13px; width: fit-content; }
-.su-more summary:hover { color: var(--paper-2); }
+.su-error { margin: 0; padding: 9px 12px; border-radius: 8px; background: var(--bad-wash); color: var(--bad); font-size: 12.5px; line-height: 1.45; }
 
-.su-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
-.su-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
-.su-actions > :only-child { margin-left: auto; }
-
-.su-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  height: 36px; padding: 0 16px; border: 0; border-radius: 9px;
-  background: var(--wash-2); color: var(--paper); font: 500 13.5px var(--sans);
-  box-shadow: inset 0 0 0 1px var(--hair);
-  transition: background var(--t-quick), transform var(--t-snap) var(--spring-snap);
+.su-done {
+  display: flex; align-items: center; gap: 18px; padding: 18px; border-radius: 12px;
+  background: var(--ink-1); box-shadow: inset 0 0 0 1px var(--hair);
 }
-.su-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); }
-.su-btn:active:not(:disabled) { transform: scale(0.97); }
-.su-btn:disabled { opacity: 0.5; cursor: default; }
-.su-btn.is-primary {
-  color: #17110a; font-weight: 600; box-shadow: none;
-  background: linear-gradient(180deg, var(--ember-hi), var(--ember) 55%, var(--ember-lo));
-}
-.su-btn.is-primary:hover:not(:disabled) { filter: brightness(1.06); background: linear-gradient(180deg, var(--ember-hi), var(--ember) 55%, var(--ember-lo)); }
-.su-link { border: 0; background: none; padding: 4px 0; color: var(--paper-3); font-size: 13px; }
-.su-link:hover:not(:disabled) { color: var(--paper); }
+.su-done b { font-size: 15px; font-weight: 600; }
+.su-done p { margin: 4px 0 0; color: var(--paper-2); line-height: 1.5; }
+.su-done p.su-muted { display: block; margin-top: 8px; }
 
-.su-agents { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; max-height: 360px; overflow: auto; }
-.su-agents li {
-  display: grid; grid-template-columns: 1fr 230px; gap: 12px; align-items: center;
-  padding: 10px 12px; border-radius: 11px; background: var(--ink-2);
-  box-shadow: inset 0 0 0 1px var(--hair); opacity: 0.6;
-  transition: opacity var(--t-calm), box-shadow var(--t-calm);
-}
-.su-agents li.is-on { opacity: 1; box-shadow: inset 0 0 0 1px var(--hair-2); }
-.su-check { display: flex; gap: 11px; align-items: flex-start; min-width: 0; cursor: pointer; }
-.su-check input { margin-top: 3px; accent-color: var(--ember); width: 15px; height: 15px; }
-.su-check span { min-width: 0; }
-.su-check b { display: block; font-weight: 500; }
-.su-check small { display: block; color: var(--paper-3); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.su-agents select { height: 32px; font-size: 12.5px; padding: 0 8px; }
+.btn .su-spin-dark { border-color: rgba(0, 0, 0, 0.15); border-top-color: #111113; }
 
-.su-empty { padding: 16px; border-radius: 12px; background: var(--ink-2); }
-.su-empty p { margin: 4px 0 0; color: var(--paper-2); }
+/* The pet walks along the bottom of the page, like on the dashboard. */
+.su-rail { bottom: 14px; }
 
-.su-spin {
-  flex: none; width: 13px; height: 13px; border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.16); border-top-color: currentColor;
-  animation: su-spin 800ms linear infinite;
-}
-@keyframes su-spin { to { transform: rotate(360deg); } }
-
-@media (max-width: 640px) {
-  .su-agents li { grid-template-columns: 1fr; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .su-body { animation: none; }
+@media (max-width: 760px) {
+  .su-agent { grid-template-columns: 16px 20px minmax(0, 1fr); }
+  .su-agent .su-select { grid-column: 3; }
 }

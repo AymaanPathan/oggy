@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
-import { IPC, type OggyApi } from '@common/api'
+import { IPC, SETUP_IPC, type OggyApi, type OggySetupApi } from '@common/api'
 import type { OggyEvent } from '@shared/types'
 
 const api: OggyApi = {
@@ -54,3 +54,23 @@ const api: OggyApi = {
 }
 
 contextBridge.exposeInMainWorld('oggy', api)
+
+/** The setup window's calls. Main answers { ok, value } or { ok: false, error } with a sentence to show. */
+async function setupCall<T>(channel: string, ...args: unknown[]): Promise<T> {
+  const r = (await ipcRenderer.invoke(channel, ...args)) as { ok: true; value: T } | { ok: false; error: string }
+  if (!r.ok) throw new Error(r.error)
+  return r.value
+}
+
+const setup: OggySetupApi = {
+  profile: () => setupCall(SETUP_IPC.profile),
+  roles: () => setupCall(SETUP_IPC.roles),
+  findSwitch: () => setupCall(SETUP_IPC.findSwitch),
+  connect: (req) => setupCall(SETUP_IPC.connect, req),
+  listAgents: () => setupCall(SETUP_IPC.listAgents),
+  pickFolder: (current) => setupCall(SETUP_IPC.pickFolder, current),
+  save: (answers) => setupCall(SETUP_IPC.save, answers),
+  openSwitchConsole: () => ipcRenderer.send(SETUP_IPC.openSwitchConsole)
+}
+
+contextBridge.exposeInMainWorld('oggySetup', setup)

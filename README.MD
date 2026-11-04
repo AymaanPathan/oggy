@@ -4,105 +4,54 @@ A Windows desktop app that runs a team of agents for your code and your day. Pre
 
 Download the installer from [Releases](https://github.com/AymaanPathan/oggy/releases/latest).
 
----
+## Install Oggy
 
-## Problem: Oggy's Switch API key leaked
+Oggy works through [Switch](https://docs.switchagents.ai/switch-rooms/index.md), which runs your agents and connects them to Discord. Set up Switch first, then Oggy.
 
-Oggy logs in to Switch with two values in `C:\Users\<you>\.oggy\config.json`:
+1. **Install Switch Console** ([how](https://docs.switchagents.ai/switch-rooms/getting-started/install-switch-console.md)) and open it. Let it **run a server on this PC**.
+2. In Switch Console, open **Your Agents** and add the agents Oggy will hand work to, such as a Claude Code agent.
+3. Download **Oggy-Setup.exe** from [Releases](https://github.com/AymaanPathan/oggy/releases/latest) and run it.
+4. Oggy opens its setup window:
+   1. **Connect.** Oggy finds Switch on your PC and adds itself as an agent. You don't copy any key: it signs in with Switch Console's own Admin sign-in.
+   2. **Your team.** Tick the agents Oggy may use and pick each one's job (general coder, scout, frontend, backend, tester, reviewer, release, assistant).
+   3. **About you.** Your name, your Discord username (Oggy only takes orders from it) and your code folder.
+5. In Switch Console, invite Oggy (`oggy.<your-windows-name>`) to a room.
+6. Press `Ctrl` + `Space` and tell Oggy what you need.
 
-- `switch.agentId`: which agent Oggy is
-- `switch.agentApiKey`: Oggy's password
+To change any of it later, right-click Oggy's tray icon and choose **Set up Oggy again…**.
 
-If the key was pushed to GitHub, pasted in a chat, or shared anywhere else, anyone who has it can act as Oggy. Make a new key and kill the old one.
+**Switch on another machine** (a team or hosted server): in the setup window choose **Use a different Switch server**, then enter its address and a registration key from its admin page (**API Keys → Create Registration Key**).
 
-**Good to know first:**
-
-- Switch has **no "regenerate key" button**.
-- A key is shown **only once**, when the agent is registered.
-- So to get a new key, you **register Oggy again**. That also **revokes the old key** automatically.
-
----
-
-### Step 1: Make a registration key
-
-This is a separate, one-time key that is only allowed to register agents.
-
-1. Open your Switch server's address in a browser. It's the `switch.apiUrl` value in `config.json`, for example `http://localhost:53754`. This opens the **Gateway**.
-2. Sign in as **yourself**.
-3. Click **API Keys**.
-4. Click **Create Registration Key**.
-5. Type a label, for example `oggy-rotate`.
-6. Copy the key it shows you.
 
 ---
 
-### Step 2: Create Oggy's new key (this revokes the old one)
+## Problem: Oggy's Switch API key was pushed to GitHub
 
-1. Open **PowerShell**.
-2. Paste this, after changing the first 3 lines:
+**What happened:** `backend/src/config.json` was committed and pushed. It contains Oggy's Switch agent id and API key, the same ones Oggy uses in `C:\Users\<you>\.oggy\config.json`.
 
-   ```powershell
-   $server = "http://localhost:53754"     # your switch.apiUrl
-   $regKey = "PASTE-REGISTRATION-KEY"     # from Step 1
-   $name   = "oggy"                       # your switch.agentName
+### Is it dangerous?
 
-   $body = @{
-     name                = $name
-     description         = "Oggy: plans jobs and hands them to the team's agents"
-     connector_type      = "oggy"
-     overwrite           = $true
-     integration_profile = @{
-       connection_model          = "always_on"
-       message_exchange          = $true
-       pre_invocation_mediation  = @()
-       post_invocation_mediation = @()
-       event_reporting           = @()
-     }
-   } | ConvertTo-Json -Depth 5
+**Not with a local Switch server**, which is what Switch Console sets up by default. That server only answers on `localhost`, so the key works only for programs on your own PC.
 
-   Invoke-RestMethod -Method Post -Uri "$server/agents" `
-     -Headers @{ Authorization = "Bearer $regKey" } `
-     -ContentType "application/json" -Body $body
-   ```
+Check it yourself in PowerShell:
 
-3. Press Enter. You get back two values:
+```powershell
+# 1. Works: the server answers on your own PC
+Invoke-WebRequest http://localhost:53754/health -UseBasicParsing
 
-   ```text
-   id      : 1234abcd-...
-   api_key : NEW-KEY-...
-   ```
+# 2. Should fail: the server must NOT answer on your network address
+$ip = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254*' } | Select-Object -First 1).IPAddress
+Invoke-WebRequest "http://${ip}:53754/health" -UseBasicParsing -TimeoutSec 3
+```
 
-4. **Copy both now.** Switch will never show `api_key` again.
+Use the port from `switch.apiUrl` in your `config.json` instead of `53754`.
 
-The old key stops working the moment this succeeds, and Oggy stays in all its rooms.
+- If **2 fails**, the leaked key is harmless. Still do **Stop tracking the file**, and replace the key if you want to be thorough.
+- If **2 works**, or your `apiUrl` isn't `localhost`, anyone with the key can act as Oggy. Do both sections below now.
 
----
+### Stop tracking the file
 
-### Step 3: Give Oggy the new key
-
-1. Open `C:\Users\<you>\.oggy\config.json` in a text editor.
-2. Replace the `agentApiKey` value with the new `api_key`.
-3. If `id` is different from `agentId`, replace that too.
-4. Save the file.
-5. Quit Oggy and open it again.
-6. Check that the bottom-left of Oggy says **Connected**.
-
----
-
-### Step 4: Revoke the registration key
-
-You don't need it anymore, so delete it.
-
-1. Go back to the Gateway's **API Keys** page.
-2. Find `oggy-rotate`.
-3. Delete it.
-
----
-
-### Step 5: Make sure the key can't leak again
-
-1. Never put `config.json` inside the repo. The real one belongs only in `C:\Users\<you>\.oggy\`.
-2. If a copy was committed, stop tracking it:
+In a terminal in the repo folder:
 
 ```bash
 git rm --cached backend/src/config.json
@@ -111,44 +60,96 @@ git commit -m "Stop tracking local Switch config"
 git push
 ```
 
-The old key is still visible in the GitHub history, but that's fine now: Step 2 already killed it.
+`git rm --cached` removes the file from git and keeps your local copy. Keep the real config only in `C:\Users\<you>\.oggy\config.json`. `switch/config.example.json` is the template, with placeholders only.
 
----
+### Replace the key: Switch Console on your own PC
 
-### If something goes wrong
+Switch Console has no button for this yet. It runs a local Switch server for you, and that server keeps its **Admin sign-in** in this file:
 
-| What you see | What it means | What to do |
+`C:\Users\<you>\AppData\Roaming\switchdash\local-switch-server\native\run\switch-core.env`
+
+Oggy belongs to Admin, like every agent you add in Switch Console. The command below:
+
+1. signs in to your local Switch as Admin
+2. creates a one-time registration key
+3. re-registers Oggy with it, which gives Oggy a **new key** and **kills the old one** (Oggy keeps its id and rooms)
+4. saves the new key in `config.json`, keeping the old file as `config.json.bak`
+5. deletes the one-time key
+
+Nothing is printed, and if any step fails, it stops and nothing is changed.
+
+**Steps:**
+
+1. Make sure **Switch Console** is running.
+2. **Quit Oggy:** click **Quit** at the bottom-left of the app.
+3. Open **PowerShell**, paste this whole block, and press Enter:
+
+   ```powershell
+   & {
+     $ErrorActionPreference = "Stop"
+     $vars = @{}
+     Get-Content "$env:APPDATA\switchdash\local-switch-server\native\run\switch-core.env" |
+       ForEach-Object { if ($_ -match '^([A-Z_]+)=(.*)$') { $vars[$matches[1]] = $matches[2].Trim('"', "'", ' ') } }
+     $cfgPath = "$HOME\.oggy\config.json"
+     $cfgText = [IO.File]::ReadAllText($cfgPath)
+     $cfg     = $cfgText | ConvertFrom-Json
+     $server  = $cfg.switch.apiUrl.TrimEnd('/')
+
+     # 1. Sign in as Admin
+     $login = @{ email = $vars.GATEWAY_ADMIN_EMAIL; password = $vars.GATEWAY_ADMIN_PASSWORD } | ConvertTo-Json
+     Invoke-RestMethod -Method Post -Uri "$server/gateway/auth/login" -ContentType "application/json" -Body $login -SessionVariable sw | Out-Null
+
+     # 2. One-time registration key
+     $reg = Invoke-RestMethod -Method Post -Uri "$server/gateway/api-keys" -ContentType "application/json" -Body '{"label":"oggy-rotate"}' -WebSession $sw
+     try {
+       # 3. Re-register Oggy: new key, old key dies
+       $body = @{
+         name = $cfg.switch.agentName; connector_type = "Oggy"; overwrite = $true
+         description = "Oggy: voice assistant that plans jobs, runs apps on the laptop and coordinates the agents"
+         integration_profile = @{
+           connection_model = "always_on"; message_exchange = $true
+           pre_invocation_mediation = @(); post_invocation_mediation = @(); event_reporting = @()
+           command_capabilities = @{ reset = "unsupported"; compact = "unsupported"; interrupt = "unsupported" }
+         }
+       } | ConvertTo-Json -Depth 6
+       $res = Invoke-RestMethod -Method Post -Uri "$server/agents" -Headers @{ Authorization = "Bearer $($reg.key)" } -ContentType "application/json" -Body $body
+       if (-not $res.api_key) { throw "Switch returned no key, so nothing was changed." }
+
+       # 4. Save it
+       Copy-Item $cfgPath "$cfgPath.bak" -Force
+       [IO.File]::WriteAllText($cfgPath, $cfgText.Replace($cfg.switch.agentApiKey, $res.api_key))
+       if ($res.id -ne $cfg.switch.agentId) { Write-Warning "Agent id changed to $($res.id): update switch.agentId in $cfgPath too." }
+       "Done. Oggy has a new key and the old one no longer works."
+     } finally {
+       # 5. Delete the one-time key
+       Invoke-RestMethod -Method Delete -Uri "$server/gateway/api-keys/$($reg.id)" -WebSession $sw | Out-Null
+     }
+   }
+   ```
+
+4. You should see `Done. Oggy has a new key and the old one no longer works.`
+5. Open **Oggy** again. The bottom-left should say **Connected**.
+
+| Error | Why | Fix |
 | - | - | - |
-| `401` in Step 2 | The registration key is wrong | Copy it again from **API Keys**, or make a new one |
-| `409` in Step 2 | Someone else owns an agent with that name | Use the name in your `switch.agentName`, signed in as the person who created Oggy |
-| Oggy says **not connected** after Step 3 | The new key or id wasn't saved correctly | Check `config.json` for typos and extra spaces, then restart Oggy |
-| Oggy connects but ignores Rahul or other agents | A newly registered agent answers only its owner | Run the command below |
+| `Unable to connect to the remote server` | Switch's server isn't running | Open Switch Console, wait for it to start, try again |
+| `Invalid email or password` | Switch changed how it stores the Admin sign-in | Nothing was changed. Use **Replace the key: team server** once Switch Console has an API keys page |
+| `Agent already exists` | Oggy belongs to a different account than Admin | Nothing was changed. Ask for help |
+| `Cannot find path ...switch-core.env` | Switch isn't installed the default way | Nothing was changed. Use **Replace the key: team server** |
 
-To let your other agents talk to Oggy again:
+`switch-core.env` is how Switch Console works today, not a documented feature, so a Switch update may move it. It holds your Switch server's passwords: never share or commit it.
 
-```powershell
-Invoke-RestMethod -Method Post -Uri "$server/agents/<id>/ops/update_agent_detail" `
-  -Headers @{ Authorization = "Bearer <new api_key>" } `
-  -ContentType "application/json" `
-  -Body '{"agent_id": "<id>", "addressing": "owner_and_owner_agents"}'
-```
+### Replace the key: team server
 
-`addressing` can be `owner_only`, `owner_and_owner_agents` or `anyone`.
+A Switch server that isn't run by Switch Console on your own PC (self-hosted, Railway, a remote host) has an admin page:
 
----
+1. In **Switch Console**, click the server in the sidebar.
+2. Under **Full admin interface**, click **Open**.
+3. Go to **API Keys**, select **Create Registration Key**, and copy it.
+4. In the command above, delete steps 1, 2 and 5. Replace `$($reg.key)` with the key you copied, and run it.
+5. Delete the registration key on the **API Keys** page.
 
-### Other way: delete Oggy and start over
-
-Use this if Step 2 keeps failing.
-
-1. Open **Switch Console**.
-2. Click **Your Agents** in the sidebar.
-3. Delete Oggy's agent. Its key dies with it.
-4. Do Step 2 again, but delete the `overwrite = $true` line.
-5. Do Step 3.
-6. Invite Oggy back into each room. This route removes it from all of them.
-
-Sources: Switch docs on [registering an agent](https://docs.switchagents.ai/switch-rooms/internals/agent-protocol.md#register-the-agent), [registration keys](https://docs.switchagents.ai/switch-rooms/administer/people-and-agents.md) and [deleting an agent](https://docs.switchagents.ai/switch-rooms/getting-started/agent-settings.md#rename-or-move-the-agent).
+Sources: Switch docs on [registering an agent](https://docs.switchagents.ai/switch-rooms/internals/agent-protocol.md#register-the-agent) and [registration keys](https://docs.switchagents.ai/switch-rooms/administer/people-and-agents.md). The Switch server code for version 0.31.0 (`switch-v0.31.0`): `gateway/auth_routes.py` (sign-in), `gateway/api_keys.py` (registration keys), `bridges/agent/protocol/agent_core.py` (re-registering).
 
 ---
 

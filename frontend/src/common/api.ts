@@ -86,3 +86,82 @@ export const IPC = {
   quit: 'oggy:quit',
   minimizeWindow: 'oggy:minimize-window'
 } as const
+
+/* ---------- First-run setup (the #/setup window) ---------- */
+
+/** Where Switch is: found on this PC (Switch Console's own server), or not. */
+export interface SwitchFound {
+  found: boolean
+  /** The server address, such as http://127.0.0.1:53754, when found. */
+  url?: string
+  /** Why it wasn't found, in words for the person. */
+  reason?: string
+}
+
+/** How to connect: through Switch Console on this PC, or with an address and a registration key. */
+export type ConnectRequest =
+  | { mode: 'local'; agentName: string }
+  | { mode: 'key'; url: string; registrationKey: string; agentName: string }
+
+export interface ConnectResult {
+  apiUrl: string
+  agentId: string
+  agentName: string
+}
+
+/** One of the person's agents in Switch, and the job Oggy guesses for it. */
+export interface SetupAgent {
+  name: string
+  description: string
+  /** claude-code, codex… or a custom connector. */
+  kind: string
+  role: string
+}
+
+/** A job an agent can have in Oggy's team. */
+export interface SetupRole {
+  id: string
+  label: string
+  does: string
+}
+
+export interface SetupProfile {
+  /** Prefilled values: the Windows user name, an existing config's answers. */
+  name: string
+  discordUsername: string
+  codeFolder: string
+  agentName: string
+  /** Switch is already set up from an earlier run on this PC (re-running setup). */
+  reconnect: boolean
+}
+
+export interface SetupSave {
+  name: string
+  discordUsername: string
+  codeFolder: string
+  /** Each chosen agent and its role. */
+  agents: { name: string; role: string; description: string }[]
+}
+
+/** API exposed on window.oggySetup to the setup window only. */
+export interface OggySetupApi {
+  profile(): Promise<SetupProfile>
+  roles(): Promise<SetupRole[]>
+  findSwitch(): Promise<SwitchFound>
+  connect(req: ConnectRequest): Promise<ConnectResult>
+  listAgents(): Promise<SetupAgent[]>
+  pickFolder(current: string): Promise<string | null>
+  save(answers: SetupSave): Promise<void>
+  openSwitchConsole(): void
+}
+
+export const SETUP_IPC = {
+  profile: 'setup:profile',
+  roles: 'setup:roles',
+  findSwitch: 'setup:find-switch',
+  connect: 'setup:connect',
+  listAgents: 'setup:list-agents',
+  pickFolder: 'setup:pick-folder',
+  save: 'setup:save',
+  openSwitchConsole: 'setup:open-switch-console'
+} as const

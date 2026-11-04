@@ -4,7 +4,8 @@ import { IPC } from '@common/api'
 import type { AgentLive, Approval, FileChange, IntegrationStatus, MemoryItem, Review, Run, TraceEntry, Workflow } from '@shared/types'
 import { api, streamEvents } from './backend'
 import { handleShow, passThrough, setupShow } from './show'
-import { bootBackend, stopBackend } from './server'
+import { bootBackend, restartBackend, stopBackend } from './server'
+import { runSetup } from './setup'
 
 const SHORTCUT = process.env.OGGY_SHORTCUT || 'Control+Space'
 
@@ -28,7 +29,7 @@ const BAR_LEAVE_MS = 150
 /** How long a clean quit gets before Oggy simply exits. */
 const QUIT_MS = 1500
 
-function loadRenderer(win: BrowserWindow, route: 'dashboard' | 'bar' | 'show') {
+function loadRenderer(win: BrowserWindow, route: 'dashboard' | 'bar' | 'show' | 'setup') {
   if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
     void win.loadURL(`${process.env.ELECTRON_RENDERER_URL}#/${route}`)
   } else {
@@ -187,10 +188,19 @@ function createTray() {
       { label: 'Ask Oggy', accelerator: SHORTCUT, click: () => showCommandBar() },
       { label: 'Open dashboard', click: openDashboard },
       { type: 'separator' },
+      { label: 'Set up Oggy again…', click: () => void setUpAgain() },
       { label: 'Quit Oggy', click: quit }
     ])
   )
   tray.on('click', () => showCommandBar())
+}
+
+/** Change Switch, the team or your details later: the same setup window, then a fresh backend. */
+async function setUpAgain() {
+  const saved = await runSetup((win) => loadRenderer(win, 'setup'), webPreferences)
+  if (!saved) return
+  if (await restartBackend()) notify('Oggy is set up', 'Your new settings are in use.')
+  else notify('Oggy is set up', 'Restart the backend to use your new settings.')
 }
 
 /** Leave, whatever state things are in: a window that won't go can't keep Oggy alive. */
@@ -297,7 +307,7 @@ if (!app.isPackaged) {
 
 app.whenReady().then(async () => {
   // The installed app brings its own backend (and asks for its settings the first time).
-  await bootBackend()
+  await bootBackend((win) => loadRenderer(win, 'setup'), webPreferences)
   registerIpc()
   createCommandBar()
   setupShow(loadRenderer, webPreferences)

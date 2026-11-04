@@ -2,7 +2,6 @@ import { config } from '../config.js'
 import { log } from '../events.js'
 import type { Approval, IntegrationStatus } from '../shared/types.js'
 
-/** Telegram: phone commands and approvals. Only TELEGRAM_OWNER_CHAT_ID may act. */
 export function telegramStatus(): IntegrationStatus {
   const configured = Boolean(config.telegram.botToken && config.telegram.ownerChatId)
   return {

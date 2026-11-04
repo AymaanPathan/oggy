@@ -8,7 +8,6 @@ export interface CodexResult {
   output: string
 }
 
-/** Is the Codex CLI installed? (Logged in with your ChatGPT account via `codex login`.) */
 export function codexStatus(): IntegrationStatus {
   const r = spawnSync(config.codexBin, ['--version'], { encoding: 'utf8', shell: process.platform === 'win32' })
   const ready = r.status === 0

@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Oggy — your desktop agent team</title>
-  <meta name="description" content="Oggy is a desktop app that runs a team of coding and everyday agents. Say what you need with Ctrl+Space or voice; Oggy plans it, asks before anything risky, and reports back on your desktop and in Discord." />
+  <title>Oggy — control your PC with your voice</title>
+  <meta name="description" content="Talk to your Windows PC. Hold your Wispr Flow key and say it, or press Ctrl+Space and type. Oggy opens apps, sorts files, handles your mail and runs a team of coding agents, and asks before anything risky." />
   <meta name="theme-color" content="#0b0b0d" />
-  <meta property="og:title" content="Oggy — your desktop agent team" />
-  <meta property="og:description" content="Say it once. A team of agents plans, builds, reviews and ships it — and asks you before anything risky." />
+  <meta property="og:title" content="Oggy — control your PC with your voice" />
+  <meta property="og:description" content="Say it once. Oggy runs your apps, your day and a whole team of coding agents — and asks before anything risky." />
   <meta property="og:image" content="assets/screens/board.webp" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,12 +25,13 @@
         <span>Oggy</span>
       </a>
       <nav class="nav-links" aria-label="Sections">
+        <a href="#voice">Voice</a>
+        <a href="#kinds">What it does</a>
+        <a href="#switch">Switch</a>
         <a href="#demo">Demo</a>
-        <a href="#board">Board</a>
-        <a href="#team">Team</a>
+        <a href="#board">Coding</a>
         <a href="#workflows">Workflows</a>
-        <a href="#discord">Discord</a>
-        <a href="#daily">Daily</a>
+        <a href="#daily">Everyday</a>
       </nav>
       <div class="nav-cta">
         <a class="icon-btn" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener" aria-label="Oggy on GitHub">
@@ -52,14 +53,23 @@
 
       <div class="wrap hero-grid">
         <div class="hero-l">
-          <p class="pill rise"><span class="dot"></span> Free &amp; open source · Windows</p>
-          <h1 class="rise"><span class="line">Say it once.</span><span class="line grad">Your agent team</span><span class="line grad">ships it.</span></h1>
+          <a class="pill rise" href="https://wisprflow.ai" target="_blank" rel="noopener">
+            <img src="assets/wispr/wispr-flow-icon.png" width="18" height="18" alt="" />
+            Works with Wispr Flow voice
+            <span class="pill-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="pill rise" href="#switch">
+            <img src="assets/switch/switch-icon.png" width="18" height="18" alt="" />
+            Powered by Switch
+            <span class="pill-arrow" aria-hidden="true">→</span>
+          </a>
+          <h1 class="rise"><span class="line">Control your PC</span><span class="line grad">with your voice.</span></h1>
         </div>
         <div class="hero-r">
           <p class="lede rise">
-            Oggy is a desktop app that runs a team of agents for your code and your day.
-            Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> or just talk. Oggy plans the work, hands each step
-            to the right agent, asks before anything risky, and reports back on your desktop and in Discord.
+            Hold your <b>Wispr Flow</b> key and say it, or press <kbd>Ctrl</kbd> + <kbd>Space</kbd> and type.
+            Oggy opens your apps, sorts your files, clears your inbox into a to-do list and runs a whole team of coding agents.
+            Anything risky waits for your yes.
           </p>
           <div class="cta rise">
             <a class="btn btn-light" href="https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe">
@@ -71,7 +81,7 @@
               View on GitHub
             </a>
           </div>
-          <p class="fine rise">Windows 10 / 11 · 64-bit · MIT licensed</p>
+          <p class="fine rise">Free &amp; open source · Windows 10 / 11 · 64-bit</p>
         </div>
       </div>
 
@@ -79,7 +89,10 @@
         <div class="cat-track" aria-hidden="true"><canvas class="cat walker" data-cat="walk" data-size="44"></canvas></div>
         <div class="tilt-scene">
           <figure class="window tilt zoomable">
-            <img src="assets/screens/board.webp" width="1535" height="806" alt="Oggy's Coding board: jobs sorted into Queued, Working, Needs you and Done columns, each card showing the agents on it and the project." fetchpriority="high" />
+            <img src="assets/screens/board.webp" width="1535" height="806" alt="Oggy's Coding board: jobs sorted into Queued, Working, Needs you and Done columns." fetchpriority="high" />
+          </figure>
+          <figure class="hero-say" aria-label="The Ctrl+Space box">
+            <img src="assets/screens/command-bar.webp" width="620" height="154" alt="Oggy's Ctrl+Space box asking 'What should Oggy do?', with recent requests like 'run todo workflow'." />
           </figure>
         </div>
       </div>
@@ -90,22 +103,138 @@
       <span class="works-label">Works with</span>
       <div class="marquee">
         <ul>
-          <li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
+          <li><img src="assets/switch/switch-icon.png" width="14" height="14" alt="" />Switch</li><li><img src="assets/wispr/wispr-flow-icon.png" width="14" height="14" alt="" />Wispr Flow</li><li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
         </ul>
         <ul aria-hidden="true">
-          <li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
+          <li><img src="assets/switch/switch-icon.png" width="14" height="14" alt="" />Switch</li><li><img src="assets/wispr/wispr-flow-icon.png" width="14" height="14" alt="" />Wispr Flow</li><li>Claude Code</li><li>Codex</li><li>Discord</li><li>Telegram</li><li>VS Code</li><li>Gmail</li><li>Google Calendar</li><li>Notion</li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ============ VOICE ============ -->
+    <section id="voice" class="feature">
+      <div class="f-text">
+        <p class="eyebrow reveal">voice</p>
+        <h2 class="reveal">Just say it<span class="sub">no clicking, no menus</span></h2>
+        <p class="body reveal">
+          Oggy listens through <a class="link" href="https://wisprflow.ai" target="_blank" rel="noopener">Wispr Flow</a>, which turns your voice into text wherever your cursor is.
+          Hold its key, talk like you'd talk to a person, let go. Oggy works out what you meant, even with a few wrong words, and gets on with it.
+        </p>
+        <ol class="voice-steps reveal">
+          <li><span class="step">1</span>Press <kbd>Ctrl</kbd> + <kbd>Space</kbd></li>
+          <li><span class="step">2</span>Hold your Wispr Flow key and speak</li>
+          <li><span class="step">3</span>Oggy does it, and tells you when it's done</li>
+        </ol>
+        <a class="wispr reveal" href="https://wisprflow.ai" target="_blank" rel="noopener">
+          <img src="assets/wispr/wispr-flow-icon.png" width="36" height="36" alt="" />
+          <span><b>Wispr Flow</b><small>Voice that types in any app. Get it →</small></span>
+        </a>
+        <p class="fine reveal">No microphone? Just type in the same box.</p>
+      </div>
+      <div class="f-visual">
+        <div class="stage" data-scale>
+          <figure class="card-shot" data-drift>
+            <img loading="lazy" class="zoomable-img" src="assets/screens/discord-voice.webp" width="635" height="464" alt="Discord: real voice requests to Oggy, such as fixing a payment bug, adding a search box and deploying, and running the Release Day workflow, each in its own thread." />
+            <figcaption>Real voice requests, each turned into a job</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THREE KINDS ============ -->
+    <section id="kinds" class="wrap kinds">
+      <div class="kinds-head reveal">
+        <p class="eyebrow">what it does</p>
+        <h2>Three kinds of help<span class="sub">one voice for all of them</span></h2>
+      </div>
+      <div class="kind-grid">
+        <a class="kind reveal" href="#board">
+          <div class="kind-shot"><img loading="lazy" src="assets/screens/board.webp" width="1535" height="806" alt="" /></div>
+          <div class="kind-body">
+            <span class="kind-tag">Coding team</span>
+            <h3>Fix it, test it, ship it</h3>
+            <p>A team of coding agents, each with one job: Scout finds the cause, Frontend and Backend fix it, Tester proves it, Reviewer checks it, Release ships it after a team vote.</p>
+            <q>Oggy, fix the 500 on huge payment amounts in paytrack</q>
+          </div>
+        </a>
+        <a class="kind reveal" href="#daily">
+          <div class="kind-shot"><img loading="lazy" src="assets/screens/daily.webp" width="1532" height="812" alt="" /></div>
+          <div class="kind-body">
+            <span class="kind-tag">Everyday</span>
+            <h3>Your PC, hands-free</h3>
+            <p>Open and close apps, open folders, move, rename and zip files, take screenshots, change the volume. The Assistant reads your Gmail and Calendar and writes to-dos in Notion.</p>
+            <q>Take a screenshot and open my Downloads</q>
+          </div>
+        </a>
+        <a class="kind reveal" href="#workflows">
+          <div class="kind-shot"><img loading="lazy" src="assets/screens/workflow-release-day.webp" width="1535" height="810" alt="" /></div>
+          <div class="kind-body">
+            <span class="kind-tag">Workflows</span>
+            <h3>Say its name, it runs</h3>
+            <p>Describe a routine once, like "check my mail and make a to-do list in Notion", and Oggy saves it. After that, its name is all it takes, or a time like "every weekday at 9am".</p>
+            <q>Run todo workflow</q>
+          </div>
+        </a>
       </div>
     </section>
 
     <!-- ============ HOW IT WORKS ============ -->
     <section class="wrap how">
       <ol class="steps">
-        <li class="reveal"><span class="n">01</span><h3>Say it</h3><p>Press <kbd>Ctrl</kbd> + <kbd>Space</kbd>, speak, or post in your project's Discord channel.</p></li>
-        <li class="reveal"><span class="n">02</span><h3>Oggy plans</h3><p>The job is split into steps, and each step goes to the agent built for it.</p></li>
-        <li class="reveal"><span class="n">03</span><h3>You allow</h3><p>Nothing runs until you OK the plan. Shipping waits for the whole team's yes.</p></li>
-        <li class="reveal"><span class="n">04</span><h3>It reports back</h3><p>On your desktop and in the job's Discord thread: what was done, and what wasn't confirmed.</p></li>
+        <li class="reveal"><span class="n">01</span><h3>Say it</h3><p>Speak with Wispr Flow, type in <kbd>Ctrl</kbd> + <kbd>Space</kbd>, or post in your Discord room.</p></li>
+        <li class="reveal"><span class="n">02</span><h3>Oggy sorts it</h3><p>A quick PC task, a job for the coding team, or one of your workflows. Oggy plans the steps.</p></li>
+        <li class="reveal"><span class="n">03</span><h3>You allow</h3><p>Anything risky waits for your yes. Shipping waits for the whole team's.</p></li>
+        <li class="reveal"><span class="n">04</span><h3>It reports back</h3><p>On your desktop and in Discord: what was done, and what it couldn't confirm.</p></li>
       </ol>
+    </section>
+
+
+    <!-- ============ POWERED BY SWITCH ============ -->
+    <section id="switch" class="wrap sw">
+      <div class="sw-head">
+        <a class="sw-badge reveal" href="https://switchagents.ai" target="_blank" rel="noopener">
+          <img src="assets/switch/switch-icon.png" width="44" height="44" alt="Switch" />
+          <span><small>Powered by</small><b>Switch</b></span>
+        </a>
+        <h2 class="reveal">Built on Switch<span class="sub">the rooms, the agents and the Discord link</span></h2>
+        <p class="body reveal">
+          <a class="link" href="https://switchagents.ai" target="_blank" rel="noopener">Switch</a> puts people and AI agents in shared rooms and bridges those rooms to Discord, Slack, Teams and more.
+          Oggy is a Switch agent that coordinates the others: you talk to Oggy, and Oggy runs the team through Switch.
+        </p>
+      </div>
+
+      <div class="sw-flow reveal" aria-label="How the pieces connect">
+        <div class="sw-node"><span class="sw-k">You</span><b>Voice or Discord</b><small>Wispr Flow, Ctrl + Space, or @oggy in a room</small></div>
+        <span class="sw-arrow" aria-hidden="true"></span>
+        <div class="sw-node is-oggy"><span class="sw-k">Oggy</span><b>A Switch agent</b><small>Plans the job, hands out the steps, asks you first</small></div>
+        <span class="sw-arrow" aria-hidden="true"></span>
+        <div class="sw-node is-switch"><img src="assets/switch/switch-icon.png" width="22" height="22" alt="" /><span class="sw-k">Switch</span><b>Rooms and threads</b><small>One room per project, one thread per job</small></div>
+        <span class="sw-arrow" aria-hidden="true"></span>
+        <div class="sw-node"><span class="sw-k">Your agents</span><b>Claude Code team</b><small>Scout, Frontend, Backend, Tester, Reviewer, Release, Assistant</small></div>
+      </div>
+
+      <div class="sw-grid">
+        <article class="sw-card reveal"><span class="sw-n">01</span><h3>Oggy is a Switch agent</h3><p>Oggy registers with Switch's agent protocol and stays connected over one live connection. In any room it's just another member: <span class="mono">@oggy</span>. Its setup even connects itself to Switch Console on your PC.</p></article>
+        <article class="sw-card reveal"><span class="sw-n">02</span><h3>Your agents live in Switch</h3><p>The coding team are agents you add in Switch Console. Oggy sends each one its step as a targeted message and waits for <span class="mono">DONE:</span> or <span class="mono">BLOCKED:</span> before the next.</p></article>
+        <article class="sw-card reveal"><span class="sw-n">03</span><h3>A room for every project</h3><p>Oggy creates a Switch room per project, keeps them in a Projects room group linked to your team room, sets up the agents' roles, and attaches the project's GitHub repo as a reference.</p></article>
+        <article class="sw-card reveal"><span class="sw-n">04</span><h3>One thread per job</h3><p>What you asked, every hand-off, each question, the approvals and the result stay in one thread, so jobs never mix and the room reads like a log of work.</p></article>
+        <article class="sw-card reveal"><span class="sw-n">05</span><h3>Discord, through Switch</h3><p>Switch's Discord bridge turns each room into a channel. Your team watches the work, votes yes or no on releases, and talks to <span class="mono">@oggy</span> from Discord.</p></article>
+        <article class="sw-card reveal"><span class="sw-n">06</span><h3>Memory the agents read</h3><p>Oggy keeps a Project log and a Workflows list as Switch room documents. The next job reads what earlier jobs changed and decided, so nobody redoes work.</p></article>
+      </div>
+
+      <div class="sw-proof">
+        <figure class="stage reveal" data-scale>
+          <img loading="lazy" class="zoomable-img sw-shot" src="assets/screens/discord-release-approve.webp" width="489" height="676" alt="A Switch thread in Discord: Oggy waits for approval to run tests, review and ship paytrack, then hands the review to the reviewer agent." />
+        </figure>
+        <div class="sw-proof-text reveal">
+          <h3>What it looks like</h3>
+          <p>A real Switch thread in Discord. Oggy asks for your OK, you approve, and Oggy hands the steps to <span class="mono">@tester</span> and <span class="mono">@reviewer</span>. Every agent posts back in the same thread.</p>
+          <div class="cta sw-links">
+            <a class="btn btn-dark btn-sm" href="https://switchagents.ai" target="_blank" rel="noopener"><img src="assets/switch/switch-icon.png" width="16" height="16" alt="" />Visit Switch</a>
+            <a class="btn btn-dark btn-sm" href="https://docs.switchagents.ai/switch-rooms/getting-started/install-switch-console.md" target="_blank" rel="noopener">Get Switch Console</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ DEMO ============ -->
@@ -115,7 +244,7 @@
           <p class="eyebrow">demo</p>
           <h2>Watch Oggy work<span class="sub">from one sentence to a shipped fix</span></h2>
         </div>
-        <p class="body reveal">A real 6:45 recording: a voice request in Discord, the plan on the desktop, the agents at work, the team vote and the deploy.</p>
+        <p class="body reveal">A real 6:45 recording: a voice request, the plan on the desktop, the agents at work, the team vote and the deploy.</p>
       </div>
       <div class="stage stage-wide" data-scale>
         <div class="video-wrap">
@@ -130,43 +259,42 @@
       </div>
     </section>
 
-    <!-- ============ BOARD ============ -->
-    <section id="board" class="feature">
+    <!-- ============ CODING: BOARD ============ -->
+    <section id="board" class="feature flip">
       <div class="f-text">
-        <p class="eyebrow reveal">board</p>
+        <p class="eyebrow reveal">coding team</p>
         <h2 class="reveal">Every job, at a glance<span class="sub">sorted by what it needs from you</span></h2>
         <p class="body reveal">
-          Jobs move from Queued to Working to Done on their own. Anything waiting on you, such as an
-          approval, a question, or a step that hit a problem, lands in <em>Needs you</em>. Each card shows which
-          agents touched it and which project it's in.
+          Each request becomes a job on the board. Jobs move from Queued to Working to Done on their own, and anything
+          waiting on you (an approval, a question, a step that hit a problem) lands in <em>Needs you</em>.
         </p>
         <ul class="tags reveal"><li><i style="--c:#8a8a92"></i>Queued</li><li><i style="--c:#6ea8fe"></i>Working</li><li><i style="--c:#e8b04b"></i>Needs you</li><li><i style="--c:#5ec48a"></i>Done</li></ul>
       </div>
       <div class="f-visual">
-        <div class="stage bleed" data-scale>
+        <div class="stage" data-scale>
           <figure class="window zoomable" data-drift><img loading="lazy" src="assets/screens/board.webp" width="1535" height="806" alt="The Coding board with jobs for the paytrack project." /></figure>
         </div>
       </div>
     </section>
 
-    <!-- ============ CTRL+SPACE ============ -->
-    <section id="ask" class="feature flip">
+    <!-- ============ APPROVE FIRST ============ -->
+    <section id="ask" class="feature">
       <div class="f-text">
-        <p class="eyebrow reveal">ctrl + space</p>
-        <h2 class="reveal">Ask from anywhere<span class="sub">nothing runs until you say Allow</span></h2>
+        <p class="eyebrow reveal">you stay in charge</p>
+        <h2 class="reveal">See the plan first<span class="sub">nothing runs until you say Allow</span></h2>
         <p class="body reveal">
-          Press <kbd>Ctrl</kbd> + <kbd>Space</kbd> over any app, type or speak what you need, and Oggy writes a plan:
-          who does what, in order. You see the plan before any agent starts, and you can stop it there.
+          Oggy writes a plan, who does what and in what order, and shows it before any agent starts.
+          Say "yes", click Allow, or stop it right there.
         </p>
       </div>
       <div class="f-visual">
-        <div class="stage bleed duo" data-scale>
+        <div class="stage duo" data-scale>
           <figure class="card-shot" data-drift="-1">
-            <img loading="lazy" class="zoomable-img" src="assets/screens/command-bar.webp" width="620" height="154" alt="The Ctrl+Space command bar: 'What should Oggy do?' with recent requests like 'run todo workflow'." />
+            <img loading="lazy" class="zoomable-img" src="assets/screens/command-bar.webp" width="620" height="154" alt="The Ctrl+Space box: 'What should Oggy do?'" />
             <figcaption><span class="step">1</span> Say what you need</figcaption>
           </figure>
           <figure class="card-shot tall" data-drift="1">
-            <img loading="lazy" class="zoomable-img" src="assets/screens/island-approve.webp" width="364" height="414" alt="Oggy's floating panel showing a plan for Scout, Backend and Tester, with Allow and Not now buttons." />
+            <img loading="lazy" class="zoomable-img" src="assets/screens/island-approve.webp" width="364" height="414" alt="Oggy's panel showing a plan for Scout, Backend and Tester, with Allow and Not now." />
             <figcaption><span class="step">2</span> Check the plan, then Allow</figcaption>
           </figure>
         </div>
@@ -174,14 +302,14 @@
     </section>
 
     <!-- ============ TEAM ============ -->
-    <section id="team" class="feature">
+    <section id="team" class="feature flip">
       <div class="f-text">
-        <p class="eyebrow reveal">team</p>
-        <h2 class="reveal">Eight agents, one job each<span class="sub">so each one stays inside its lane</span></h2>
+        <p class="eyebrow reveal">the team</p>
+        <h2 class="reveal">Eight agents, one job each<span class="sub">so each one stays in its lane</span></h2>
         <p class="body reveal">
           Scout only reads and explains. Frontend never touches the backend. Tester only changes test files.
-          Reviewer answers <span class="mono">LOOKS GOOD</span> or <span class="mono">CHANGES NEEDED</span>.
-          Release writes notes, waits for a team vote, then ships. Assistant handles your mail, calendar and notes.
+          Reviewer answers <span class="mono">LOOKS GOOD</span> or <span class="mono">CHANGES NEEDED</span>. Release ships after a team vote.
+          Assistant handles your mail, calendar and notes.
         </p>
         <ul class="agents reveal" aria-label="The agents">
           <li><b style="--c:#7b5cc4">C</b>Claude</li><li><b style="--c:#3c6e8a">S</b>Scout</li><li><b style="--c:#3f8a4f">F</b>Frontend</li><li><b style="--c:#8a3c48">B</b>Backend</li>
@@ -189,24 +317,28 @@
         </ul>
       </div>
       <div class="f-visual">
-        <div class="stage bleed" data-scale>
-          <figure class="window zoomable" data-drift><img loading="lazy" src="assets/screens/team.webp" width="1535" height="817" alt="The Team page listing eight agents: Claude, Scout, Frontend, Backend, Tester, Reviewer, Release and Assistant." /></figure>
+        <div class="stage" data-scale>
+          <figure class="window zoomable" data-drift><img loading="lazy" src="assets/screens/team.webp" width="1535" height="817" alt="The Team page listing eight agents." /></figure>
         </div>
       </div>
     </section>
 
     <!-- ============ WORKFLOWS ============ -->
-    <section id="workflows" class="feature flip">
+    <section id="workflows" class="feature">
       <div class="f-text">
         <p class="eyebrow reveal">workflows</p>
-        <h2 class="reveal">Save it once, run it by name<span class="sub">steps in parallel, approvals where they matter</span></h2>
+        <h2 class="reveal">Say its name, it runs<span class="sub">steps side by side, approvals where they matter</span></h2>
         <p class="body reveal">
-          Describe a routine in a sentence and Oggy saves it as a workflow: which agents, in what order, and where it
-          stops for your OK. Then say <span class="mono">run Release Day workflow</span> and it runs. Every run is kept, so you can see what passed and what failed.
+          Describe a routine in a sentence and Oggy saves it: which agents, in what order, and where it stops for your OK.
+          Then just say <span class="mono">run Release Day workflow</span>. Every run is kept, so you can see what passed and what failed.
         </p>
+        <figure class="mini-shot reveal">
+          <img loading="lazy" class="zoomable-img" src="assets/screens/discord-voice-daily.webp" width="869" height="246" alt="Discord: 'Aymaan (voice): run todo workflow', twice, each finished with the emails read and to-dos created." />
+          <figcaption>"run todo workflow", by voice, every morning</figcaption>
+        </figure>
       </div>
       <div class="f-visual">
-        <div class="stage bleed" data-scale>
+        <div class="stage" data-scale>
           <div class="tabs" role="tablist" aria-label="Workflow screens">
             <span class="tab-ind" aria-hidden="true"></span>
             <button role="tab" aria-selected="true" data-i="0">Release Day</button>
@@ -215,9 +347,9 @@
             <button role="tab" aria-selected="false" data-i="3">Everyday routines</button>
           </div>
           <figure class="window zoomable swap" data-drift>
-            <img class="on" loading="lazy" src="assets/screens/workflow-release-day.webp" width="1535" height="810" alt="The Release Day workflow: tests and review run at the same time, then a deploy after you approve." />
+            <img class="on" loading="lazy" src="assets/screens/workflow-release-day.webp" width="1535" height="810" alt="The Release Day workflow: tests and review run side by side, then a deploy after you approve." />
             <img loading="lazy" src="assets/screens/workflow-todo.webp" width="1532" height="812" alt="The todo workflow: Assistant checks mail and adds to-dos to Notion, then Oggy posts a report." />
-            <img loading="lazy" src="assets/screens/workflows-coding.webp" width="1535" height="812" alt="Saved coding workflows and their past runs with status and duration." />
+            <img loading="lazy" src="assets/screens/workflows-coding.webp" width="1535" height="812" alt="Saved coding workflows and their past runs." />
             <img loading="lazy" src="assets/screens/workflows-everyday.webp" width="1535" height="811" alt="Everyday routines and their recent results." />
           </figure>
         </div>
@@ -225,40 +357,42 @@
     </section>
 
     <!-- ============ DISCORD ============ -->
-    <section id="discord" class="feature">
+    <section id="discord" class="feature flip">
       <div class="f-text">
         <p class="eyebrow reveal">discord</p>
         <h2 class="reveal">The team votes before it ships<span class="sub">every project gets a room, every job a thread</span></h2>
         <p class="body reveal">
-          Oggy posts each job to your project's Discord channel as its own thread. Anything that can't be undone,
-          like merging to main and deploying, waits until everyone on the project replies <span class="mono">yes</span>.
-          Then Release ships it, checks the live health page, and tells you plainly what went out and what it couldn't confirm.
+          Each job is posted to your project's Discord channel as its own thread. Anything that can't be undone, like
+          merging to main and deploying, waits until everyone on the project replies <span class="mono">yes</span>.
         </p>
       </div>
       <div class="f-visual">
-        <div class="stage bleed trio" data-scale>
-          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote.webp" width="502" height="717" alt="Discord: Oggy asks for a team vote to ship paytrack to production." /><figcaption><span class="step">1</span> Oggy calls a vote</figcaption></figure>
-          <figure class="card-shot" data-drift="-1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote-team.webp" width="355" height="527" alt="Discord: Aymaan and Rahul both reply yes, and Oggy hands the job to the release agent." /><figcaption><span class="step">2</span> Everyone says yes</figcaption></figure>
-          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-shipped.webp" width="489" height="676" alt="Discord: the release agent reports what shipped, what's confirmed, and what isn't confirmed live." /><figcaption><span class="step">3</span> Release reports back</figcaption></figure>
+        <div class="stage trio" data-scale>
+          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote.webp" width="502" height="717" alt="Discord: Oggy asks for a team vote to ship paytrack." /><figcaption><span class="step">1</span> Oggy calls a vote</figcaption></figure>
+          <figure class="card-shot" data-drift="-1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-vote-team.webp" width="355" height="527" alt="Discord: both teammates reply yes." /><figcaption><span class="step">2</span> Everyone says yes</figcaption></figure>
+          <figure class="card-shot" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-shipped.webp" width="489" height="676" alt="Discord: the release agent reports what shipped." /><figcaption><span class="step">3</span> Release reports back</figcaption></figure>
         </div>
       </div>
     </section>
 
-    <!-- ============ DAILY ============ -->
-    <section id="daily" class="feature flip">
+    <!-- ============ EVERYDAY ============ -->
+    <section id="daily" class="feature">
       <div class="f-text">
-        <p class="eyebrow reveal">daily</p>
-        <h2 class="reveal">Not just your code<span class="sub">your inbox, your notes, your desktop</span></h2>
+        <p class="eyebrow reveal">everyday</p>
+        <h2 class="reveal">Not just your code<span class="sub">your apps, files, inbox and notes</span></h2>
         <p class="body reveal">
-          The Daily view handles the small things: take a screenshot, open a folder, mute the sound, read your
-          unread mail and turn what needs action into a Notion to-do list. Oggy refuses what it shouldn't do. It won't
-          open a <span class="mono">.env</span> file, for example.
+          Ask for the small things out loud: a screenshot, a folder, mute the sound, move these files, open VS Code.
+          The Assistant reads your unread mail and turns what needs action into a Notion to-do list. Oggy refuses what it shouldn't do:
+          it won't open a <span class="mono">.env</span> file, for example, and deleting always asks first.
         </p>
+        <ul class="say reveal" aria-label="Things you can say">
+          <li>“Take a screenshot”</li><li>“Open my Downloads”</li><li>“Mute”</li><li>“Open paytrack in VS Code”</li><li>“Check my mail and make a to-do list”</li>
+        </ul>
       </div>
       <div class="f-visual">
-        <div class="stage bleed split" data-scale>
-          <figure class="window zoomable" data-drift="-1"><img loading="lazy" src="assets/screens/daily.webp" width="1532" height="812" alt="The Daily view: quick actions and a log of today's tasks with Done, Asked and Failed states." /></figure>
-          <figure class="card-shot side" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-todo.webp" width="489" height="676" alt="Discord: the assistant reports 20 unread emails read and 4 tasks added to the Notion To-do page." /><figcaption>The todo routine's report</figcaption></figure>
+        <div class="stage split" data-scale>
+          <figure class="window zoomable" data-drift="-1"><img loading="lazy" src="assets/screens/daily.webp" width="1532" height="812" alt="The Daily view: quick actions and a log of today's tasks." /></figure>
+          <figure class="card-shot side" data-drift="1"><img loading="lazy" class="zoomable-img" src="assets/screens/discord-todo.webp" width="489" height="676" alt="Discord: the assistant reports 20 unread emails read and 4 to-dos added in Notion." /><figcaption>The todo routine's report</figcaption></figure>
         </div>
       </div>
     </section>
@@ -267,8 +401,8 @@
     <section class="final">
       <div class="final-glow" aria-hidden="true"></div>
       <canvas class="cat big reveal" data-cat="hop" data-size="88" aria-hidden="true"></canvas>
-      <h2 class="reveal">Put Oggy on your desktop</h2>
-      <p class="reveal">Install it, press <kbd>Ctrl</kbd> + <kbd>Space</kbd>, and tell it what you need.</p>
+      <h2 class="reveal">Put down the mouse</h2>
+      <p class="reveal">Install Oggy, add <a class="link" href="https://wisprflow.ai" target="_blank" rel="noopener">Wispr Flow</a> for voice, and tell your PC what to do.</p>
       <div class="cta reveal">
         <a class="btn btn-light" href="https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe">
           <svg class="win" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 2.3 6.5 1.4v6.2H0zm7.3-1L16 0v7.6H7.3zM0 8.4h6.5v6.2L0 13.7zm7.3 0H16V16l-8.7-1.2z"/></svg>
@@ -276,14 +410,14 @@
         </a>
         <a class="btn btn-dark" href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">View on GitHub</a>
       </div>
-      <p class="fine reveal">Oggy-Setup.exe · Windows 10 / 11 · 64-bit</p>
+      <p class="fine reveal">Oggy-Setup.exe · Windows 10 / 11 · 64-bit · Needs <a class="link" href="https://docs.switchagents.ai/switch-rooms/getting-started/install-switch-console.md" target="_blank" rel="noopener">Switch Console</a></p>
     </section>
   </main>
 
   <footer class="foot">
     <div class="wrap foot-in">
       <span class="brand small"><canvas class="cat" data-cat="sleep" data-size="18" aria-hidden="true"></canvas> Oggy</span>
-      <span>MIT licensed · built by Aymaan Pathan</span>
+      <span>MIT licensed · built by Aymaan Pathan · Switch is a product of SandboxAQ · Wispr Flow is a product of Wispr</span>
       <a href="https://github.com/AymaanPathan/oggy" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>

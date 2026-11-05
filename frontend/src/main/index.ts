@@ -1,4 +1,5 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, Menu, nativeImage, Notification, screen, Tray } from 'electron'
+import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { IPC } from '@common/api'
 import type { AgentLive, Approval, FileChange, IntegrationStatus, MemoryItem, Review, Run, TraceEntry, Workflow } from '@shared/types'
@@ -195,6 +196,31 @@ function createTray() {
   tray.on('click', () => showCommandBar())
 }
 
+/**
+ * Oggy starts in the tray with no window, which after an install looks like nothing happened. So it
+ * says so every time it starts, and the first time a new version runs it opens the dashboard too.
+ */
+function announceStart() {
+  if (!app.isPackaged) return
+  const keys = SHORTCUT.replace('Control', 'Ctrl')
+  notify('Oggy is running', `Press ${keys} to talk to it. It lives in the tray, by the clock.`)
+  const marker = join(app.getPath('userData'), 'last-version')
+  let last = ''
+  try {
+    last = readFileSync(marker, 'utf8').trim()
+  } catch {
+    /* first run */
+  }
+  if (last !== app.getVersion()) {
+    openDashboard()
+    try {
+      writeFileSync(marker, app.getVersion())
+    } catch {
+      /* not worth failing over */
+    }
+  }
+}
+
 /** Change Switch, the team or your details later: the same setup window, then a fresh backend. */
 async function setUpAgain() {
   const saved = await runSetup((win) => loadRenderer(win, 'setup'), webPreferences)
@@ -282,6 +308,9 @@ function registerIpc() {
   })
 }
 
+// Windows shows notifications only for an app with an id: the same one the installer gives Oggy's shortcut.
+if (process.platform === 'win32') app.setAppUserModelId(app.isPackaged ? 'dev.oggy.app' : process.execPath)
+
 // One Oggy at a time. While developing, the newest one runs instead (see below).
 if (app.isPackaged && !app.requestSingleInstanceLock()) app.exit(0)
 app.on('second-instance', () => showCommandBar())
@@ -313,6 +342,7 @@ app.whenReady().then(async () => {
   setupShow(loadRenderer, webPreferences)
   createTray()
   if (process.env.OGGY_OPEN_DASHBOARD === '1') createDashboard()
+  else announceStart()
 
   if (!globalShortcut.register(SHORTCUT, toggleCommandBar)) {
     console.warn(`[oggy] Could not register ${SHORTCUT}; it may be taken by the OS. Set OGGY_SHORTCUT.`)

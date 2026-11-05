@@ -10,7 +10,7 @@
   let lenis = null
   if (!reduce && window.Lenis) {
     try {
-      lenis = new window.Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95 })
+      lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1 })
     } catch { lenis = null }
   }
   document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
@@ -145,9 +145,9 @@
   const bar = document.querySelector('.progress')
   const tilt = document.querySelector('.tilt')
   const hero = document.querySelector('.hero')
-  const stages = [...document.querySelectorAll('[data-scale]')].map((el) => ({ el, s: 0.92, y: 50 }))
+  const stages = [...document.querySelectorAll('[data-scale]')].map((el) => ({ el, s: 0.97, y: 20 }))
   const drifts = [...document.querySelectorAll('[data-drift]')].map((el) => ({ el, k: +el.dataset.drift || 1, y: 0 }))
-  const tiltState = { r: 16, s: 0.94 }
+  const tiltState = { r: 9, s: 0.97 }
   const mobile = () => innerWidth < 720
 
   function motion() {
@@ -161,8 +161,8 @@
     // hero window: tilted back at the top, lies flat as you scroll into it
     if (tilt) {
       const p = easeOut(clamp01(sy / (vh * 0.6)))
-      tiltState.r = lerp(tiltState.r, 16 * (1 - p), 0.14)
-      tiltState.s = lerp(tiltState.s, 0.94 + 0.06 * p, 0.14)
+      tiltState.r = lerp(tiltState.r, 9 * (1 - p), 0.12)
+      tiltState.s = lerp(tiltState.s, 0.97 + 0.03 * p, 0.12)
       tilt.style.transform = `rotateX(${tiltState.r.toFixed(3)}deg) scale(${tiltState.s.toFixed(4)})`
     }
     // panels grow into place as they enter the screen
@@ -171,16 +171,16 @@
       const r = st.el.getBoundingClientRect()
       if (r.bottom < -200 || r.top > vh + 200) continue
       const p = easeOut(clamp01((vh - r.top) / (vh * 0.85)))
-      st.s = lerp(st.s, (small ? 0.97 : 0.9) + (small ? 0.03 : 0.1) * p, 0.16)
-      st.y = lerp(st.y, (1 - p) * 70, 0.16)
+      st.s = lerp(st.s, (small ? 0.985 : 0.965) + (small ? 0.015 : 0.035) * p, 0.12)
+      st.y = lerp(st.y, (1 - p) * 24, 0.12)
       st.el.style.transform = `translate3d(0,${st.y.toFixed(2)}px,0) scale(${st.s.toFixed(4)})`
     }
     // screenshots drift a little against the scroll for depth
     for (const d of drifts) {
       const r = d.el.getBoundingClientRect()
       if (r.bottom < -200 || r.top > vh + 200) continue
-      const off = ((r.top + r.height / 2 - vh / 2) / vh) * (small ? 10 : 34) * d.k
-      d.y = lerp(d.y, off, 0.16)
+      const off = ((r.top + r.height / 2 - vh / 2) / vh) * (small ? 6 : 14) * d.k
+      d.y = lerp(d.y, off, 0.12)
       d.el.style.transform = `translate3d(0,${d.y.toFixed(2)}px,0)`
     }
   }
@@ -246,8 +246,8 @@
     document.querySelectorAll('.btn:not(.btn-sm)').forEach((b) => {
       b.addEventListener('pointermove', (e) => {
         const r = b.getBoundingClientRect()
-        const x = (e.clientX - r.left - r.width / 2) * 0.18
-        const y = (e.clientY - r.top - r.height / 2) * 0.3
+        const x = (e.clientX - r.left - r.width / 2) * 0.08
+        const y = (e.clientY - r.top - r.height / 2) * 0.12
         b.style.transform = `translate(${x}px, ${y - 1}px)`
       })
       b.addEventListener('pointerleave', () => { b.style.transform = '' })

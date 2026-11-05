@@ -204,7 +204,7 @@
   requestAnimationFrame(frame)
 
   /* ---------- reveals, staggered within each group ---------- */
-  document.querySelectorAll('.f-text, .steps, .final, .demo-head').forEach((group) => {
+  document.querySelectorAll('.f-text, .steps, .final, .demo-head, .kind-grid, .sw-grid, .sw-head').forEach((group) => {
     group.querySelectorAll('.reveal').forEach((el, i) => el.style.setProperty('--d', `${i * 0.09}s`))
   })
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
@@ -228,7 +228,7 @@
   const spy = new IntersectionObserver((entries) => entries.forEach((e) => {
     if (e.isIntersecting) moveInd(linkFor(e.target.id))
   }), { rootMargin: '-45% 0px -50% 0px' })
-  ;['demo', 'board', 'ask', 'team', 'workflows', 'discord', 'daily'].forEach((id) => {
+  ;['voice', 'kinds', 'switch', 'demo', 'board', 'workflows', 'daily'].forEach((id) => {
     const s = document.getElementById(id)
     if (s) spy.observe(s)
   })

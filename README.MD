@@ -56,14 +56,7 @@ You can talk to it in three ways. All three run the same pipeline and follow the
 
 ### The idea in one picture
 
-```mermaid
-flowchart LR
-    You(("You")) -->|voice, typing or Discord| Oggy["Oggy<br/>plans, checks, coordinates"]
-    Oggy -->|PC actions| PC["Your Windows PC<br/>apps, files, screen, volume"]
-    Oggy -->|jobs, via Switch rooms| Team["Your agent team<br/>Scout, Backend, Tester, Reviewer..."]
-    Team -->|DONE / BLOCKED| Oggy
-    Oggy -->|plan, questions, results| You
-```
+<p align="center"><img src="docs/images/overview.png" alt="How Oggy fits together: you, Oggy, your PC and your agent team" /></p>
 
 Oggy never writes your project's code itself. It **plans, checks and coordinates**. The agents do the work, and you make the decisions.
 
@@ -141,18 +134,7 @@ Commands you give at your PC show up in Discord too, so your phone always has th
 
 **Every step passes a safety gate right before it runs:**
 
-```mermaid
-flowchart TD
-    Step["A planned step"] --> Q1{"1. Is it from you?"}
-    Q1 -- No --> Refuse["Refused<br/>'Only you can tell Oggy what to do'"]
-    Q1 -- Yes --> Q2{"2. Is it allowed?<br/>A known tool, inside allowed<br/>folders and apps"}
-    Q2 -- No --> Stop["Stopped, with the reason"]
-    Q2 -- Yes --> Q3{"3. Is it risky?"}
-    Q3 -- No --> Run["Runs now"]
-    Q3 -- Yes --> Wait["Waits for your yes<br/>desktop, voice or Discord"]
-    Wait -- yes --> Recheck["Checked again<br/>files may have changed"] --> Run
-    Wait -- no --> Cancel["Cancelled"]
-```
+<p align="center"><img src="docs/images/safety-gate.png" alt="The safety gate: is it from you, is it allowed, is it risky" /></p>
 
 1. **Is it from you?** Desktop commands carry a secret owner token. Discord commands must come from the username you gave in setup, or your exact Switch account once you've typed `lock oggy to me`.
 2. **Is it allowed?** Oggy can only use its own fixed set of tools (the *toolbox*), inside the folders and apps you allow. It only opens safe file types like documents, photos and videos. It won't open a script or a `.env` file, for example.
@@ -198,15 +180,7 @@ Each agent is a Claude Code session you add in Switch Console. You don't need al
 
 "Fix the 500 on huge payment amounts in paytrack" becomes a plan like this. Steps that don't depend on each other run at the same time.
 
-```mermaid
-flowchart LR
-    S["@scout<br/>find the cause"] --> T1["@tester<br/>write a failing test"]
-    S --> B["@backend<br/>fix the code"]
-    T1 --> T2["@tester<br/>confirm the fix"]
-    B --> T2
-    T2 --> R["@reviewer<br/>LOOKS GOOD?"]
-    R --> You{{"Your review<br/>keep / undo / change"}}
-```
+<p align="center"><img src="docs/images/bug-fix-plan.png" alt="A bug fix plan: scout, then tester and backend in parallel, then reviewer and your review" /></p>
 
 While they work, the **Team** view shows each agent live: what it's reading, editing or running. Every job appears on the **Coding** board, and anything waiting for you lands in **Needs you**.
 
@@ -289,24 +263,7 @@ Scheduled workflows run while Oggy is open. If your PC was off at the scheduled 
 
 Agents end their replies with simple marker lines. That's the whole contract.
 
-```mermaid
-sequenceDiagram
-    participant O as Oggy
-    participant R as Switch room (job thread)
-    participant A as @backend agent
-    participant Y as You
-
-    O->>R: @backend fix the overflow in payments.ts (job + context)
-    R->>A: delivers the message
-    A-->>R: progress messages (Oggy logs them)
-    A->>R: ASK: npm ci, install the packages?
-    R->>O: ASK seen
-    O->>Y: "Backend wants to install packages. OK?"
-    Y->>O: yes
-    O->>R: @backend yes, go ahead
-    A->>R: DONE: capped amounts at 1e12 and added a 400 response
-    R->>O: DONE seen, the step is finished
-```
+<p align="center"><img src="docs/images/agent-handshake.png" alt="How Oggy hands a job to an agent through a Switch thread, including an ASK and the DONE reply" /></p>
 
 | Marker | Meaning |
 | --- | --- |
@@ -334,57 +291,7 @@ If an agent says nothing for 3 minutes, Oggy pings it once by name. After 30 min
 
 ### The big picture
 
-```mermaid
-flowchart TB
-    subgraph Inputs["How you talk to Oggy"]
-        Voice["Voice<br/>(Wispr Flow)"]
-        Keys["Keyboard"]
-        Phone["Phone<br/>(Discord)"]
-    end
-
-    subgraph PC["Your Windows PC"]
-        subgraph Electron["frontend/ — Electron app"]
-            Bar["Command bar<br/>Ctrl + Space"]
-            Dash["Dashboard<br/>Daily, Coding, Team, Workflows"]
-            Show["Show mode<br/>on-screen effects"]
-            Setup["Setup window"]
-        end
-
-        subgraph Backend["backend/ — Node + Fastify on 127.0.0.1:4317"]
-            API["HTTP API + SSE events"]
-            Planner["Planner<br/>keywords, then Claude"]
-            Gate["Safety gate"]
-            Exec["Executor<br/>runs steps in parallel"]
-            Toolbox["Toolbox<br/>fixed set of tools"]
-            Review["Review<br/>diff + explanation"]
-            DB[("SQLite<br/>~/.oggy/oggy.db")]
-        end
-
-        ClaudeCLI["Claude Code CLI<br/>(planning)"]
-        Win["Windows<br/>PowerShell scripts"]
-        VSC["VS Code<br/>+ Oggy Bridge"]
-        SC["Switch Console<br/>local Switch server (Docker)"]
-        Agents["Agents<br/>Claude Code sessions"]
-    end
-
-    Discord["Discord"]
-
-    Voice --> Bar
-    Keys --> Bar
-    Phone --> Discord
-    Bar & Dash --> API
-    API --> Planner --> Exec
-    Exec --> Gate --> Toolbox
-    Exec --> Review
-    Exec <--> DB
-    Planner --> ClaudeCLI
-    Toolbox --> Win
-    Toolbox --> VSC
-    Toolbox <-->|WebSocket| SC
-    SC <--> Agents
-    SC <-->|Discord bridge| Discord
-    API -.->|SSE| Electron
-```
+<p align="center"><img src="docs/images/architecture.png" alt="Oggy architecture: Electron app, local backend, Claude Code, VS Code, Switch Console, agents and Discord" /></p>
 
 ### The pieces
 
@@ -398,64 +305,13 @@ flowchart TB
 
 ### A request, start to finish
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Y as You
-    participant UI as Oggy app
-    participant B as Backend
-    participant C as Claude Code CLI
-    participant S as Switch
-    participant A as Agents
-
-    Y->>UI: "fix the 500 in paytrack and deploy it"
-    UI->>B: POST /commands
-    B-->>UI: run created ("Sent")
-    B->>B: keyword planner: known command?
-    B->>C: no → plan with the toolbox, real file names, recent jobs
-    C-->>B: steps (JSON)
-    B->>B: validate: real tools, real files, checks pass
-    B->>S: open a thread in #paytrack with your request
-    B-->>UI: plan needs your OK
-    Y->>UI: Allow
-    loop each ready step (parallel when independent)
-        B->>B: safety gate
-        B->>S: @agent job
-        S->>A: job
-        A-->>S: DONE: ...
-        S-->>B: DONE seen
-        B-->>UI: live progress (SSE)
-    end
-    B->>B: git diff of what changed + plain-words explanation
-    B-->>UI: review: keep / undo / change
-    Y->>UI: looks good
-    B->>S: team vote → everyone yes → @release ships
-    B->>B: health URL shows the new commit → proven live
-    B-->>UI: done
-    B->>S: result in the thread + Project log updated
-```
+<p align="center"><img src="docs/images/request-lifecycle.png" alt="A request from start to finish: plan, approve, agents work, review, vote, ship" /></p>
 
 ### Planning: two lanes
 
 Oggy plans in two lanes, fast first.
 
-```mermaid
-flowchart TD
-    In["Your words"] --> Split["Split into parts<br/>'and', 'then', commas"]
-    Split --> Kw{"Does every part match<br/>a keyword rule?"}
-    Kw -- Yes --> Fast["Keyword lane<br/>instant, no AI, predictable"]
-    Kw -- No --> WF{"Describing a<br/>new workflow?"}
-    WF -- Yes --> Design["Workflow lane<br/>Claude (Sonnet) designs it"]
-    WF -- No --> LLM["Plan lane<br/>Claude (Haiku) plans it"]
-    LLM --> Check{"Oggy checks the answer<br/>tools exist? files real?<br/>tool checks pass?"}
-    Check -- OK --> Plan["Plan"]
-    Check -- "Fails or 'can't'" --> Careful["One careful retry<br/>with Sonnet and the reason"]
-    Careful --> Plan
-    LLM -- "Needs info" --> Ask["Asks you a short question"]
-    Design --> Validate["Checked against your real agents,<br/>team, projects"] --> Plan
-    Fast --> Hand["Hand-out: project work<br/>(tests, builds, installs, git)<br/>goes to the right agent"]
-    Plan --> Hand
-```
+<p align="center"><img src="docs/images/planning-lanes.png" alt="How Oggy plans: keyword lane first, then Claude, with checks and one careful retry" /></p>
 
 - **Keyword lane.** Common commands ("open my downloads", "mute", "start the dev server in X") are matched by rules. No AI call, so they're instant and always behave the same.
 - **Plan lane.** Anything else goes to the Claude Code CLI (`claude -p`). Oggy gathers the facts itself (your real file names, project folders and scripts, what you did recently), and Claude only decides. **Oggy checks the answer** before anything runs. A rejected plan gets one more careful try with a stronger model and the reason.

@@ -1,54 +1,60 @@
-# Oggy — common .gitignore for frontend/ (Electron + Vite + React) and backend/ (Node + SQLite)
+# Oggy: one .gitignore for the whole repo
+# (backend/, frontend/, vscode-bridge/, landing/).
 # Patterns without a leading slash match in every folder.
 
 # ---------- Dependencies ----------
 node_modules/
 .pnpm-store/
-.yarn/
 .npm/
+.yarn/
 
 # ---------- Build output ----------
-# electron-vite build (frontend)
+# frontend: electron-vite build
 out/
-# tsc build (backend) / electron-builder output
+# backend: tsc build
 dist/
+# pnpm dist: build/oggy (bundled backend) and build/installer (Oggy-Setup.exe)
+/build/
+# electron-builder leftovers
 release/
-build/
 *.tsbuildinfo
 .vite/
 .cache/
 
-# ---------- Environment & secrets ----------
+# ---------- Secrets and local config ----------
+# Oggy's real settings live in ~/.oggy/config.json and hold its Switch key.
+# A copy must never be committed. switch/config.example.json is the template.
+backend/src/config.json
+config.json.before-lock
 .env
 .env.*
 !.env.example
 *.pem
 *.key
-# owner token, if OGGY_DATA_DIR ever points inside the repo
+# Owner token, in case OGGY_DATA_DIR ever points inside the repo
 token
+.oggy/
 
-# ---------- SQLite (memory, workflows, runs) ----------
+# ---------- SQLite (runs, approvals, workflows, memory) ----------
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
 *.sqlite
 *.sqlite3
-.oggy/
 
 # ---------- Logs ----------
-logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# ---------- Test & coverage ----------
+# ---------- Tests and coverage ----------
 coverage/
 .nyc_output/
-playwright-report/
 test-results/
+playwright-report/
 
 # ---------- Editors ----------
 .vscode/*

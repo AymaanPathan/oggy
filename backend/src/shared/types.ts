@@ -333,6 +333,12 @@ export interface AgentLive {
   since?: number
   lastAt?: number
   steps: AgentStep[]
+  /** Switch says a session of it is up (undefined: Switch hasn't said). */
+  online?: boolean
+  /** The room a live session of it is in, per Switch. */
+  room?: string
+  /** Where its live steps come from: its transcript on this computer, or Switch (any machine). */
+  via?: 'this-pc' | 'switch'
 }
 
 export type OggyEvent =

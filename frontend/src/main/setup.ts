@@ -21,7 +21,10 @@ import {
  * switch-core.env. Setup signs in as Admin, makes a one-time registration key, registers Oggy with
  * it (so Oggy belongs to Admin like every agent added in Switch Console, and they trust each other),
  * then deletes that key. This is how Switch Console 0.40 / Switch 0.31 lay things out, not a
- * documented API; when it isn't there, setup asks for a server address and a registration key.
+ * documented API: only reading the sign-in is the shortcut. Registering itself is Switch's documented
+ * flow (POST /agents with a registration key, never /agents/register-known), and when the shortcut
+ * fails the window offers exactly that: a key a person makes under API Keys, for this PC's Switch
+ * or another server.
  *
  * Keys and passwords stay in this process. The setup window only ever sees names and addresses.
  */
@@ -304,7 +307,9 @@ async function connect(req: ConnectRequest): Promise<ConnectResult> {
   // Taking over an existing name gives it a new key. Fine for this PC's own Oggy, or on your own
   // local Switch; on a shared server it could cut off someone else's Oggy, so there it must be new.
   // Also after a try that timed out: that Oggy is likely this one, made by Switch after Oggy stopped waiting.
-  const overwrite = mine || req.mode === 'local' || timedOutRegistration === `${url} ${agentName}`
+  // A registration key for the Switch on this PC is the same case as 'local', just the documented way in.
+  const onThisPc = /^https?:\/\/(?:localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/i.test(url)
+  const overwrite = mine || req.mode === 'local' || onThisPc || timedOutRegistration === `${url} ${agentName}`
   let registered: { id: string; api_key: string }
   if (req.mode === 'local') {
     const reg = await adminRegistrationKey(url)

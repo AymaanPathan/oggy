@@ -1333,7 +1333,10 @@ function Team({ team, now }: { team: AgentLive[]; now: number }) {
                   <b className="clip">{a.alias[0].toUpperCase() + a.alias.slice(1)}</b>
                   <small className="clip">{a.status === 'idle' ? a.does : (a.task ?? a.does)}</small>
                 </span>
-                <span className="row-who clip">{a.status !== 'idle' && last ? `${last.text} ${last.detail ?? ''}` : (a.project ?? '')}</span>
+                <span className="row-who clip" title={a.via === 'switch' ? 'Runs on another machine: live steps come from Switch' : undefined}>
+                  {a.status !== 'idle' && last ? `${last.text} ${last.detail ?? ''}` : (a.project ?? (a.room ? `in #${a.room}` : ''))}
+                  {a.via === 'switch' && a.online !== undefined ? ' · via Switch' : ''}
+                </span>
                 <span className="row-time">{a.since && a.status !== 'idle' ? clock(now - a.since) : a.lastAt ? ago(a.lastAt, now) : ''}</span>
                 {a.status === 'working' ? (
                   <span className="status is-working">
@@ -1342,6 +1345,10 @@ function Team({ team, now }: { team: AgentLive[]; now: number }) {
                   </span>
                 ) : a.status === 'waiting' ? (
                   <span className="status is-you">Needs you</span>
+                ) : a.online === false ? (
+                  <span className="status is-off" title="Switch has no session of this agent running">
+                    Offline
+                  </span>
                 ) : (
                   <span className="status">Free</span>
                 )}

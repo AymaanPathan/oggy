@@ -89,6 +89,8 @@ type FileConfig = Record<string, any>
 
 /** Oggy's Switch login once connected. Never leaves this process. */
 let connection: { apiUrl: string; agentId: string; agentName: string; apiKey: string } | null = null
+/** "<server> <name>" of a registration that timed out in this window: Switch may have made that agent anyway. */
+let timedOutRegistration = ''
 
 class SetupError extends Error {}
 
@@ -148,7 +150,12 @@ async function call<T>(url: string, init: RequestInit & { timeout?: number } = {
   let res: Response
   try {
     res = await fetch(url, { ...init, signal: AbortSignal.timeout(init.timeout ?? 15_000) })
-  } catch {
+  } catch (err) {
+    // Too slow is not the same as not there: a Switch that has only just started can take a while
+    // over its first requests, and may still finish what was asked after Oggy stops waiting.
+    if ((err as Error)?.name === 'TimeoutError') {
+      throw Object.assign(new SetupError('Switch is taking too long to answer. If Switch Console has only just started, wait a moment, then try again.'), { timedOut: true })
+    }
     throw new SetupError(`Can't reach Switch at ${new URL(url).origin}. Is Switch Console running?`)
   }
   const text = await res.text()
@@ -246,11 +253,15 @@ async function registerOggy(url: string, registrationKey: string, agentName: str
     const { body } = await call<{ id: string; api_key: string }>(`${url}/agents`, {
       method: 'POST',
       headers: { authorization: `Bearer ${registrationKey}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ name: agentName, overwrite, ...OGGY_REGISTRATION })
+      body: JSON.stringify({ name: agentName, overwrite, ...OGGY_REGISTRATION }),
+      // Registering is the slow call on a Switch that has just started: give it time.
+      timeout: 60_000
     })
     if (!body?.api_key) throw new SetupError('Switch registered Oggy but sent back no key.')
     return body
   } catch (err) {
+    // Switch may have made the agent anyway: the next try may take that name over instead of calling it someone else's.
+    if ((err as { timedOut?: boolean }).timedOut) timedOutRegistration = `${url} ${agentName}`
     const status = (err as { status?: number }).status
     if (status === 409) {
       throw new SetupError(
@@ -292,7 +303,8 @@ async function connect(req: ConnectRequest): Promise<ConnectResult> {
 
   // Taking over an existing name gives it a new key. Fine for this PC's own Oggy, or on your own
   // local Switch; on a shared server it could cut off someone else's Oggy, so there it must be new.
-  const overwrite = mine || req.mode === 'local'
+  // Also after a try that timed out: that Oggy is likely this one, made by Switch after Oggy stopped waiting.
+  const overwrite = mine || req.mode === 'local' || timedOutRegistration === `${url} ${agentName}`
   let registered: { id: string; api_key: string }
   if (req.mode === 'local') {
     const reg = await adminRegistrationKey(url)

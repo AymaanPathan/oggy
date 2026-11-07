@@ -6,149 +6,92 @@
 
 **Control your Windows PC with your voice or your phone, and run a team of AI coding agents.**
 
-Say what you need. Oggy opens your apps, sorts your files, turns your inbox into a to-do list, and hands real coding work to a team of agents. Anything risky waits for your yes.
-
-[**Download for Windows**](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe) · [Website](https://oggy-landing.vercel.app) · [Quick setup](#8-setup-download-the-app) · [Developer setup](#9-setup-clone-the-repo)
-
-Built with [Switch](https://switchagents.ai) and [Wispr Flow](https://wisprflow.ai)
-
 <a href="landing/assets/oggy-demo.mp4"><img src="landing/assets/oggy-demo-poster.jpg" width="760" alt="Oggy demo video: a voice request going to Oggy, shown over Discord" /></a>
 
-*Click the image to watch the demo: a voice request, the plan, the agents at work, the team vote and the deploy.*
+*▶ Click to watch the demo: a voice request, the plan, the agents at work, the team vote and the deploy.*
+
+[**⬇ Download for Windows**](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe) · [🌐 Website](https://oggy-landing.vercel.app) · [⚡ Quick start](#quick-start) · [📖 Full setup](#full-setup-download-the-app)
+
+</div>
+
+> **"Fix the 500 on huge payment amounts in paytrack and deploy it."**
+>
+> Oggy plans the work → agents fix and test it → a reviewer checks it → your team votes → it ships → Oggy confirms it's live.
+
+<div align="center">
+
+Built with [Switch](https://switchagents.ai) and [Wispr Flow](https://wisprflow.ai)
 
 </div>
 
 ---
 
-## Contents
+## Why Oggy?
 
-1. [What is Oggy?](#1-what-is-oggy)
-2. [Using Oggy](#2-using-oggy)
-3. [You stay in charge](#3-you-stay-in-charge)
-4. [A coding team that works for you](#4-a-coding-team-that-works-for-you)
-5. [Workflows](#5-workflows)
-6. [How Switch makes this possible](#6-how-switch-makes-this-possible)
-7. [Architecture](#7-architecture)
-8. [Setup: download the app](#8-setup-download-the-app)
-9. [Setup: clone the repo](#9-setup-clone-the-repo)
-10. [Configuration reference](#10-configuration-reference)
-11. [Local API reference](#11-local-api-reference)
-12. [Security model](#12-security-model)
-13. [Troubleshooting](#13-troubleshooting)
-14. [FAQ](#14-faq)
+Most AI assistants stop at writing text or code. You still do the clicking, the copying, the testing and the shipping.
+
+**Oggy actually operates your computer and coordinates the work.**
+
+- 🖥️ **Controls your PC.** Apps, files, projects, keys and settings, from one sentence.
+- 📱 **Works from your phone.** Message `@oggy` in Discord from anywhere.
+- 🤖 **Runs a team of coding agents.** Each one has a single job: find, fix, test, review, release.
+- 🔀 **Works in parallel.** Steps that don't depend on each other run at the same time.
+- 🛡️ **Asks before anything risky.** Deletes, installs and deploys wait for your yes.
+- 🧪 **Tests and reviews before shipping.** It's built into every deploy.
+- 🚀 **Proves deploys went live.** Oggy checks production for itself instead of trusting "done".
 
 ---
 
-## 1. What is Oggy?
+## What can Oggy do?
 
-Oggy is a Windows desktop app that does two jobs.
+### 🖥️ Operate your Windows PC
 
-- **It operates your Windows PC for you.** Ask in plain words, and Oggy turns the request into real actions on your machine: it launches and closes apps, finds, opens, organises and archives files, works with your projects and dev servers, presses keys in the window you're using, and controls system settings. For anything new, it plans a multi-step sequence on the spot from these actions, and it reaches your mail, calendar and Notion through your agents.
-- **It manages a team of coding agents.** Describe a bug or a feature once. Oggy plans the work, gives each step to the right agent (a scout, a backend dev, a tester, a reviewer), shows you what changed, and ships it once your team agrees.
-
-You can talk to it in three ways. All three run the same pipeline and follow the same safety rules.
-
-| Where you are | What you do | What it uses |
-| --- | --- | --- |
-| **At your PC, talking** | Press `Ctrl` + `Space`, hold your Wispr Flow key, speak, press `Enter` | Wispr Flow |
-| **At your PC, typing** | Press `Ctrl` + `Space`, type, press `Enter` | Nothing extra |
-| **Away from your PC** | Message `@oggy` in Discord from your phone | Switch |
-
-### The idea in one picture
-
-<p align="center"><img src="docs/images/overview.png" alt="How Oggy fits together: you, Oggy, your PC and your agent team" /></p>
-
-Oggy never writes your project's code itself. It **plans, checks and coordinates**. The agents do the work, and you make the decisions.
-
----
-
-## 2. Using Oggy
-
-### By voice or keyboard
-
-1. **Press `Ctrl` + `Space`.** The Oggy box opens on top of whatever you're doing.
-2. **Hold your Wispr Flow key and speak**, or just type.
-3. **Press `Enter`.** Oggy works out what you meant, does it, and tells you the result.
-
-![The Oggy box asking "What should Oggy do?"](landing/assets/screens/command-bar.webp)
-
-### Examples
+Press `Ctrl` + `Space`, then speak (with Wispr Flow) or type. Oggy turns plain words into real actions: it launches and closes apps, finds, opens, organises and archives files, starts your projects and dev servers, presses keys in the window you're using, and changes system settings. For a request it hasn't seen before, it plans a sequence of steps on the spot.
 
 You don't need set phrases. These show the range, not the limit:
 
 | Say | What happens |
 | --- | --- |
-| "Take a screenshot" | Saves a screenshot to your Pictures folder |
-| "Open my Downloads" | Opens the folder |
-| "Mute" / "Volume 30" | Changes the sound |
-| "Open VS Code" / "Close Notepad" | Opens or closes the app |
-| "Move these files to Documents" / "Zip this folder" | Moves, copies, renames or zips files |
+| "Open my Downloads" / "Take a screenshot" / "Mute" | Done in a second, no AI call needed |
+| "Put my resume and offer letter in a folder called Jobs and zip it" | Oggy plans the steps, finds the real files and does it |
+| "Close Chrome and Notepad, then mute" | Several commands in one sentence |
 | "Undo that" | Puts back the last file change |
-| "Open paytrack in VS Code" | Opens the project in your editor |
-| "Start the dev server in paytrack" | Starts it in a VS Code terminal you can see, and can stop it later |
-| "Check my mail and make a to-do list" | The Assistant agent reads unread mail and writes tasks in Notion |
-| "Fix the 500 on huge payment amounts in paytrack" | The coding team finds the bug, fixes it and tests it |
-| "Create a project called flowboard with React, then open it in VS Code" | An agent builds it, then Oggy opens it |
-| "Deploy paytrack" | Calls a team vote, then the Release agent ships it |
+| "Start the dev server in paytrack" | Runs it in a VS Code terminal you can see |
+| "Check my mail and make a to-do list" | Your Assistant agent reads unread mail and writes tasks in Notion |
 
-You can chain commands with "and", "then" or commas: *"close Chrome and Notepad, then mute"*.
+If something's unclear, Oggy asks a short question ("Which one, the PDF or the DOCX?").
 
-If something's unclear, Oggy asks a short question ("Which one, the PDF or the DOCX?"). Just answer in the box.
+![The Oggy box asking "What should Oggy do?"](landing/assets/screens/command-bar.webp)
 
-Everything you ask for is logged in the **Daily** view, including what failed and why.
+### 📱 Control it from your phone
 
-![The Daily view with quick actions and a log of tasks](landing/assets/screens/daily.webp)
-
-### From your phone
-
-Your phone doesn't connect to your PC directly. It goes through Discord and Switch, so you don't open any ports and don't need to be on the same network.
-
-> **Your PC must be on, with Switch Console and Oggy running.** Oggy does the work on your PC. Your phone is only the remote.
-
-Send a message that starts with `@oggy` in a channel Oggy is in:
-
-```text
-@oggy open my Downloads
-@oggy take a screenshot
-@oggy run todo workflow
-@oggy deploy paytrack
-```
-
-`oggy, take a screenshot` and `hey oggy, mute` work too. Oggy replies in the same place with its plan, any question, and the result. Reply `yes` or `no` to approve or stop a step.
+Send `@oggy take a screenshot` or `@oggy deploy paytrack` in Discord. The message goes through [Switch](#how-switch-makes-this-possible), so you don't open any ports and don't need to be on the same network. Oggy replies in the same thread with its plan, any question and the result. Reply `yes` or `no` to approve a step.
 
 ![A Discord thread where Oggy asks for approval and hands steps to the agents](landing/assets/screens/discord-release-approve.webp)
 
-Install Wispr Flow on your phone too, and you can speak these messages instead of typing them.
+### 🤖 Run a coding team
 
-### Your work stays organised in Discord
+Describe a bug or a feature once. Oggy splits it into steps, gives each one to the [right agent](#the-agent-team), shows you exactly what changed, and lets you keep it, undo it or ask for a change.
 
-Commands you give at your PC show up in Discord too, so your phone always has the full story.
+![The Coding board with Queued, Working, Needs you and Done columns](landing/assets/screens/board.webp)
 
-- **Each job gets its own thread:** the request, every hand-off, every approval and the result.
-- **Each project gets its own room**, created the first time you need one.
-- **Everyday tasks go to `#oggy-daily`.** Coding jobs go to the project's room, or `#team`.
+### 🔁 Save routines as workflows
 
-![Voice requests in Discord, each one its own thread](landing/assets/screens/discord-voice.webp)
+Describe a routine once ("check my mail and make a to-do list in Notion"), give it a name, and from then on just say *"run todo workflow"*, or schedule it for every weekday at 9am. [More on workflows](#workflows).
+
+### 🚀 Ship with a team vote
+
+Deploys wait until every teammate says `yes` in Discord. Then the Release agent ships, and Oggy checks the live site for the new commit.
 
 ---
 
-## 3. You stay in charge
+## See it in action
 
-**Every step passes a safety gate right before it runs:**
+### From one sentence to production
 
-<p align="center"><img src="docs/images/safety-gate.png" alt="The safety gate: is it from you, is it allowed, is it risky" /></p>
+<p align="center"><img src="docs/images/story.png" width="380" alt="One sentence becomes: Oggy plans, Scout finds the cause, Backend fixes it, Tester runs tests, Reviewer checks, the team votes, Release ships, Oggy checks production, then explains what changed" /></p>
 
-1. **Is it from you?** Desktop commands carry a secret owner token. Discord commands must come from the username you gave in setup, or your exact Switch account once you've typed `lock oggy to me`.
-2. **Is it allowed?** Oggy can only use its own fixed set of tools (the *toolbox*), inside the folders and apps you allow. It only opens safe file types like documents, photos and videos. It won't open a script or a `.env` file, for example.
-3. **Is it risky?** Deleting, moving or renaming files, pressing keys for you, installing packages and deploying always ask first.
-
-**For agent jobs, you see the plan first.** Click **Allow**, say yes, or reply `yes` in Discord. One yes covers the whole plan.
-
-![Oggy's panel showing a plan with Allow and Not now buttons](landing/assets/screens/island-approve.webp)
-
-**After the agents finish, you review.** Oggy explains in plain words what was wrong, why, what changed and how it was tested, with the diff. Say "looks good", "undo it", or ask for a change ("make the error message friendlier").
-
-**Shipping needs the whole team.** Merging to main and deploying can't be undone, so Oggy calls a vote and only goes ahead if everyone replies `yes`. One `no` stops it.
+Every step of that happens in its own Discord thread, so your team sees the whole story:
 
 <table>
 <tr>
@@ -157,11 +100,92 @@ Commands you give at your PC show up in Discord too, so your phone always has th
 </tr>
 </table>
 
+![Discord message confirming the release is live](landing/assets/screens/discord-shipped.webp)
+
+### Your inbox, turned into a to-do list
+
+<table>
+<tr>
+<td width="62%"><img src="landing/assets/screens/discord-voice-daily.webp" alt="Discord showing the todo workflow run by voice" /><br /><sub>"Run todo workflow", said out loud</sub></td>
+<td width="38%"><img src="landing/assets/screens/discord-todo.webp" alt="The assistant's report: 20 emails read and 4 tasks added" /><br /><sub>20 emails read, 4 tasks added to Notion</sub></td>
+</tr>
+</table>
+
 ---
 
-## 4. A coding team that works for you
+## Under the hood
 
-You describe the problem once. Oggy splits it into steps and gives each one to the right agent.
+Oggy isn't one LLM call wrapped in a desktop UI. It has:
+
+- **Instant, predictable commands.** Common PC actions are matched by rules, with no AI call.
+- **AI planning for everything else.** Claude plans new requests, and Oggy checks every plan against real tools and real files before anything runs.
+- **Graph-based execution.** Steps declare what they wait for, so independent work runs in parallel.
+- **Specialised agents.** Each agent has one job and stays inside it.
+- **Human approval gates.** Every step passes a safety check right before it runs.
+- **Agent coordination through Switch.** Rooms, threads and a simple `DONE:` / `BLOCKED:` contract.
+- **Git-based change tracking.** The review shows the real diff, and undo uses git.
+- **Deployment verification.** "Live" means the site is running the new commit.
+- **Local-first.** The backend, data and secrets stay on your PC.
+
+The details are in [Architecture](#architecture).
+
+---
+
+## Quick start
+
+1. **Start Switch.** Install [Switch Console](https://github.com/sandbox-quantum/switch/releases/latest/download/switch-console-x64.exe) and choose **Run a server on this computer**.
+2. **Add an agent.** In Switch Console → **Your Agents**, add one Claude Code agent.
+3. **Connect Discord** (optional, for phone control) and create two channels: `team` and `oggy-daily`.
+4. **Install Oggy.** Run [Oggy-Setup.exe](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe) and follow the setup window.
+5. **Try it.** Press `Ctrl` + `Space` and type `take a screenshot`.
+
+You'll need Windows 10 or 11 and [Claude Code](https://claude.com/claude-code) signed in. For every detail, see [Full setup](#full-setup-download-the-app). To run from source, see [Setup from source](#setup-from-source).
+
+---
+
+## Contents
+
+- [How it works](#how-it-works) · [Safety](#safety) · [The agent team](#the-agent-team) · [Workflows](#workflows) · [How Switch makes this possible](#how-switch-makes-this-possible) · [Architecture](#architecture)
+- [Full setup](#full-setup-download-the-app) · [Setup from source](#setup-from-source) · [Configuration](#configuration) · [Local API](#local-api)
+- [Security model](#security-model) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Status](#status) · [Limitations](#limitations) · [Contributing](#contributing) · [License](#license)
+
+---
+
+## How it works
+
+<p align="center"><img src="docs/images/overview.png" alt="How Oggy fits together: you, Oggy, your PC and your agent team" /></p>
+
+1. **You ask**, by voice, keyboard or Discord.
+2. **Oggy plans.** Known commands match instantly; anything else is planned by Claude and checked by Oggy.
+3. **Every step is checked** right before it runs. Risky ones wait for your yes.
+4. **The work runs.** PC actions run on your machine. Coding steps go to your agents through Switch, in parallel where possible.
+5. **You see the result** on your desktop and in Discord, with a plain-words explanation of any code changes.
+
+Oggy never writes your project's code itself. It **plans, checks and coordinates**. The agents do the work, and you make the decisions.
+
+---
+
+## Safety
+
+**Every step passes three checks right before it runs:**
+
+<p align="center"><img src="docs/images/safety-gate.png" width="560" alt="The safety gate: is it from you, is it allowed, is it risky" /></p>
+
+1. **Is it from you?** Desktop commands carry a secret owner token. Discord commands must come from your username, or your exact account once you've typed `lock oggy to me`.
+2. **Is it allowed?** Oggy only uses its own fixed set of tools, inside the folders and apps you allow, and only opens file types that can't run code.
+3. **Is it risky?** Deleting, moving or renaming files, pressing keys, installing packages and deploying always ask first.
+
+On top of that:
+
+- **You approve the plan** before agents start. One yes covers the whole plan.
+- **You review the result.** Keep it, undo it, or ask for a change ("make the error message friendlier").
+- **Shipping needs the whole team.** One `no` stops a deploy.
+
+![Oggy's panel showing a plan with Allow and Not now buttons](landing/assets/screens/island-approve.webp)
+
+---
+
+## The agent team
 
 | Agent | Its one job |
 | --- | --- |
@@ -174,60 +198,32 @@ You describe the problem once. Oggy splits it into steps and gives each one to t
 | **Release** | Writes release notes, then merges and deploys after the team vote |
 | **Assistant** | Reads Gmail and Calendar, writes in Notion, drafts emails. Never sends them |
 
-Each agent is a Claude Code session you add in Switch Console. You don't need all eight: start with one and add more as you go.
+Each agent is a Claude Code session you add in Switch Console. Start with one and add more as you go.
 
-![The Team page listing eight agents](landing/assets/screens/team.webp)
-
-### What a bug fix looks like
-
-"Fix the 500 on huge payment amounts in paytrack" becomes a plan like this. Steps that don't depend on each other run at the same time.
+**Good habits are added for you.** A request that sounds like a bug gets a Scout step first. Every deploy gets a Tester step, a Reviewer step (if code changed) and release notes. Independent steps run at the same time:
 
 <p align="center"><img src="docs/images/bug-fix-plan.png" alt="A bug fix plan: scout, then tester and backend in parallel, then reviewer and your review" /></p>
 
-While they work, the **Team** view shows each agent live: what it's reading, editing or running. Every job appears on the **Coding** board, and anything waiting for you lands in **Needs you**.
+The **Team** view shows each agent live: what it's reading, editing or running.
 
-![The Coding board with Queued, Working, Needs you and Done columns](landing/assets/screens/board.webp)
-
-### Shipping
-
-"Deploy paytrack" (or the end of a fix) goes like this:
-
-1. The **Release** agent writes release notes.
-2. Oggy calls a **team vote** in Discord. Everyone must say `yes`.
-3. The Release agent merges to `main` and pushes. Your host (for example Render) builds from the push.
-4. **Oggy checks for itself.** It calls your health URL and looks for the commit it just pushed, so "it's live" is proven, not just claimed.
-
-![Discord message confirming the release is live](landing/assets/screens/discord-shipped.webp)
+![The Team page listing eight agents](landing/assets/screens/team.webp)
 
 ---
 
-## 5. Workflows
-
-Describe a routine once and Oggy saves it. After that you only need its name, or a schedule like "every weekday at 9am".
+## Workflows
 
 ```text
 make a new workflow named todo that checks my mail and creates a to-do list in Notion
 run todo workflow
 ```
 
-Claude designs the workflow from your words. Then Oggy **checks every part against what's real**: the agents you have, your teammates, your projects, what can deploy. Only then is it saved. A saved workflow runs exactly as it's drawn in the app. Nothing gets added at run time.
+Claude designs the workflow from your words. Oggy then **checks every part against what's real** (your agents, teammates and projects) before saving it. A saved workflow runs exactly as it's drawn in the app.
 
-Steps can run side by side and can stop for someone's approval. **Release Day** tests and reviews at the same time, then deploys once you approve.
+Steps can run side by side and can wait for someone's approval. **Release Day** tests and reviews at the same time, then deploys once you approve:
 
 ![The Release Day workflow](landing/assets/screens/workflow-release-day.webp)
 
-**todo** turns your unread mail into a Notion list and posts a short report.
-
-![The todo workflow](landing/assets/screens/workflow-todo.webp)
-
-<table>
-<tr>
-<td width="62%"><img src="landing/assets/screens/discord-voice-daily.webp" alt="Discord showing the todo workflow run by voice" /><br /><sub>Run by voice, reported in Discord</sub></td>
-<td width="38%"><img src="landing/assets/screens/discord-todo.webp" alt="The assistant's report: 20 emails read and 4 tasks added" /><br /><sub>The report</sub></td>
-</tr>
-</table>
-
-Scheduled workflows run while Oggy is open. If your PC was off at the scheduled time, the run happens when Oggy next opens, unless it's hours late. Every run is saved, so you can see what passed and what failed.
+Workflows can run on a schedule while Oggy is open. A run missed while your PC was off happens when Oggy next opens, unless it's hours late.
 
 <table>
 <tr>
@@ -238,93 +234,71 @@ Scheduled workflows run while Oggy is open. If your PC was off at the scheduled 
 
 ---
 
-## 6. How Switch makes this possible
+## How Switch makes this possible
 
 <img src="landing/assets/switch/switch-icon.png" width="48" align="right" alt="Switch" />
 
-[Switch](https://switchagents.ai) puts people and AI agents together in shared **rooms**, and bridges those rooms to chat apps like Discord. It's the backbone of Oggy. Without it, Oggy would be a desktop app with no team, no phone control and no shared history.
+[Switch](https://switchagents.ai) puts people and AI agents together in shared **rooms** and bridges those rooms to Discord. Without it, Oggy would be a desktop app with no team, no phone control and no shared history. **Oggy is itself a Switch agent**, and appears in rooms as `@oggy`.
 
-**Oggy is itself a Switch agent.** It holds one live connection to your Switch server and appears in rooms as `@oggy`, next to the agents it coordinates.
+| Switch feature | How Oggy uses it |
+| --- | --- |
+| **Agents** | Your coding team are Claude Code agents in Switch. Oggy messages each one its step |
+| **Rooms** | `#team` for coding, `#oggy-daily` for everyday tasks, and one room per project, created on demand |
+| **Threads** | Every job is one thread: request, hand-offs, questions, approvals and result |
+| **Discord bridge** | Every room is a Discord channel, which is how phone control works |
+| **Roles** | Each agent's job is a seat in `#team`. Whoever holds the seat gets that kind of work |
+| **Room documents** | Each room keeps a **Project log** of what every job changed and what you decided, so the next job starts informed |
+| **References** | A project room gets its GitHub repo attached, so agents see history, issues and PRs |
+| **Packages** | Team rules defined once are attached to every new project room |
+| **People in rooms** | Teammates sit in the same rooms, so they can vote on releases |
 
-### What each Switch feature does for Oggy
-
-| Switch feature | How Oggy uses it | What you get |
-| --- | --- | --- |
-| **Agents** | Your coding team are Claude Code agents added in Switch Console. Oggy messages each one its step | A real team, not one overloaded AI |
-| **Rooms** | `#team` for coding, `#oggy-daily` for everyday tasks, plus **one room per project** that Oggy creates on demand | Nothing gets mixed up |
-| **Threads** | Every job is one thread: the request, every hand-off, questions, approvals and the result | Each job reads like a work log |
-| **Discord bridge** | Every room is also a Discord channel | Control your PC from your phone, from anywhere |
-| **Roles** | Each agent's job is a "seat" (role) in `#team`. Whoever holds the seat gets that kind of work | Swap who does testing without changing Oggy |
-| **Room documents** | Each work room keeps a **Project log**: what every job changed and what you decided. Oggy also writes your saved workflows as a document | The next job starts from what the room already knows |
-| **References** | A project room gets the project's GitHub repo attached | Agents see history, issues and PRs |
-| **Packages** | Team rules you define once get attached to every new project room | Same rules everywhere |
-| **People in rooms** | Your teammates sit in the same rooms | They can vote `yes` / `no` on releases |
-| **Agent protocol** | One WebSocket that resumes where it left off after a drop | Oggy doesn't miss messages |
-
-### How Oggy talks to an agent
-
-Agents end their replies with simple marker lines. That's the whole contract.
-
-<p align="center"><img src="docs/images/agent-handshake.png" alt="How Oggy hands a job to an agent through a Switch thread, including an ASK and the DONE reply" /></p>
+**The contract with agents is one line.** Each agent ends its reply with a marker:
 
 | Marker | Meaning |
 | --- | --- |
 | `DONE: ...` | Finished. The line becomes the step's result |
 | `BLOCKED: ...` | Stuck. The run stops and tells you why |
-| `LOOKS GOOD` | Reviewer approves |
-| `CHANGES NEEDED` | Reviewer rejects, and the run stops |
+| `LOOKS GOOD` / `CHANGES NEEDED` | The reviewer's verdict |
 | `ASK: ...` | The agent wants your OK before a heavy step. Oggy asks you and sends back your answer |
 
-If an agent says nothing for 3 minutes, Oggy pings it once by name. After 30 minutes with no `DONE` or `BLOCKED`, the step times out.
+<p align="center"><img src="docs/images/agent-handshake.png" alt="How Oggy hands a job to an agent through a Switch thread, including an ASK and the DONE reply" /></p>
 
-### What Wispr Flow does
+If an agent is silent for 3 minutes, Oggy pings it once. After 30 minutes with no `DONE` or `BLOCKED`, the step times out.
 
-<img src="landing/assets/wispr/wispr-flow-icon.png" width="40" align="right" alt="Wispr Flow" />
+<img src="landing/assets/wispr/wispr-flow-icon.png" width="32" align="right" alt="Wispr Flow" />
 
-**Wispr Flow gives Oggy its ears.** It types your speech into whichever box your cursor is in, so Oggy needs no microphone code or speech model.
-
-- It's a separate app. Oggy needs no key or connection to it.
-- If a few words come out wrong, Oggy still works out what you meant. Project names are matched fuzzily against your real folders, so "dashboard crm" finds `dashboard-crm`.
-- It's optional. Without it, you type in the same box.
+**And Wispr Flow gives Oggy its ears.** It types your speech into the Oggy box, so Oggy needs no speech model of its own. It's optional: without it you type. Project names are matched fuzzily against your real folders, so "dashboard crm" still finds `dashboard-crm`.
 
 ---
 
-## 7. Architecture
-
-### The big picture
+## Architecture
 
 <p align="center"><img src="docs/images/architecture.png" alt="Oggy architecture: Electron app, local backend, Claude Code, VS Code, Switch Console, agents and Discord" /></p>
 
-### The pieces
-
 | Part | Where | What it does |
 | --- | --- | --- |
-| **Electron app** | [frontend/](frontend/) | The command bar, dashboard, Oggy the pet, show mode, tray icon and setup window. In the installed app it also starts and stops the backend |
-| **Backend** | [backend/](backend/) | The brain. Plans commands, checks each step, runs them, talks to Switch, stores everything in SQLite. Listens only on `127.0.0.1` |
-| **Oggy Bridge** | [vscode-bridge/](vscode-bridge/) | A small VS Code extension. Runs dev servers in a visible VS Code terminal, sends the output back to Oggy, and shows agent changes as a diff |
+| **Electron app** | [frontend/](frontend/) | Command bar, dashboard, tray, setup window. The installed app also starts and stops the backend |
+| **Backend** | [backend/](backend/) | Plans, checks and runs every step, talks to Switch, stores everything in SQLite. Listens only on `127.0.0.1:4317` |
+| **Oggy Bridge** | [vscode-bridge/](vscode-bridge/) | VS Code extension: runs dev servers in a visible terminal and shows agent changes as a diff |
 | **Website** | [landing/](landing/) | The landing page |
-| **Config template** | [switch/config.example.json](switch/config.example.json) | What the setup window fills in |
 
 ### A request, start to finish
 
-<p align="center"><img src="docs/images/request-lifecycle.png" alt="A request from start to finish: plan, approve, agents work, review, vote, ship" /></p>
+<p align="center"><img src="docs/images/request-lifecycle.png" alt="A request from start to finish: plan, approve, agents work, team vote, ship, verify, explain" /></p>
 
-### Planning: two lanes
+### Planning
 
-Oggy plans in two lanes, fast first.
+<p align="center"><img src="docs/images/planning-lanes.png" width="620" alt="How Oggy plans: keyword lane first, then Claude, with checks and one careful retry" /></p>
 
-<p align="center"><img src="docs/images/planning-lanes.png" alt="How Oggy plans: keyword lane first, then Claude, with checks and one careful retry" /></p>
+- **Keyword lane.** Common commands are matched by rules: instant and always the same.
+- **Plan lane.** Anything else goes to the Claude Code CLI (`claude -p`, Haiku). Oggy supplies the facts (real file names, project scripts, recent jobs) and checks the answer. A rejected plan gets one careful retry with Sonnet and the reason.
+- **Hand-out.** Oggy never does project work itself: tests, builds, installs and `git status` go to the agent whose job it is.
 
-- **Keyword lane.** Common commands ("open my downloads", "mute", "start the dev server in X") are matched by rules. No AI call, so they're instant and always behave the same.
-- **Plan lane.** Anything else goes to the Claude Code CLI (`claude -p`). Oggy gathers the facts itself (your real file names, project folders and scripts, what you did recently), and Claude only decides. **Oggy checks the answer** before anything runs. A rejected plan gets one more careful try with a stronger model and the reason.
-- **Team habits are added for you.** If your request sounds like a bug ("broken", "fails", "fix"), a **Scout** step goes first to find the cause before anyone edits. Before any **deploy**, Oggy adds a **Tester** step (tests and build must pass), a **Reviewer** step if code changed, and **Release** notes, unless the plan already has them.
-- **Hand-out.** Oggy never does project work itself. Running tests, builds, installs or `git status` on a project goes to the agent whose job it is (Tester, Scout). Which builder gets the code is decided by the request: UI words go to Frontend, API words to Backend, both to Backend first so the frontend gets its routes.
+### Running
 
-### Running: steps as a graph
+A plan is a graph: each step lists the steps it waits for. The executor starts every step whose waits are done, so independent work runs in parallel. If a step fails, no new steps start, and the run reports who got stuck.
 
-A plan is a list of steps. Each step can say which steps it waits for (`after`). The executor starts **every step whose waits are done**, so independent work runs in parallel. If one step fails, no new steps start; the ones already working finish, then the run reports who got stuck.
-
-Each step is a call to one **toolbox** tool:
+Each step is one **toolbox** tool, and each tool declares its own argument checks, risk level and approval preview:
 
 | Group | Tools |
 | --- | --- |
@@ -335,205 +309,114 @@ Each step is a call to one **toolbox** tool:
 | Shipping | `deploy`, `url.check` |
 | Other | `calendar.event`, `workflow.create`, `workflow.save`, `memory.write`, `owner.lock`, `note` |
 
-Every tool declares its own argument checks, whether it's risky, and a human preview line for approvals.
-
 ### Watching the agents
 
-- **Live activity.** Every agent is a Claude Code session on your PC, and Claude Code writes each step to a transcript under `~/.claude/projects`. Oggy follows those transcripts, so the **Team** view shows who's working, waiting or idle, and their latest steps.
-- **Code changes.** When a coding job starts, Oggy snapshots the project with git and follows every file the agents change. The review panel shows the real diff, not what the agents say they did. **Undo** uses git to put the project back.
+- **Live activity.** Agents are Claude Code sessions, which write each step to a transcript under `~/.claude/projects`. Oggy follows those transcripts for the Team view.
+- **Code changes.** Oggy snapshots the project with git when a job starts and diffs every file the agents change. Undo uses git to put it back.
 
-### Where data lives
+### Data and tech stack
 
-Everything is local, in `C:\Users\<you>\.oggy\`:
-
-| File | What's in it |
-| --- | --- |
-| `config.json` | Your settings, including Oggy's Switch key. **Never commit this** |
-| `token` | The owner token. Only holders can call the backend |
-| `oggy.db` | SQLite: `runs` (every job and its steps), `approvals`, `workflows`, `memory` (threads, rooms, current project, last undo) |
-| `backend.log` | Logs from the installed app |
-
-### Tech stack
+Everything lives in `C:\Users\<you>\.oggy\`: `config.json` (settings and Oggy's Switch key, **never commit it**), `token` (owner token), `oggy.db` (SQLite: runs, approvals, workflows, memory) and `backend.log`.
 
 | Layer | Tech |
 | --- | --- |
-| Desktop app | Electron 33, React 18, Vite (electron-vite), TypeScript |
-| Backend | Node 22, Fastify 5, better-sqlite3, `ws`, TypeScript (run with `tsx`) |
+| Desktop app | Electron 33, React 18, electron-vite, TypeScript |
+| Backend | Node 22, Fastify 5, better-sqlite3, `ws`, TypeScript |
 | Planning | Claude Code CLI (Haiku for quick plans, Sonnet for careful plans and workflows) |
 | Agents and rooms | Switch (agent protocol over WebSocket, REST) |
 | PC control | Fixed PowerShell scripts |
-| Editor | VS Code extension (Oggy Bridge) |
 | Installer | electron-builder (NSIS), with Node and the backend bundled inside |
 | Tests | Node's built-in test runner |
 
 ---
 
-## 8. Setup: download the app
+## Full setup: download the app
 
-**Use this if you just want to use Oggy.** It takes about 15 minutes, most of it on Discord and your agents.
+**For people who just want to use Oggy.** About 15 minutes, most of it on Discord and your agents.
 
 ### What you need
 
 - Windows 10 or 11 (64-bit)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/), which Switch Console uses to run its server on your PC
-- [Claude Code](https://claude.com/claude-code), installed and signed in. Oggy uses it to plan, and your agents use it to work
-- A Discord server where you can add a bot
-- [Wispr Flow](https://wisprflow.ai), if you want voice
-- [VS Code](https://code.visualstudio.com), if you want Oggy to open projects and run dev servers
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/), for Switch Console's server
+- [Claude Code](https://claude.com/claude-code), installed and signed in
+- A Discord server where you can add a bot (for phone control)
+- Optional: [Wispr Flow](https://wisprflow.ai) for voice, [VS Code](https://code.visualstudio.com) for projects and dev servers
 
 ### Step 1: Install Switch Console
 
 1. Download [`switch-console-x64.exe`](https://github.com/sandbox-quantum/switch/releases/latest/download/switch-console-x64.exe) and run it.
-2. Open Switch Console and choose **Run a server on this computer**.
-3. Wait until it says **Running locally**.
+2. Choose **Run a server on this computer** and wait for **Running locally**.
 
-More detail: [Install Switch Console](https://docs.switchagents.ai/switch-rooms/getting-started/install-switch-console.md) and [Add a server](https://docs.switchagents.ai/switch-rooms/getting-started/add-a-server.md).
+More detail: [Install Switch Console](https://docs.switchagents.ai/switch-rooms/getting-started/install-switch-console.md).
 
 ### Step 2: Add your agents
 
 1. In Switch Console, open **Your Agents** and click the card with the plus sign.
-2. Fill in a **Name** (lowercase, no spaces) and a **Description**.
-3. Leave **Run location** on **This computer**, set **Directory** to your code folder, and pick **Claude Code** as the **Agent provider**.
+2. Enter a **Name** (lowercase, no spaces) and a **Description**.
+3. Leave **Run location** on **This computer**, set **Directory** to your code folder, and pick **Claude Code**.
 4. Click **Add agent**.
 
-Start with one agent, such as `claude-code`, and add more whenever you like. Names like `scout`, `backend` or `tester` let Oggy guess each agent's job during setup.
-
-More detail: [Onboard your agents](https://docs.switchagents.ai/switch-rooms/getting-started/onboard-your-agents.md).
+Start with one agent, such as `claude-code`. Names like `scout`, `backend` or `tester` let Oggy guess each agent's job. More detail: [Onboard your agents](https://docs.switchagents.ai/switch-rooms/getting-started/onboard-your-agents.md).
 
 ### Step 3: Connect Discord
 
-This step is what gives you phone control.
+1. In the [Discord Developer Portal](https://discord.com/developers/applications), create an application, open **Bot** and copy the token.
+2. Turn on **Server Members Intent** and **Message Content Intent**.
+3. Under **OAuth2 > URL Generator**, pick the `bot` and `applications.commands` scopes and the permissions the Switch guide lists, then invite the bot.
+4. In Switch Console, go to your server's **Home** → **Messaging apps > Connect > Discord**, and enter the bot token and server ID.
+5. Link your Discord account when asked (**This is me**).
 
-1. In the [Discord Developer Portal](https://discord.com/developers/applications), click **New Application**, open the **Bot** tab and copy the token.
-2. On the same tab, turn on **Server Members Intent** and **Message Content Intent**.
-3. Under **OAuth2 > URL Generator**, select the `bot` and `applications.commands` scopes, choose the permissions the Switch guide lists, and invite the bot to your server.
-4. In Switch Console, open your server's **Home** page, then **Messaging apps > Connect > Discord**. Enter the bot token and your server ID, then click **Connect**.
-5. Link your Discord account when it asks. Click **This is me**.
-
-More detail, including the full permissions list: [Connect Discord](https://docs.switchagents.ai/switch-rooms/deploy/messaging-apps/discord.md).
+More detail: [Connect Discord](https://docs.switchagents.ai/switch-rooms/deploy/messaging-apps/discord.md).
 
 ### Step 4: Make Oggy's two rooms
 
-Oggy finds its rooms by their exact names:
-
-| Room | What goes there |
-| --- | --- |
-| `team` | Coding jobs |
-| `oggy-daily` | Everyday tasks and routines |
-
-Create a Discord channel with each name and post any message in it. Switch turns each channel into a room.
+Create Discord channels named exactly `team` (coding jobs) and `oggy-daily` (everyday tasks), and post any message in each. Switch turns them into rooms.
 
 ### Step 5: Install Oggy
 
-1. Download [**Oggy-Setup.exe**](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe) and run it.
-2. Oggy's setup window opens. It has three parts:
-   - **Connect.** Oggy finds Switch Console on your PC and registers itself as an agent. You don't copy any keys: it uses Switch Console's own admin sign-in to make a one-time registration key, registers, then deletes that key.
-   - **Your team.** Tick the agents Oggy may use and pick each one's job.
-   - **About you.** Your name, your Discord username (Oggy only takes orders from it) and your code folder.
+Run [**Oggy-Setup.exe**](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe). The setup window has three parts:
+
+- **Connect.** Oggy finds Switch Console and registers itself. You don't copy any keys.
+- **Your team.** Tick the agents Oggy may use and pick each one's job.
+- **About you.** Your name, your Discord username (the only one Oggy obeys) and your code folder.
+
+If Windows shows "Windows protected your PC", click **More info → Run anyway**.
 
 ### Step 6: Invite Oggy to the rooms
 
-In Switch Console, invite Oggy (`oggy.<your-windows-name>`) to `team` and `oggy-daily`. Then quit Oggy from the tray and open it again so it picks up the rooms.
+In Switch Console, invite Oggy to `team` and `oggy-daily`. Its name is the one shown in the setup window, `oggy.<your-windows-username>` by default. Then quit Oggy from the tray and open it again, so it picks up the rooms.
 
 ### Step 7: Try it
 
-1. Check that Oggy says **Connected** at the bottom left of the dashboard.
-2. Press `Ctrl` + `Space`, type `take a screenshot` and press `Enter`.
+1. Check that the dashboard says **Connected**.
+2. Press `Ctrl` + `Space` and run `take a screenshot`.
 3. In Discord, send `@oggy open my Downloads` to `#oggy-daily`.
-4. Type `lock oggy to me` in the Oggy box on your PC. This ties Oggy to your exact Discord account, so someone using your name can't give it orders.
-
-That's the core setup done. The rest is optional.
+4. Type `lock oggy to me` in the Oggy box, so only your exact Discord account can give orders.
 
 ### Optional extras
 
-**Voice.** Install [Wispr Flow](https://wisprflow.ai). No other setup is needed.
+- **Voice:** install [Wispr Flow](https://wisprflow.ai). Nothing else to set up.
+- **VS Code:** install [vscode-bridge/oggy-bridge.vsix](vscode-bridge/oggy-bridge.vsix) via Extensions → **...** → **Install from VSIX...**.
+- **Mail, calendar and Notion:** add an agent called `assistant` and connect Gmail, Google Calendar and Notion to the Claude account it runs on.
+- **Team votes and deploys:** merge your teammates and health URLs into `C:\Users\<you>\.oggy\config.json`, then restart Oggy:
 
-**VS Code.** Install the Oggy Bridge extension from [vscode-bridge/oggy-bridge.vsix](vscode-bridge/oggy-bridge.vsix): in VS Code, open the Extensions panel, click **...**, choose **Install from VSIX...** and pick the file.
-
-**Mail, calendar and Notion.** Add an agent called `assistant`, and connect Gmail, Google Calendar and Notion to the Claude account it runs on.
-
-**Team votes and deploys.** Add your teammates and your project's health page to `C:\Users\<you>\.oggy\config.json`, then restart Oggy. Merge these into the file that's already there, don't replace it:
-
-```json
-{
-  "team": [
-    { "name": "Rahul", "discordUsername": "rahul-discord-name" }
-  ],
-  "deploy": {
-    "paytrack": { "url": "https://your-app.example.com/health" }
+  ```json
+  {
+    "team": [{ "name": "Rahul", "discordUsername": "rahul-discord-name" }],
+    "deploy": { "paytrack": { "url": "https://your-app.example.com/health" } }
   }
-}
-```
+  ```
 
-**Change your setup later.** Right-click Oggy's tray icon and choose **Set up Oggy again…**.
-
-**Switch on another machine.** In the setup window, choose **Use a different Switch server**, then enter its address and a registration key from its admin page (**API Keys > Create Registration Key**).
+- **Change your setup:** right-click the tray icon → **Set up Oggy again…**.
+- **Switch on another machine:** in setup, choose **Use a different Switch server** and use a registration key from its admin page.
 
 ---
 
-## 9. Setup: clone the repo
+## Setup from source
 
-**Use this if you want to run Oggy from source or change its code.** You still need Steps 1 to 4 and Step 6 from the setup above.
+**For people who want to change Oggy's code.** Do Steps 1 to 4 and Step 6 above too.
 
-### Prerequisites
-
-| Tool | Why |
-| --- | --- |
-| Windows 10 or 11 | Desktop actions use PowerShell and Windows APIs |
-| [Node 22](https://nodejs.org) | Runs the backend and the build. `better-sqlite3` is native, so stay on 22 |
-| [pnpm](https://pnpm.io/installation) | Package manager for both apps |
-| [Git](https://git-scm.com) | Clone, plus Oggy uses git to track agent changes |
-| [Claude Code](https://claude.com/claude-code) | The `claude` command must be on your `PATH` and signed in |
-| Switch Console | Running locally (Step 1) |
-
-### Repo layout
-
-```text
-oggy/
-├── backend/                      The brain: local API on 127.0.0.1:4317
-│   └── src/
-│       ├── index.ts              HTTP routes, SSE stream, startup
-│       ├── config.ts             Reads ~/.oggy/config.json and env vars
-│       ├── planner.ts            Keyword planner, plan lane, workflow lane, hand-out
-│       ├── executor.ts           Runs steps as a graph, approvals, results
-│       ├── gate.ts               The three-question safety gate
-│       ├── toolbox.ts            Every tool Oggy can use, with checks and risk
-│       ├── desktop.ts            Windows actions (fixed PowerShell scripts)
-│       ├── tools.ts              Project commands (package manager, git)
-│       ├── review.ts             Explains changes, keep / undo / change
-│       ├── codeWatch.ts          Git snapshots and live diffs of agent work
-│       ├── agentLive.ts          Follows Claude Code transcripts for the Team view
-│       ├── rooms.ts              "@oggy" from Discord, yes/no replies
-│       ├── workflow.ts           Builds and checks workflows
-│       ├── schedule.ts           Runs scheduled workflows
-│       ├── team.ts               Teammates and votes
-│       ├── ship.ts               Release jobs and the "is it really live?" check
-│       ├── logs.ts               Fetches Render logs for the agents
-│       ├── vscode.ts             Jobs for the VS Code bridge
-│       ├── db.ts                 SQLite tables
-│       ├── events.ts / trace.ts  Live events and job history
-│       ├── shared/               Types shared with the frontend
-│       ├── integrations/
-│       │   ├── switch.ts         Switch WebSocket, rooms, threads, roles, logs
-│       │   ├── claudeCode.ts     Planning with the Claude Code CLI
-│       │   ├── codex.ts          Codex status
-│       │   └── telegram.ts       Not used yet
-│       └── *.test.ts             Tests
-├── frontend/                     The Electron desktop app
-│   ├── src/main/                 Main process: windows, tray, shortcut, setup, bundled backend
-│   ├── src/preload/              Safe bridge between main and renderer
-│   ├── src/renderer/src/         React UI: CommandBar, OggyApp (dashboard), Pet, Show, Setup, Workflows
-│   ├── src/common/api.ts         IPC channel names
-│   ├── scripts/pack.mjs          Bundles Node + backend + bridge for the installer
-│   └── scripts/release.mjs       Publishes a GitHub release
-├── vscode-bridge/                VS Code extension (and a prebuilt .vsix)
-├── landing/                      The website
-└── switch/config.example.json    Config template
-```
-
-### Run it
-
-**1. Clone and install:**
+You'll also need [Node 22](https://nodejs.org), [pnpm](https://pnpm.io/installation) and [Git](https://git-scm.com), with `claude` on your `PATH`.
 
 ```powershell
 git clone https://github.com/AymaanPathan/oggy.git
@@ -542,133 +425,97 @@ cd backend; pnpm install; cd ..
 cd frontend; pnpm install; cd ..
 ```
 
-If `better-sqlite3` fails to install, check `node -v` shows 22, then run `pnpm rebuild better-sqlite3` in `backend/`.
-
-**2. Run the setup window once.** This connects to Switch and writes `C:\Users\<you>\.oggy\config.json`.
+**First time only, run the setup window** (keep this terminal open):
 
 ```powershell
 cd frontend
 $env:OGGY_SETUP = "1"; pnpm dev
 ```
 
-Finish the three setup steps, then keep this terminal open.
-
-> Prefer to fill the config by hand? Copy [switch/config.example.json](switch/config.example.json) to `C:\Users\<you>\.oggy\config.json` and fill in `switch.apiUrl`, `switch.agentId`, `switch.agentApiKey`, `owner` and `paths.codeFolder`. See [Configuration reference](#10-configuration-reference).
-
-**3. Start the backend in a second terminal:**
+**Then start the backend in a second terminal:**
 
 ```powershell
 cd backend
 pnpm dev
 ```
 
-You should see:
+You should see `[oggy] backend on http://127.0.0.1:4317`, and the dashboard should say **Connected**. After that, just run `pnpm dev` in both `backend/` and `frontend/`.
+
+> **Tip:** set `$env:OGGY_DATA_DIR = "C:\temp\oggy-test"` in both terminals to test without touching your real settings.
+
+### Repo layout
 
 ```text
-[oggy] backend on http://127.0.0.1:4317
-[oggy] data: C:\Users\<you>\.oggy  projects: C:\Users\<you>\code
+oggy/
+├── backend/src/
+│   ├── index.ts              HTTP routes, SSE stream, startup
+│   ├── planner.ts            Keyword lane, plan lane, workflow lane, hand-out
+│   ├── executor.ts           Runs steps as a graph, approvals, results
+│   ├── gate.ts               The three-question safety gate
+│   ├── toolbox.ts            Every tool, with its checks and risk
+│   ├── desktop.ts            Windows actions (fixed PowerShell scripts)
+│   ├── review.ts             Explains changes: keep / undo / change
+│   ├── codeWatch.ts          Git snapshots and diffs of agent work
+│   ├── agentLive.ts          Live agent activity from Claude Code transcripts
+│   ├── rooms.ts              "@oggy" from Discord, yes/no replies
+│   ├── workflow.ts, schedule.ts, team.ts, ship.ts, vscode.ts, db.ts, ...
+│   └── integrations/         switch.ts, claudeCode.ts, codex.ts, telegram.ts
+├── frontend/
+│   ├── src/main/             Windows, tray, shortcut, setup, bundled backend
+│   ├── src/renderer/src/     React UI: CommandBar, OggyApp, Pet, Show, Setup, Workflows
+│   └── scripts/              pack.mjs (bundle for installer), release.mjs
+├── vscode-bridge/            VS Code extension (and a prebuilt .vsix)
+├── landing/                  The website
+└── switch/config.example.json
 ```
-
-The dashboard should now say **Connected** at the bottom left. Press `Ctrl` + `Space` to try it.
-
-**4. Every time after that**, run `pnpm dev` in both `backend/` and `frontend/`. Skip `OGGY_SETUP` unless you want to run setup again.
-
-> **Tip:** to test setup without touching your real config, point Oggy at a scratch folder first: `$env:OGGY_DATA_DIR = "C:\temp\oggy-test"`. Set it in both terminals.
-
-### How the dev setup differs from the installed app
-
-| | Installed app | From the repo |
-| --- | --- | --- |
-| Backend | Started by the Electron app from bundled Node | You run `pnpm dev` in `backend/` (auto-reloads) |
-| Setup window | Opens automatically on first run | Only with `OGGY_SETUP=1` |
-| Logs | `~/.oggy/backend.log` | Your terminal |
-| Single instance | One Oggy at a time | The newest dev instance takes over |
 
 ### Useful commands
 
 | Run in | Command | What it does |
 | --- | --- | --- |
-| `backend/` | `pnpm dev` | Runs the backend with auto-reload |
-| `backend/` | `pnpm test` | Runs the tests |
-| `backend/` | `pnpm typecheck` | Checks types |
-| `backend/` | `pnpm build` / `pnpm start` | Compiles to `dist/` and runs it |
-| `frontend/` | `pnpm dev` | Runs the Electron app with hot reload |
-| `frontend/` | `pnpm typecheck` | Checks types |
-| `frontend/` | `pnpm dist` | Builds `build/installer/Oggy-Setup.exe` |
-| `frontend/` | `pnpm release` | Builds and publishes a GitHub release. Needs `gh auth login` and a new `version` in `frontend/package.json` |
-
-### How the installer is built
-
-`pnpm dist` runs three things:
-
-1. **`scripts/pack.mjs`** builds `build/oggy/`: your machine's `node.exe`, the backend bundled into one `server.mjs`, `better-sqlite3` (native, so it's copied, not bundled), the VS Code bridge and the config template.
-2. **`electron-vite build`** builds the app.
-3. **`electron-builder`** wraps it all into a one-click NSIS installer. The `build/oggy` folder ships as `resources/oggy`, and [frontend/src/main/server.ts](frontend/src/main/server.ts) starts the backend from there.
+| `backend/` | `pnpm dev` / `pnpm test` / `pnpm typecheck` | Run with auto-reload / tests / type check |
+| `frontend/` | `pnpm dev` / `pnpm typecheck` | Run the app with hot reload / type check |
+| `frontend/` | `pnpm dist` | Build `build/installer/Oggy-Setup.exe`, with Node and the backend bundled inside |
+| `frontend/` | `pnpm release` | Build and publish a GitHub release (needs `gh auth login` and a new `version` in `frontend/package.json`) |
 
 ### Adding a new tool
 
-Want Oggy to do something new on your PC?
+1. Add it to `TOOLBOX` in [backend/src/toolbox.ts](backend/src/toolbox.ts) with `title`, `args`, `check`, `risky`, `preview` and `run`.
+2. If it touches Windows, add a fixed PowerShell script in [backend/src/desktop.ts](backend/src/desktop.ts) that reads values from `OGGY_*` environment variables.
+3. Optionally add a keyword rule in [backend/src/planner.ts](backend/src/planner.ts).
+4. Add a test and run `pnpm test`.
 
-1. Add the tool to `TOOLBOX` in [backend/src/toolbox.ts](backend/src/toolbox.ts) with its `title`, `args`, `check` (reject bad arguments), `risky`, `preview` and `run`.
-2. If it touches Windows, add a fixed PowerShell script in [backend/src/desktop.ts](backend/src/desktop.ts). Pass values as `OGGY_*` environment variables, never by pasting them into the script.
-3. Optionally add a keyword rule in [backend/src/planner.ts](backend/src/planner.ts) so common phrasings skip the AI.
-4. Add a test next to the module and run `pnpm test`.
-
-The plan lane picks up new tools automatically, because Claude is given the toolbox list on every plan.
+The plan lane picks up new tools automatically.
 
 ---
 
-## 10. Configuration reference
+## Configuration
 
-### `~/.oggy/config.json`
-
-The setup window writes this for you. Every field is optional. The full template is [switch/config.example.json](switch/config.example.json).
+The setup window writes `~/.oggy/config.json` for you. The full template is [switch/config.example.json](switch/config.example.json).
 
 | Key | What it's for |
 | --- | --- |
-| `switch.apiUrl` | Your Switch server, e.g. `http://localhost:53754` |
-| `switch.agentId`, `switch.agentApiKey` | Oggy's own Switch login. **Secret** |
-| `switch.agentName` | Oggy's name in rooms, e.g. `oggy.aymaan` |
-| `switch.packages` | Switch package ids to attach to every new project room (team rules) |
-| `owner.name` | What Oggy calls you |
-| `owner.discordUsername` | The only Discord user Oggy obeys |
-| `owner.switchUserId` | Your exact Switch account. Set by `lock oggy to me` |
+| `switch.apiUrl`, `switch.agentId`, `switch.agentApiKey` | Oggy's Switch login. **Secret** |
+| `switch.agentName` | Oggy's name in rooms |
+| `switch.packages` | Switch packages attached to every new project room |
+| `owner.name`, `owner.discordUsername` | Who you are, and the only Discord user Oggy obeys |
+| `owner.switchUserId` | Your exact account. Set by `lock oggy to me` |
 | `rooms.team`, `rooms.oggyDaily` | Room ids. Leave empty to find them by name |
-| `team` | Your teammates: `{ "name", "discordUsername" }`. They vote on releases |
+| `team` | Teammates who vote on releases |
 | `deploy.<project>` | `url` (health check), `branch` (default `main`), `service` or `hooks` (Render) |
-| `agents.<alias>` | `name` (in Switch), `does` (one line Claude uses to pick it), `default` |
-| `doneMarkers` | Change `DONE:`, `BLOCKED:`, `LOOKS GOOD`, `CHANGES NEEDED`, `ASK:` if you need to |
-| `paths.codeFolder` | Where your projects live. "my portfolio" means `<codeFolder>/portfolio` |
-| `paths.screenshots` | Where screenshots go (default `~/Pictures/Screenshots`) |
-| `safety.needsApproval` | Extra tools that always ask, by name (`file.delete`) or last word (`delete`) |
+| `agents.<alias>` | `name` in Switch, `does` (what Claude picks it by), `default` |
+| `paths.codeFolder`, `paths.screenshots` | Your projects folder, and where screenshots go |
+| `safety.needsApproval` | Extra tools that always ask first |
+| `safety.allowedFolders`, `safety.allowedApps` | Where file tools may work, and extra apps Oggy may open or close |
 | `safety.onlyObeyOwner` | Only run Discord commands from you (default `true`) |
-| `safety.allowedFolders` | The only folders file tools may touch. Default: code folder, Desktop, Documents, Downloads, Pictures, Videos, Music |
-| `safety.allowedApps` | Extra apps Oggy may open or close: `"figma": "figma"` or `{ "open": "...", "process": "..." }` |
 
-### Environment variables
-
-These override the config file. They're read from your shell (no `.env` file is loaded), so set them in PowerShell with `$env:NAME = "value"` before `pnpm dev`. [backend/.env.example](backend/.env.example) lists the backend ones.
-
-| Variable | Default | What it does |
-| --- | --- | --- |
-| `OGGY_PORT` | `4317` | Backend port |
-| `OGGY_DATA_DIR` | `~/.oggy` | Where config, token, database and logs live |
-| `OGGY_PROJECTS_DIR` | `paths.codeFolder`, else `~/Projects` | Your code folder |
-| `OGGY_TOKEN` | Generated in `~/.oggy/token` | The owner token |
-| `OGGY_SHORTCUT` | `Control+Space` | The command bar shortcut |
-| `OGGY_SETUP` | | `1` opens the setup window |
-| `OGGY_OPEN_DASHBOARD` | | `1` opens the dashboard on start |
-| `OGGY_BACKEND_URL` | `http://127.0.0.1:4317` | Where the app finds the backend |
-| `SWITCH_API_URL`, `SWITCH_AGENT_ID`, `SWITCH_API_KEY`, `SWITCH_ROOM_ID` | | Override the Switch login and `#team` room |
-| `RENDER_API_KEY` | | Lets Oggy fetch a live project's logs for the agents |
-| `CLAUDE_BIN` | `claude` | Path to the Claude Code CLI |
-| `CODEX_BIN` | `codex` | Path to the Codex CLI |
+Environment variables override the file. Set them in your shell (no `.env` file is read): `OGGY_PORT`, `OGGY_DATA_DIR`, `OGGY_PROJECTS_DIR`, `OGGY_SHORTCUT` (default `Control+Space`), `OGGY_SETUP`, `SWITCH_API_URL`, `SWITCH_AGENT_ID`, `SWITCH_API_KEY`, `RENDER_API_KEY`, `CLAUDE_BIN`. See [backend/.env.example](backend/.env.example).
 
 ---
 
-## 11. Local API reference
+## Local API
 
-The backend listens on `http://127.0.0.1:4317` only. Every route except `/health` needs the owner token from `~/.oggy/token`:
+The backend listens on `http://127.0.0.1:4317` only. Every route except `/health` needs the token from `~/.oggy/token`:
 
 ```powershell
 $token = Get-Content "$HOME\.oggy\token"
@@ -677,86 +524,109 @@ Invoke-RestMethod http://127.0.0.1:4317/commands -Method Post `
   -ContentType 'application/json' -Body '{"text":"take a screenshot"}'
 ```
 
-| Method | Route | What it does |
-| --- | --- | --- |
-| `GET` | `/health` | Is the backend up (no token needed) |
-| `POST` | `/commands` | Run a command: `{ "text": "...", "source": "desktop" }` |
-| `GET` | `/runs` | All jobs |
-| `GET` | `/runs/:id` | One job and its steps |
-| `GET` | `/runs/:id/detail` | Its changes, review and full trace |
-| `GET` / `POST` | `/runs/:id/review` | Read the review, or answer it: `{ "text": "looks good" }` |
-| `POST` | `/runs/:id/changes/open` | Open a changed file in VS Code |
-| `GET` | `/approvals?pending=1` | What's waiting for a yes |
-| `POST` | `/approvals/:id` | Answer it: `{ "approve": true }` |
-| `GET` | `/team` | Each agent, live |
-| `GET` | `/toolbox` | Every tool Oggy can use |
-| `GET` / `DELETE` | `/workflows`, `/workflows/:id` | Saved workflows |
-| `GET` | `/memory` | Oggy's memory |
-| `GET` | `/integrations` | Switch, Codex and Telegram status |
-| `GET` | `/events` | Server-sent events: run updates, approvals, logs |
-| `GET` / `POST` | `/vscode/jobs`, `/vscode/report` | Used by Oggy Bridge |
+| Route | What it does |
+| --- | --- |
+| `POST /commands` | Run a command |
+| `GET /runs`, `GET /runs/:id`, `GET /runs/:id/detail` | Jobs, their steps, changes and trace |
+| `GET` / `POST /runs/:id/review` | Read or answer a review |
+| `GET /approvals?pending=1`, `POST /approvals/:id` | What's waiting, and answer it |
+| `GET /team`, `GET /toolbox`, `GET /workflows`, `GET /memory` | Live agents, tools, workflows, memory |
+| `GET /events` | Server-sent events: run updates, approvals, logs |
+| `GET /health` | Is the backend up (no token) |
 
 ---
 
-## 12. Security model
+## Security model
 
-Oggy can touch your files and your code, so it's built to be careful.
+- **Local only.** The backend binds to `127.0.0.1`.
+- **Owner token** on every API call, compared in constant time.
+- **Owner-only from Discord**, checked again before every step.
+- **No arbitrary commands.** Only toolbox tools. Desktop actions are fixed PowerShell scripts that read values from environment variables, so a file name can't inject code. Oggy Bridge only runs `<package manager> run <script>`.
+- **Allowed folders, apps and file types** only.
+- **Risky means ask; irreversible means vote.** Approvals are re-checked after your yes.
+- **Proof, not claims.** Changes come from git, deploys are checked against the live site.
+- **Secrets stay put.** Setup keeps keys in Electron's main process. Render logs go to a file, never into rooms.
 
-- **Local only.** The backend binds to `127.0.0.1`. Nothing on your network can reach it.
-- **Owner token.** Every API call needs the token in `~/.oggy/token` (generated on first start, compared in constant time).
-- **Owner-only from Discord.** Room commands must come from your username, or your exact Switch account after `lock oggy to me`. Everyone else gets a polite no, and the safety gate checks again before every step.
-- **No arbitrary commands.** Oggy only runs tools from its toolbox. Desktop actions are fixed PowerShell scripts that read values from environment variables, so a file name can't inject code. Project commands are a fixed binary plus a fixed argument shape. Oggy Bridge only runs `<package manager> run <script>`, both checked.
-- **Allowed folders, apps and file types.** File tools can't leave your allowed folders, and Oggy only opens file types that can't run code, so no scripts and no `.env` files.
-- **Risky means ask.** Deleting, moving, renaming, key presses, installs and deploys wait for your yes, and are checked again after you say yes.
-- **Irreversible means vote.** Merging and deploying need every teammate's yes.
-- **Proof, not claims.** Code changes are read from git, and deploys are checked against the live site.
-- **Secrets stay put.** During setup, keys and passwords stay in Electron's main process; the setup window only sees names and addresses. Render logs are saved to a file, not posted in rooms, because they can hold customer data.
-
-> **Never commit `config.json` or your token.** It holds Oggy's Switch key. If you ever do, rotate the key in Switch Console (re-run setup from the tray) and remove the file from git history.
+> **Never commit `~/.oggy/config.json` or your token.** If you do, re-run setup from the tray to get a new Switch key.
 
 ---
 
-## 13. Troubleshooting
+## Troubleshooting
 
 | What you see | What to do |
 | --- | --- |
 | "Switch Console isn't installed on this PC" | Do [Step 1](#step-1-install-switch-console) |
-| "Switch Console's server isn't running" | Open Switch Console (and Docker Desktop), wait for **Running locally**, then try again |
+| "Switch Console's server isn't running" | Open Switch Console and wait for **Running locally** |
+| "Switch is taking too long to answer" | Switch has just started. Wait a moment and click **Connect** again |
 | No room named "team" | Do [Step 4](#step-4-make-oggys-two-rooms) and [Step 6](#step-6-invite-oggy-to-the-rooms) |
-| The dashboard says **Disconnected** | The backend isn't running. From the repo, run `pnpm dev` in `backend/`. Installed, check `~/.oggy/backend.log` |
-| `401 unauthorized` from the API | Send `Authorization: Bearer <contents of ~/.oggy/token>` |
-| Oggy ignores your Discord messages | Check the username in setup matches yours exactly and Oggy is in that room. Your PC must be on with Oggy running |
-| "Only X can tell Oggy what to do" | The message didn't come from your account. If you changed Discord accounts, re-run setup |
-| An agent never answers | In Switch Console, check the agent is running and Claude Code is signed in. Oggy pings after 3 minutes and gives up after 30 |
-| "Can't do that yet" for a normal request | Check `claude` works in a terminal (`claude -p "hi"`). Planning needs the Claude Code CLI |
+| Dashboard says **Disconnected** | The backend isn't running. Check `~/.oggy/backend.log`, or run `pnpm dev` in `backend/` |
+| Oggy ignores your Discord messages | Check your Discord username in setup and that Oggy is in the room. Your PC must be on |
+| An agent never answers | Check in Switch Console that it's running and Claude Code is signed in |
+| "Can't do that yet" for a normal request | Check `claude -p "hi"` works in a terminal |
 | `Ctrl` + `Space` does nothing | Another app has it. Set `OGGY_SHORTCUT`, e.g. `Control+Shift+Space` |
-| A dev server won't start in VS Code | Install Oggy Bridge (see [Optional extras](#optional-extras)) and open the project's folder in VS Code |
-| The todo workflow can't reach Notion or Gmail | Connect them to the Claude account your `assistant` agent runs on |
-| Deploy says "answering" instead of "proved" | Your health URL is up but doesn't show the commit. Include the git commit hash in its response |
-| `better-sqlite3` errors after switching Node | Run `pnpm rebuild better-sqlite3` in `backend/` |
-| `config.json is not valid JSON, ignoring it` | Fix the JSON. If `lock oggy to me` changed it, the previous version is in `config.json.before-lock` |
+| A dev server won't start | Install Oggy Bridge and open the project in VS Code |
+| Deploy says "answering" instead of "proved" | Make your health URL include the git commit hash |
+| `better-sqlite3` errors | Use Node 22 and run `pnpm rebuild better-sqlite3` in `backend/` |
 
 ---
 
-## 14. FAQ
+## FAQ
 
-**Does Oggy work on macOS or Linux?**
-Not yet. Desktop actions use PowerShell and Windows APIs.
+**Does Oggy work on macOS or Linux?** Not yet. Desktop actions use PowerShell and Windows APIs.
 
-**Does my code leave my PC?**
-Oggy itself runs locally. Planning uses the Claude Code CLI, which sends your request and the relevant file names to Claude. Your agents are Claude Code sessions, so they work the same way they would if you used Claude Code yourself. Room messages go through your Switch server and Discord.
+**Does my code leave my PC?** Oggy runs locally. Planning uses the Claude Code CLI, which sends your request and relevant file names to Claude. Agents are Claude Code sessions. Room messages go through your Switch server and Discord.
 
-**Do I need all eight agents?**
-No. One general agent is enough to start. Add the others as you need them; during setup you pick which of your agents does which job.
+**Do I need all eight agents?** No. One is enough to start.
 
-**Do I need Discord?**
-For phone control and team votes, yes. For voice and keyboard on your PC, Oggy still needs Switch for agent jobs, but everyday PC actions work without Discord.
+**Do I need Discord?** Only for phone control and team votes.
 
-**What happens if I close Oggy while a job is running?**
-Jobs can't carry on without the backend, because what they were waiting for lived in its memory. Next time Oggy starts, it marks them as interrupted instead of leaving them "running" forever.
+**What if I close Oggy mid-job?** The job can't continue without the backend. Next time Oggy starts, it marks the job as interrupted.
 
-**Can I use a Switch server on another machine?**
-Yes. In setup, choose **Use a different Switch server** and use a registration key from that server's admin page.
+---
+
+## Status
+
+🚧 **Active development.** Built for the Flip the Switch Hackathon.
+
+**Working today:**
+
+- Windows desktop control by voice and keyboard
+- Phone control through Discord
+- Multi-agent coding with parallel steps
+- Plan approval, code review with undo, and team votes
+- Workflows, including scheduled ones
+- Deploys with live verification (Render)
+
+**Planned:**
+
+- Telegram control (the integration is stubbed in [backend/src/integrations/telegram.ts](backend/src/integrations/telegram.ts))
+
+---
+
+## Limitations
+
+- **Windows only.**
+- **Your PC must be on**, with Switch Console and Oggy running, for phone control and agent jobs.
+- **Scheduled workflows run only while Oggy is open.**
+- **Claude Code is required** for planning and for the agents.
+- **Phone control and team votes depend on Switch and Discord.**
+- **Risky actions always need your approval**, so Oggy can't do everything unattended.
+- **Live deploy verification** expects a health URL that shows the deployed commit.
+
+---
+
+## Contributing
+
+1. Fork the repo and create a branch.
+2. Make your change, and add a test next to the module you touched.
+3. Run `pnpm test` and `pnpm typecheck` in `backend/`, and `pnpm typecheck` in `frontend/`.
+4. Open a pull request explaining what changed and why.
+
+---
+
+## License
+
+[MIT](vscode-bridge/LICENSE) © 2026 Aymaan
 
 ---
 
@@ -767,7 +637,5 @@ Yes. In setup, choose **Use a different Switch server** and use a registration k
 Oggy was built for the [**Flip the Switch Hackathon**](https://www.wemakedevs.org/hackathons/switch), hosted by WeMakeDevs and DevTools Academy with Switch.
 
 ### ⭐ Like Oggy? [Star the repo](https://github.com/AymaanPathan/oggy)
-
-It helps other people find it.
 
 </div>

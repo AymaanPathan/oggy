@@ -665,13 +665,7 @@ Invoke-RestMethod http://127.0.0.1:4317/commands -Method Post `
 3. Run `pnpm test` and `pnpm typecheck` in `backend/`, and `pnpm typecheck` in `frontend/`.
 4. Open a pull request explaining what changed and why.
 
----
 
-## License
-
-[MIT](vscode-bridge/LICENSE) © 2026 Aymaan
-
----
 
 <div align="center">
 

@@ -43,7 +43,7 @@ Built with [Switch](https://switchagents.ai) and [Wispr Flow](https://wisprflow.
 
 Oggy is a Windows desktop app that does two jobs.
 
-- **It's your PC assistant.** It opens apps and folders, moves and zips files, takes screenshots, changes the volume, and reads your mail into a Notion to-do list.
+- **It operates your Windows PC for you.** Ask in plain words, and Oggy turns the request into real actions on your machine: it launches and closes apps, finds, opens, organises and archives files, works with your projects and dev servers, presses keys in the window you're using, and controls system settings. For anything new, it plans a multi-step sequence on the spot from these actions, and it reaches your mail, calendar and Notion through your agents.
 - **It manages a team of coding agents.** Describe a bug or a feature once. Oggy plans the work, gives each step to the right agent (a scout, a backend dev, a tester, a reviewer), shows you what changed, and ships it once your team agrees.
 
 You can talk to it in three ways. All three run the same pipeline and follow the same safety rules.
@@ -72,7 +72,9 @@ Oggy never writes your project's code itself. It **plans, checks and coordinates
 
 ![The Oggy box asking "What should Oggy do?"](landing/assets/screens/command-bar.webp)
 
-### Things you can say
+### Examples
+
+You don't need set phrases. These show the range, not the limit:
 
 | Say | What happens |
 | --- | --- |

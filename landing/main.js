@@ -228,7 +228,7 @@
   const spy = new IntersectionObserver((entries) => entries.forEach((e) => {
     if (e.isIntersecting) moveInd(linkFor(e.target.id))
   }), { rootMargin: '-45% 0px -50% 0px' })
-  ;['voice', 'kinds', 'switch', 'demo', 'board', 'workflows', 'daily'].forEach((id) => {
+  ;['voice', 'kinds', 'switch'].forEach((id) => {
     const s = document.getElementById(id)
     if (s) spy.observe(s)
   })
@@ -265,15 +265,17 @@
     const i = +t.dataset.i
     shots.forEach((s, j) => s.classList.toggle('on', i === j))
   }))
-  const placeActive = () => placeTab(tabs.find((t) => t.getAttribute('aria-selected') === 'true'))
-  placeActive()
-  addEventListener('resize', placeActive)
-  document.fonts && document.fonts.ready.then(placeActive)
+  if (tabs.length && tabInd) {
+    const placeActive = () => placeTab(tabs.find((t) => t.getAttribute('aria-selected') === 'true'))
+    placeActive()
+    addEventListener('resize', placeActive)
+    document.fonts && document.fonts.ready.then(placeActive)
+  }
 
   /* ---------- video ---------- */
   const wrap = document.querySelector('.video-wrap')
   const video = document.getElementById('demo-video')
-  wrap.querySelector('.play').addEventListener('click', () => {
+  if (wrap && video) wrap.querySelector('.play').addEventListener('click', () => {
     wrap.classList.add('playing')
     video.controls = true
     video.play()

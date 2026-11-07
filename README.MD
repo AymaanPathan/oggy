@@ -6,7 +6,7 @@
 
 **One sentence from you. A whole team of AI agents takes it from bug report to production, and you can run all of it from your phone.**
 
-<a href="landing/assets/oggy-demo.mp4"><img src="landing/assets/oggy-demo-poster.jpg" width="760" alt="Oggy demo video: a voice request going to Oggy, shown over Discord" /></a>
+
 
 *▶ Click to watch the demo: a voice request, the plan, the agents at work, the team vote and the deploy.*
 
@@ -665,13 +665,7 @@ Invoke-RestMethod http://127.0.0.1:4317/commands -Method Post `
 3. Run `pnpm test` and `pnpm typecheck` in `backend/`, and `pnpm typecheck` in `frontend/`.
 4. Open a pull request explaining what changed and why.
 
----
 
-## License
-
-[MIT](vscode-bridge/LICENSE) © 2026 Aymaan
-
----
 
 <div align="center">
 

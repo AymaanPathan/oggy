@@ -78,18 +78,91 @@ const ROOM_NAMES = { team: 'team', oggyDaily: 'oggy-daily' } as const
 async function findMyself(): Promise<void> {
   const me = await call<{ result?: { you?: { name?: string } } }>('/ops/get_my_context', {})
   if (me.result?.you?.name) sw.agentName = me.result.you.name
+  await findRooms()
+}
+
+/** #team and #oggy-daily, if Oggy is in them yet. Returns the ones it just found. */
+async function findRooms(): Promise<string[]> {
   const rooms = await liveRooms()
   // A project room you deleted in Switch: its jobs go back to the team room, and it gets a new room when asked.
   if (rooms) for (const m of memory.list()) if (m.key.startsWith('project.room.') && m.value && !rooms.some((r) => r.room_id === m.value)) memory.set(m.key, '')
-  if ((sw.rooms.team && sw.rooms.oggyDaily) || !rooms) return
+  const found: string[] = []
+  if ((sw.rooms.team && sw.rooms.oggyDaily) || !rooms) return found
   for (const [key, name] of Object.entries(ROOM_NAMES) as [keyof typeof ROOM_NAMES, string][]) {
     if (sw.rooms[key]) continue
-    const found = rooms.find((r) => r.name.toLowerCase() === name)
-    if (found) {
-      sw.rooms[key] = found.room_id
-      log('info', `Found #${name} (${found.room_id})`)
-    } else if (key === 'team') log('warn', 'No room named "team" for Oggy: run switch/oggy-team.template.yaml, or set rooms.team in ~/.oggy/config.json')
+    const room = rooms.find((r) => r.name.toLowerCase() === name)
+    if (room) {
+      sw.rooms[key] = room.room_id
+      found.push(room.room_id)
+      log('info', `Found #${name} (${room.room_id})`)
+    } else if (key === 'team' && !warnedNoTeam) {
+      warnedNoTeam = true
+      log('warn', 'No room named "team" for Oggy yet: invite it in Switch Console (no restart needed), or set rooms.team in ~/.oggy/config.json')
+    }
   }
+  return found
+}
+let warnedNoTeam = false
+
+/**
+ * Invited to a room while running: pick it up without a restart. #team gets its seats, and the
+ * connection reconnects (resuming where it was) if it isn't listening to the new room yet.
+ */
+async function roomsChanged(why: string): Promise<void> {
+  if (!online || (sw.rooms.team && sw.rooms.oggyDaily)) return
+  const found = await findRooms().catch((err) => (log('warn', `Couldn't look up Oggy's rooms (${(err as Error).message})`), [] as string[]))
+  if (!found.length) return
+  log('info', `Joined ${found.length === 1 ? 'a room' : 'rooms'} while running (${why}): no restart needed`)
+  if (found.includes(sw.rooms.team)) void ensureRoles(sw.rooms.team).catch((err) => log('warn', `Couldn't set up the roles in #team: ${(err as Error).message}`))
+  if (found.some((id) => !listening.has(id))) socket?.close()
+}
+
+/** While #team or #oggy-daily is missing, check now and then, in case an invite came without an event. */
+const ROOM_CHECK_MS = 60_000
+
+/** What Switch knows about an agent, wherever it runs: is a session of it up, and in which room it's working. */
+export interface Presence {
+  online: boolean
+  /** The room a live session of it is in ("paytrack"), when it's in one. */
+  room?: string
+  lastSeen?: number
+}
+
+/** Agent ids by name (they don't change, so asked once). */
+let agentIds: Map<string, string> | undefined
+
+/**
+ * Switch's own view of the team, through ops any agent may call: `list_agents` for the ids, then
+ * `get_agent_detail` for each one's sessions. Works for agents on any machine, unlike the transcripts
+ * agentLive.ts reads on this one. Agents Switch didn't answer for are left out.
+ */
+export async function teamPresence(names: string[]): Promise<Map<string, Presence>> {
+  const out = new Map<string, Presence>()
+  if (!online) return out
+  if (!agentIds) {
+    const listed = await call<{ result?: unknown }>('/ops/list_agents', {}).then((r) => r.result)
+    const rows = (Array.isArray(listed) ? listed : ((listed as { agents?: unknown[] })?.agents ?? [])) as { id?: string; name?: string }[]
+    agentIds = new Map(rows.filter((a) => a.id && a.name).map((a) => [a.name!.toLowerCase(), a.id!]))
+  }
+  await Promise.all(
+    names.map(async (name) => {
+      const id = agentIds!.get(name.toLowerCase())
+      if (!id) return
+      const detail = await call<{ result?: { sessions?: { state?: string; room_name?: string | null; last_seen_at?: string }[] } }>('/ops/get_agent_detail', { agent_id: id })
+        .then((r) => r.result)
+        .catch(() => undefined)
+      if (!detail) return
+      const live = (detail.sessions ?? []).filter((s) => s.state === 'live')
+      // "2026-11-07 07:35:29.578803+00:00": a space where ISO has a T.
+      const seen = (detail.sessions ?? []).map((s) => Date.parse((s.last_seen_at ?? '').replace(' ', 'T'))).filter(Number.isFinite)
+      out.set(name.toLowerCase(), {
+        online: live.length > 0,
+        room: live.find((s) => s.room_name)?.room_name ?? undefined,
+        lastSeen: seen.length ? Math.max(...seen) : undefined
+      })
+    })
+  )
+  return out
 }
 
 /** Subscribe to every new message in Oggy's rooms. */
@@ -671,6 +744,23 @@ let cursor: number | undefined
 let generation: number | undefined
 /** Taken over or refused for good: no more reconnects. */
 let stopped = false
+/** The open socket, so a room joined while running can make it reconnect. */
+let socket: WebSocket | undefined
+/** The rooms this connection said it listens to (connection_state), when it said. */
+const listening = new Set<string>()
+
+/** Room ids from a connection_state frame's `rooms`, whichever shape they come in. */
+function roomIds(rooms: unknown): string[] {
+  if (!Array.isArray(rooms)) return []
+  return rooms.map((r) => (typeof r === 'string' ? r : String((r as { room_id?: string; id?: string })?.room_id ?? (r as { id?: string })?.id ?? ''))).filter(Boolean)
+}
+
+/** A room_join about Oggy itself (or one that doesn't say who): its rooms may have changed. */
+function aboutMe(data: any): boolean {
+  const p = data?.payload ?? data ?? {}
+  const who = String(p.member_name ?? p.member ?? '').toLowerCase()
+  return !who || who === sw.agentName.toLowerCase() || who === sw.agentId.toLowerCase()
+}
 
 /** A frame as the docs show it ({ type, … }) or as servers send it ({ event, data: { … } }). */
 function unwrap(raw: string): { kind: string; data: any } | undefined {
@@ -712,6 +802,7 @@ function openSocket(): Promise<void> {
   const q = new URLSearchParams({ connection_id: connectionId, scope: 'all', filter: 'all', client: 'oggy', start_from: cursor === undefined ? 'head' : String(cursor) })
   if (generation !== undefined) q.set('expected_generation', String(generation))
   const ws = new WebSocket(`${base.replace(/^http/, 'ws')}/connection/ws?${q}`, { headers: { authorization: `Bearer ${sw.apiKey}` } } as never)
+  socket = ws
 
   return new Promise((done, fail) => {
     let opened = false
@@ -721,6 +812,7 @@ function openSocket(): Promise<void> {
     }
     ws.onclose = (e) => {
       online = false
+      if (socket === ws) socket = undefined
       if (opened) done()
       else fail(new Error(`closed before it opened (${e.code}${e.reason ? ` ${e.reason}` : ''})`))
     }
@@ -736,8 +828,15 @@ function openSocket(): Promise<void> {
           if (cursor === undefined && typeof f.data.cursor === 'number') cursor = f.data.cursor
           online = true
           connectedRoom = undefined
+          listening.clear()
+          for (const id of roomIds(f.data.rooms)) listening.add(id)
           log('info', `Connected to Switch as ${sw.agentName}`)
-          return onConnected()
+          onConnected()
+          // Invited while the connection was down: catch up now.
+          return void roomsChanged('reconnected')
+        case 'subscription_changed':
+          for (const id of roomIds(f.data.rooms)) listening.add(id)
+          return void roomsChanged('subscription changed')
         case 'gap':
           // Missed events too old to replay: carry on from where the server resumed.
           if (typeof f.data.resumed_at === 'number') cursor = f.data.resumed_at
@@ -756,6 +855,7 @@ function openSocket(): Promise<void> {
           const seq = Number(f.data.sequence ?? f.data.id)
           if (Number.isFinite(seq) && seq > (cursor ?? -1)) cursor = seq
           if (f.kind === 'message') dispatch(f.data)
+          else if (f.kind === 'room_join' && aboutMe(f.data)) void roomsChanged('invited')
         }
       }
     }
@@ -766,6 +866,7 @@ function openSocket(): Promise<void> {
 export function startSwitch() {
   if (started || !switchConfigured()) return
   started = true
+  setInterval(() => void roomsChanged('checked'), ROOM_CHECK_MS).unref()
   void (async () => {
     let warned = false
     let found = false

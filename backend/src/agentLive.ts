@@ -3,6 +3,7 @@ import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { agentFor, config } from './config.js'
 import { emit } from './events.js'
+import { onRoomMessage, teamPresence, type Presence, type RoomMessage } from './integrations/switch.js'
 import type { AgentLive, AgentStep, TraceEntry } from './shared/types.js'
 
 /**
@@ -11,6 +12,10 @@ import type { AgentLive, AgentStep, TraceEntry } from './shared/types.js'
  * under ~/.claude/projects as it happens. Oggy follows those transcripts all the time and keeps,
  * per agent: working / waiting for you / idle, the job it's on, and its last steps. The desktop
  * app shows that as the Team view; jobs Oggy hands out also get the steps as live lines.
+ *
+ * An agent on another machine has no transcript here. For those, Switch is the source (see "the team,
+ * through Switch" below): whether a session of it is up and in which room, the jobs Oggy hands it, and
+ * what it says in Oggy's rooms. Coarser than a transcript, but it works wherever the agent runs.
  */
 
 const PROJECTS = process.env.OGGY_CLAUDE_PROJECTS || join(homedir(), '.claude', 'projects')
@@ -89,11 +94,13 @@ export function teamNow(): AgentLive[] {
   const now = Date.now()
   return Object.values(config.switch.agents).map((a) => {
     const t = team.get(a.alias)
-    const base: AgentLive = { alias: a.alias, name: a.name, does: a.does, status: 'idle', steps: [] }
+    const p = presence.get(a.name.toLowerCase())
+    const where = { online: p?.online, room: p?.room ?? undefined, via: isLocal(a.alias) ? ('this-pc' as const) : ('switch' as const) }
+    const base: AgentLive = { alias: a.alias, name: a.name, does: a.does, status: 'idle', steps: [], ...where }
     if (!t) return base
     // Working, but nothing for a long while: it stopped without saying so.
     const stale = t.status === 'working' && now - (t.lastAt ?? 0) > STALE_MS
-    return { ...t, does: a.does, status: stale ? 'idle' : t.status }
+    return { ...t, ...where, does: a.does, status: stale ? 'idle' : t.status }
   })
 }
 
@@ -125,6 +132,7 @@ function changed() {
 
 /** Start following the whole team. Called once at startup; reads only the recent past. */
 export function startTeamWatch() {
+  watchThroughSwitch()
   if (!existsSync(PROJECTS) || timer) return
   seeding = true
   const now = Date.now()
@@ -143,6 +151,85 @@ export function startTeamWatch() {
   timer = setInterval(poll, POLL_MS)
   // Re-send now and then, so "idle" shows up for an agent that went quiet.
   setInterval(() => emit({ type: 'team', agents: teamNow() }), 30_000).unref()
+}
+
+/* ---------- the team, through Switch ---------- */
+
+/** How often to ask Switch who's up. */
+const PRESENCE_MS = 30_000
+/** Switch's word on each agent, by its Switch name (lowercase). */
+const presence = new Map<string, Presence>()
+let watchingSwitch = false
+
+/** Does this computer have the agent's transcripts? Then they're the source, in full detail. */
+function isLocal(alias: string): boolean {
+  for (const t of tails.values()) if (t.agent === alias) return true
+  return false
+}
+
+/** The configured agent a room sender is, if any. */
+const agentNamed = (name: string) => Object.values(config.switch.agents).find((a) => a.name.toLowerCase() === name.trim().toLowerCase())
+
+function watchThroughSwitch() {
+  if (watchingSwitch) return
+  watchingSwitch = true
+  onRoomMessage(fromRoom)
+  const ask = () =>
+    void teamPresence(Object.values(config.switch.agents).map((a) => a.name))
+      .then((now) => {
+        let moved = false
+        for (const [name, p] of now) {
+          const was = presence.get(name)
+          if (was?.online !== p.online || was?.room !== p.room) moved = true
+          presence.set(name, p)
+        }
+        if (moved) changed()
+      })
+      .catch(() => {})
+  ask()
+  setInterval(ask, PRESENCE_MS).unref()
+}
+
+/**
+ * Oggy handed an agent a job. For an agent on another machine this is the start of its live row
+ * (a local one's transcript says so itself, in more detail). Call `end` with how it went.
+ */
+export function teamJob(alias: string, job: string, project?: string): { end: (line: string, waiting?: boolean) => void } {
+  if (isLocal(alias)) return { end() {} }
+  const s = agentState(alias)
+  const at = Date.now()
+  s.status = 'working'
+  s.task = clip(job.replace(/^in the [\w.-]+ project:\s*/i, '').split('\n')[0], 160)
+  s.project = project
+  s.since = at
+  s.steps = []
+  pushStep(s, { at, kind: 'job', text: 'Got the job' })
+  changed()
+  return {
+    end(line) {
+      if (isLocal(alias)) return
+      const t = agentState(alias)
+      t.status = 'idle'
+      pushStep(t, { at: Date.now(), kind: 'post', text: 'Finished', detail: clip(line.replace(/^(DONE|BLOCKED|LOOKS GOOD|CHANGES NEEDED)[:\s]*/i, ''), 120) })
+      changed()
+    }
+  }
+}
+
+/** What an agent on another machine says in Oggy's rooms: its progress, its questions, its report. */
+function fromRoom(m: RoomMessage) {
+  const a = agentNamed(m.senderName)
+  if (!a || isLocal(a.alias)) return
+  const s = agentState(a.alias)
+  const first = m.body.split('\n').find((l) => l.trim())?.trim() ?? ''
+  if (!first) return
+  const at = m.timestamp || Date.now()
+  const asking = new RegExp(`^[\\s*_\`>]*${config.switch.markers.ask}`, 'im').test(m.body)
+  if (asking) s.status = 'waiting'
+  else if (REPORT().test(m.body)) s.status = s.status === 'waiting' ? 'working' : s.status
+  else if (s.status !== 'idle') s.status = 'working'
+  pushStep(s, { at, kind: asking ? 'ask' : 'post', text: asking ? 'Asking you' : 'Said', detail: clip(first, 120) })
+  changed()
 }
 
 /* ---------- following one job ---------- */

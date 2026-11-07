@@ -36,6 +36,8 @@ export function Setup() {
   const [url, setUrl] = useState('')
   const [regKey, setRegKey] = useState('')
   const [agentName, setAgentName] = useState('')
+  /** Signing in automatically didn't work: offer the documented way, a registration key, for this PC's Switch. */
+  const [autoFailed, setAutoFailed] = useState(false)
   // Step 2
   const [agents, setAgents] = useState<SetupAgent[] | null>(null)
   const [chosen, setChosen] = useState<Record<string, boolean>>({})
@@ -107,6 +109,7 @@ export function Setup() {
     } catch (err) {
       setError(errorText(err))
       setSaid(undefined)
+      if (step === 'connect' && !manual) setAutoFailed(true)
     } finally {
       setBusy(false)
     }
@@ -224,8 +227,8 @@ export function Setup() {
               ) : (
                 <div className="table">
                   <header>
-                    <b>Another Switch server</b>
-                    <span>Team or hosted</span>
+                    <b>{found?.url && url === found.url ? 'Switch on this PC, with a registration key' : 'Another Switch server'}</b>
+                    <span>{found?.url && url === found.url ? "Switch's documented way to add an agent" : 'Team or hosted'}</span>
                   </header>
                   <div className="su-fields">
                     <Field label="Server address" hint="The address Switch Console shows for the server.">
@@ -250,8 +253,16 @@ export function Setup() {
                 </div>
               </div>
 
-              <button className="btn is-quiet su-switch" onClick={() => (setManual(!manual), setError(''))}>
-                {manual ? 'Use Switch on this PC instead' : 'Use a different Switch server'}
+              <button
+                className="btn is-quiet su-switch"
+                onClick={() => {
+                  // After the automatic sign-in failed, the key is for this PC's Switch: fill in its address.
+                  if (!manual && autoFailed && found?.url) setUrl(found.url)
+                  setManual(!manual)
+                  setError('')
+                }}
+              >
+                {manual ? 'Use Switch on this PC instead' : autoFailed && found?.url ? 'Connect with a registration key instead' : 'Use a different Switch server'}
               </button>
             </>
           ) : step === 'team' ? (

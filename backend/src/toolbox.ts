@@ -30,7 +30,7 @@ import {
   zip,
   type UndoOp
 } from './desktop.js'
-import { followAgent } from './agentLive.js'
+import { followAgent, teamJob } from './agentLive.js'
 import { branchForJob, pokeWatch, watchCode, changesIn, workBranch } from './codeWatch.js'
 import { delegateToCodex } from './integrations/codex.js'
 import {
@@ -867,15 +867,25 @@ export const TOOLBOX: Record<StepKind, Tool> = {
           threadId,
           roomId
         })
+      // The Team view's row for an agent on another machine (a local one's transcript does this itself).
+      let row = teamJob(agent.alias, job, str(a, 'project') || undefined)
       let r = await ask(agent, job).catch((err) => {
         live.stop()
+        row.end(`BLOCKED: ${(err as Error).message}`)
         throw err
       })
+      row.end(r.line)
       // Switch can't run this coder right now (its session won't start): another coder covers the job.
       const stand = /^BLOCKED: Switch couldn't run/.test(r.line) ? standIn(agent) : undefined
       if (stand) {
         ctx.say(`@${agent.alias} can't run right now, so @${stand.alias} is taking the job`)
-        r = await ask(stand, `(@${agent.alias} can't run right now, so you're covering this job: do it even if it's outside your usual part.)\n\n${job}`)
+        const covering = `(@${agent.alias} can't run right now, so you're covering this job: do it even if it's outside your usual part.)\n\n${job}`
+        row = teamJob(stand.alias, covering, str(a, 'project') || undefined)
+        r = await ask(stand, covering).catch((err) => {
+          row.end(`BLOCKED: ${(err as Error).message}`)
+          throw err
+        })
+        row.end(r.line)
         agent = stand
       }
       live.stop()

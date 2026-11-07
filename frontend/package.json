@@ -1,6 +1,6 @@
 {
   "name": "oggy",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Oggy desktop: Ctrl+Space command bar and dashboard for the Oggy backend.",
   "main": "./out/main/index.js",
   "author": "Aymaan Pathan",

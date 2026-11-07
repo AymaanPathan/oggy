@@ -237,6 +237,7 @@ h2 .sub { display: block; color: var(--paper-3); }
 .f-text { position: relative; }
 .f-text h2 { font-size: clamp(24px, 2.1vw, 32px); }
 .f-visual { min-width: 0; }
+.feature.solo { grid-template-columns: minmax(0, 720px); justify-content: center; }
 
 /* the textured panel every screenshot sits on — like the app wallpaper, in Oggy blue */
 .stage {
@@ -539,6 +540,7 @@ a.pill:hover .pill-arrow { transform: translateX(3px); }
 
 .sw-proof { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 4vw, 64px); align-items: center; margin-top: 40px; }
 .sw-proof .stage { margin: 0; display: grid; place-items: center; }
+.sw-proof.solo { grid-template-columns: minmax(0, 1fr); }
 .sw-shot { width: 100%; max-width: 360px; border-radius: 12px; border: 1px solid var(--hair-2); box-shadow: 0 30px 70px -25px rgba(0, 0, 0, 0.85); cursor: zoom-in; }
 .sw-proof-text h3 { margin: 0 0 8px; font-size: 20px; font-weight: 500; letter-spacing: -0.015em; }
 .sw-proof-text p { margin: 0; color: var(--paper-2); line-height: 1.65; max-width: 460px; }

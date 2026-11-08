@@ -69,7 +69,6 @@ Oggy never writes your code itself. It acts as the team lead: it plans the job, 
 | 🚀 **Release** | Writes release notes, then merges and deploys after the team vote | Deploy without every teammate's yes |
 | 📬 **Assistant** | Reads Gmail and Calendar, writes in Notion, drafts emails | Send an email |
 
-Only have one agent? A general **Claude agent** can cover every job until you add more.
 
 **A typical bug fix:**
 

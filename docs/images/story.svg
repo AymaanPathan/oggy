@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>From one sentence to production</title>
+  <style>
+    .card { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1; }
+    .you { fill: #f1eefe; stroke: #8b7ae6; }
+    .group { fill: none; stroke: #8b7ae6; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    .t { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .s { fill: #59636e; font-size: 13px; }
+    .q { fill: #1f2328; font-size: 13.5px; font-style: italic; }
+    .h { fill: #6d5bd0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+    .n { fill: #6d5bd0; font-size: 12px; font-weight: 700; }
+    .gl { fill: #6d5bd0; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+    .line { stroke: #8c959f; stroke-width: 1.5; fill: none; }
+    .head { fill: #8c959f; }
+    .rule { stroke: #d0d7de; stroke-width: 1; }
+    @media (prefers-color-scheme: dark) {
+      .card { fill: #161b22; stroke: #30363d; }
+      .you { fill: #221d3a; stroke: #8b7ae6; }
+      .t, .q { fill: #e6edf3; }
+      .s { fill: #9198a1; }
+      .h, .n, .gl { fill: #a594f9; }
+      .group { stroke: #a594f9; }
+      .line { stroke: #6e7681; }
+      .head { fill: #6e7681; }
+      .rule { stroke: #30363d; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" class="head"/>
+    </marker>
+  </defs>
+
+  <!-- Stage headers -->
+  <text x="20" y="34" class="h">1  ASK</text>
+  <text x="265" y="34" class="h">2  FIND AND FIX</text>
+  <text x="510" y="34" class="h">3  CHECK</text>
+  <text x="755" y="34" class="h">4  SHIP</text>
+  <line x1="20" y1="48" x2="245" y2="48" class="rule"/>
+  <line x1="265" y1="48" x2="490" y2="48" class="rule"/>
+  <line x1="510" y1="48" x2="735" y2="48" class="rule"/>
+  <line x1="755" y1="48" x2="980" y2="48" class="rule"/>
+
+  <!-- Stage 1 -->
+  <rect x="20" y="70" width="225" height="98" rx="10" class="card you"/>
+  <text x="36" y="96" class="t">You say</text>
+  <text x="36" y="118" class="q">"Fix the 500 on huge</text>
+  <text x="36" y="137" class="q">payment amounts in paytrack</text>
+  <text x="36" y="156" class="q">and deploy it"</text>
+  <line x1="132" y1="172" x2="132" y2="196" class="line" marker-end="url(#a)"/>
+  <rect x="20" y="200" width="225" height="80" rx="10" class="card"/>
+  <text x="36" y="226" class="t">Oggy plans the work</text>
+  <text x="36" y="248" class="s">Breaks it into agent steps</text>
+  <text x="36" y="266" class="s">You click Allow once</text>
+
+  <!-- Stage 2 -->
+  <rect x="265" y="70" width="225" height="62" rx="10" class="card"/>
+  <text x="281" y="96" class="t">Scout finds the cause</text>
+  <text x="281" y="118" class="s">File and line, no edits</text>
+  <line x1="377" y1="136" x2="377" y2="160" class="line" marker-end="url(#a)"/>
+  <rect x="265" y="164" width="225" height="190" rx="12" class="group"/>
+  <text x="281" y="184" class="gl">AT THE SAME TIME</text>
+  <rect x="277" y="196" width="201" height="62" rx="9" class="card"/>
+  <text x="291" y="222" class="t">Backend fixes the bug</text>
+  <text x="291" y="244" class="s">Server code only</text>
+  <rect x="277" y="276" width="201" height="62" rx="9" class="card"/>
+  <text x="291" y="302" class="t">Tester proves the bug</text>
+  <text x="291" y="324" class="s">Writes a failing test</text>
+
+  <!-- Stage 3 -->
+  <rect x="510" y="70" width="225" height="62" rx="10" class="card"/>
+  <text x="526" y="96" class="t">Tester confirms the fix</text>
+  <text x="526" y="118" class="s">Tests and build pass</text>
+  <line x1="622" y1="136" x2="622" y2="160" class="line" marker-end="url(#a)"/>
+  <rect x="510" y="164" width="225" height="62" rx="10" class="card"/>
+  <text x="526" y="190" class="t">Reviewer checks the diff</text>
+  <text x="526" y="212" class="s">Replies LOOKS GOOD</text>
+  <line x1="622" y1="230" x2="622" y2="254" class="line" marker-end="url(#a)"/>
+  <rect x="510" y="258" width="225" height="62" rx="10" class="card you"/>
+  <text x="526" y="284" class="t">You review the change</text>
+  <text x="526" y="306" class="s">Keep it, undo it, or ask again</text>
+
+  <!-- Stage 4 -->
+  <rect x="755" y="70" width="225" height="62" rx="10" class="card you"/>
+  <text x="771" y="96" class="t">Team votes in Discord</text>
+  <text x="771" y="118" class="s">One "no" stops the deploy</text>
+  <line x1="867" y1="136" x2="867" y2="160" class="line" marker-end="url(#a)"/>
+  <rect x="755" y="164" width="225" height="62" rx="10" class="card"/>
+  <text x="771" y="190" class="t">Release ships it</text>
+  <text x="771" y="212" class="s">Merges to main and pushes</text>
+  <line x1="867" y1="230" x2="867" y2="254" class="line" marker-end="url(#a)"/>
+  <rect x="755" y="258" width="225" height="62" rx="10" class="card"/>
+  <text x="771" y="284" class="t">Oggy verifies production</text>
+  <text x="771" y="306" class="s">Live site runs the new commit</text>
+
+  <!-- Stage-to-stage arrows -->
+  <path d="M245 240 H255 V101 H262" class="line" marker-end="url(#a)"/>
+  <path d="M490 259 H500 V101 H507" class="line" marker-end="url(#a)"/>
+  <path d="M735 289 H745 V101 H752" class="line" marker-end="url(#a)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="370" width="14" height="14" rx="3" class="card you"/>
+  <text x="42" y="382" class="s">a person decides</text>
+  <rect x="160" y="370" width="14" height="14" rx="3" class="card"/>
+  <text x="182" y="382" class="s">an agent or Oggy works</text>
+</svg>

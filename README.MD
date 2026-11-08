@@ -95,8 +95,6 @@ Oggy and all 7 agents sit together in the `#team` room, which Switch bridges to 
 
 Every job is one thread: the plan, each hand-off, every question and the result. No open ports, no VPN, no separate mobile app.
 
-![A Discord thread where Oggy asks for approval and hands steps to the agents](landing/assets/screens/discord-release-approve.webp)
-
 ---
 
 ## 4. Every new project gets its own room
@@ -127,27 +125,9 @@ So each project has a dedicated channel where your human teammates and the 7 age
 
 ### From one sentence to production
 
-<p align="center"><img src="docs/images/story.png" width="380" alt="One sentence becomes: Oggy plans, Scout agent finds the cause, Backend agent fixes it, Tester agent runs tests, Reviewer agent checks, the team votes, Release agent ships, Oggy checks production, then explains what changed" /></p>
+<p align="center"><img src="docs/images/story.svg" alt="From one sentence to production in four stages. Ask: you say the request and Oggy plans it. Find and fix: Scout finds the cause, then Backend fixes the bug while Tester writes a failing test. Check: Tester confirms the fix, Reviewer checks the diff, you review the change. Ship: the team votes in Discord, Release ships it, Oggy verifies production." /></p>
 
-Every step of that happens in its own Discord thread, so your team sees the whole story:
-
-<table>
-<tr>
-<td width="50%"><img src="landing/assets/screens/discord-vote.webp" alt="Oggy asks for a team vote to ship paytrack in Discord" /><br /><sub>Oggy calls the vote</sub></td>
-<td width="50%"><img src="landing/assets/screens/discord-vote-team.webp" alt="Both teammates reply yes in Discord" /><br /><sub>Everyone replies yes</sub></td>
-</tr>
-</table>
-
-![Discord message confirming the release is live](landing/assets/screens/discord-shipped.webp)
-
-### Your inbox, turned into a to-do list
-
-<table>
-<tr>
-<td width="62%"><img src="landing/assets/screens/discord-voice-daily.webp" alt="Discord showing the todo workflow run by voice" /><br /><sub>"Run todo workflow", said out loud</sub></td>
-<td width="38%"><img src="landing/assets/screens/discord-todo.webp" alt="The assistant's report: 20 emails read and 4 tasks added" /><br /><sub>20 emails read, 4 tasks added to Notion</sub></td>
-</tr>
-</table>
+Every step happens in one Discord thread, so your team can follow the whole story live.
 
 ---
 

@@ -2,23 +2,13 @@
 
 <img src="landing/assets/icon.png" width="96" alt="Oggy" />
 
-# Oggy
+# Control your laptop with your voice and your phone
 
-**One sentence from you. A whole team of AI agents takes it from bug report to production, and you can run all of it from your phone.**
-
-
+**Oggy turns one sentence into real work on your PC: everyday tasks done instantly, coding tasks handed to a team of 7 AI agents that talk to you and your team in Discord.**
 
 *▶ Click to watch the demo: a voice request, the plan, the agents at work, the team vote and the deploy.*
 
 [**⬇ Download for Windows**](https://github.com/AymaanPathan/oggy/releases/latest/download/Oggy-Setup.exe) · [🌐 Website](https://oggy-landing.vercel.app) · [⚡ Quick start](#quick-start) · [📖 Full setup](#full-setup-download-the-app)
-
-</div>
-
-> **"Fix the 500 on huge payment amounts in paytrack and deploy it."**
->
-> Oggy plans the work → agents fix and test it → a reviewer checks it → your team votes → it ships → Oggy confirms it's live.
-
-<div align="center">
 
 Built with [Switch](https://switchagents.ai) and [Wispr Flow](https://wisprflow.ai)
 
@@ -26,79 +16,110 @@ Built with [Switch](https://switchagents.ai) and [Wispr Flow](https://wisprflow.
 
 ---
 
-## Why Oggy?
+## One sentence, two kinds of work
 
-AI can write code, but the rest of the job is still yours. You open the project, find the bug, run the tests, review the diff, ask your team, deploy, and check production. Every one of those steps needs you at your desk. Today's AI tools give you a pair of hands. They don't give you a team.
+Press `Ctrl` + `Space` and speak (with Wispr Flow) or type. Or send `@oggy ...` from Discord on your phone. Oggy figures out which kind of job it is:
 
-**Oggy gives you the team, and lets you manage it.** It doesn't write your code itself. It plans the work, gives each step to a specialist agent, runs independent steps in parallel, asks people for sign-off at the right moments, and checks the result. You make the decisions.
-
-- **An agent team, not a chatbot.** The Scout agent, Frontend agent, Backend agent, Tester agent, Reviewer agent, Release agent and Assistant agent each do one job and nothing else.
-- **Workflows you describe once.** Turn a routine into a saved visual flow with parallel steps, conditions and approvals. Run it by name or on a schedule.
-- **Full control from your phone.** Start jobs, approve steps, vote on deploys and get results in Discord, from anywhere, with no open ports.
-- **Built on Switch.** Agents and people share rooms and threads, so hand-offs, votes, history and phone control all come from one design.
-- **Ships, then checks the result.** Tests and reviews happen before every deploy, the whole team votes, and Oggy checks production for the new commit itself.
-- **Safe by default.** Deletes, installs, key presses and deploys always wait for a yes. Every code change can be undone.
-- **It also runs your PC.** Apps, files, projects, keys and settings, from one sentence.
+| | 🖥️ Everyday laptop tasks | 👩‍💻 Coding tasks |
+| --- | --- | --- |
+| **Who does it** | Oggy itself, on your PC | A team of 7 specialist agents |
+| **How fast** | Usually under a second | Minutes, steps in parallel |
+| **Example** | *"Move my invoices into a folder called Tax and zip it"* | *"Fix the 500 on huge payment amounts in paytrack and deploy it"* |
+| **Where you see it** | A toast on your desktop | A live Discord thread with the whole team |
 
 ---
 
-## What can Oggy do?
+## 1. Everyday tasks on your laptop
 
-### 🤖 Run a team of AI agents
-
-Describe a bug or a feature once. Oggy breaks it into steps and gives each step to the agent whose job it is. A typical bug fix looks like this:
-
-1. The **Scout agent** finds the root cause, with file names and line numbers.
-2. The **Backend agent** (or **Frontend agent**) fixes it. At the same time, the **Tester agent** writes a failing test that proves the bug.
-3. The **Tester agent** confirms the fix passes, and the **Reviewer agent** checks the diff.
-4. You see exactly what changed, in plain words and as a real diff. Keep it, undo it, or ask for a change.
-5. Your team votes in Discord, the **Release agent** ships it, and Oggy checks the live site for the new commit.
-
-Every hand-off, question and result happens in one shared Switch thread, so you and your team can follow the work live. [Meet the agent team](#the-agent-team).
-
-![The Coding board with Queued, Working, Needs you and Done columns](landing/assets/screens/board.webp)
-
-### 🔁 Save anything as a workflow
-
-Describe a routine in plain words and give it a name. Oggy builds it as a visual flow and checks every step against your real agents, teammates and projects before saving it.
-
-- **Release Day:** the Tester agent and Reviewer agent work in parallel, then the Release agent deploys after you approve.
-- **todo:** the Assistant agent reads your unread mail and turns it into Notion tasks.
-
-From then on, just say *"run todo workflow"*, or schedule it for every weekday at 9am. Workflows can branch on an agent's answer, ask specific teammates for approval, roll back a deploy, and post a report to any room. [More on workflows](#workflows).
-
-### 📱 Control everything from your phone
-
-Oggy lives in your Discord as `@oggy`. From anywhere you can:
-
-- **Start any job:** `@oggy fix the login bug in paytrack and deploy it`
-- **Run a workflow:** `@oggy run release day workflow`
-- **Approve steps:** reply `yes` or `no` in the thread
-- **Vote on deploys:** everyone on the team votes from their own phone
-- **Control your PC:** `@oggy take a screenshot`, `@oggy start the dev server`
-
-Oggy replies in the same thread with its plan, any question and the result. Messages go through [Switch](#how-switch-makes-this-possible), so you don't open ports, set up a VPN or need to be on the same network. You can fix a bug and ship it without touching your laptop.
-
-![A Discord thread where Oggy asks for approval and hands steps to the agents](landing/assets/screens/discord-release-approve.webp)
-
-### 🖥️ Operate your Windows PC
-
-Press `Ctrl` + `Space`, then speak (with Wispr Flow) or type. Oggy turns plain words into real actions: it launches and closes apps, finds, opens, organises and archives files, starts your projects and dev servers, presses keys in the window you're using, and changes system settings. For a request it hasn't seen before, it plans a sequence of steps on the spot.
-
-You don't need set phrases. These show the range, not the limit:
+No set phrases, no scripts. Say what you want and Oggy does it on your Windows PC, by voice, keyboard or phone.
 
 | Say | What happens |
 | --- | --- |
-| "Open my Downloads" / "Take a screenshot" / "Mute" | Done in a second, no AI call needed |
-| "Put my resume and offer letter in a folder called Jobs and zip it" | Oggy plans the steps, finds the real files and does it |
-| "Close Chrome and Notepad, then mute" | Several commands in one sentence |
+| "Take a screenshot" | Captures every screen and saves it |
+| "Move my resume and offer letter into a folder called Jobs" | Finds the real files and moves them |
+| "Zip the Jobs folder" / "Rename report.docx to final.docx" | Done, and you can undo it |
+| "Delete the old screenshots" | Sent to the Recycle Bin, after you say yes |
 | "Undo that" | Puts back the last file change |
-| "Start the dev server in paytrack" | Runs it in a VS Code terminal you can see |
-| "Check my mail and make a to-do list" | Your Assistant agent reads unread mail and writes tasks in Notion |
+| "Open my Downloads" / "Play the demo video" / "Open the PDF from yesterday" | Opens the folder or file in its usual app |
+| "Open Spotify" / "Close Chrome and Notepad, then mute" | Several commands in one sentence |
+| "Turn the volume down" / "Mute" | Changes system volume |
+| "Save this file" / "Press Alt+F4" | Presses keys in the window you're using |
+| "Start the dev server in paytrack" / "Open paytrack in VS Code" | Runs it in a VS Code terminal you can see |
+| "Add a meeting with Sara tomorrow at 3" | Creates a calendar event |
+| "Check my mail and make a to-do list" | Reads unread mail and writes tasks in Notion |
+| "Remember that my staging URL is ..." | Oggy keeps the fact for later jobs |
 
-If something's unclear, Oggy asks a short question ("Which one, the PDF or the DOCX?").
+If something's unclear, Oggy asks a short question (*"Which one, the PDF or the DOCX?"*). Anything risky (deleting, moving, pressing keys, installing) waits for your yes.
 
 ![The Oggy box asking "What should Oggy do?"](landing/assets/screens/command-bar.webp)
+
+---
+
+## 2. Coding tasks, handed to a team of agents
+
+Oggy never writes your code itself. It acts as the team lead: it plans the job, gives each step to the agent whose job it is, runs independent steps in parallel and checks the result. **7 specialist agents are built in, each running in [Switch](https://switchagents.ai):**
+
+| Agent | Its one job | What it never does |
+| --- | --- | --- |
+| 🔍 **Scout** | Finds the root cause of a bug, with file names and line numbers | Edit code |
+| 🎨 **Frontend** | Fixes and builds UI code | Touch APIs, servers or databases |
+| ⚙️ **Backend** | Fixes and builds APIs, servers and databases | Touch UI code |
+| 🧪 **Tester** | Proves a bug with a failing test, then confirms the fix | Change anything except test files |
+| 👀 **Reviewer** | Reads the diff and replies `LOOKS GOOD` or `CHANGES NEEDED` | Edit code |
+| 🚀 **Release** | Writes release notes, then merges and deploys after the team vote | Deploy without every teammate's yes |
+| 📬 **Assistant** | Reads Gmail and Calendar, writes in Notion, drafts emails | Send an email |
+
+Only have one agent? A general **Claude agent** can cover every job until you add more.
+
+**A typical bug fix:**
+
+1. **Scout** finds the root cause.
+2. **Backend** (or **Frontend**) fixes it while **Tester** writes a failing test that proves the bug.
+3. **Tester** confirms the fix passes and **Reviewer** checks the diff.
+4. You see what changed, in plain words and as a real diff. Keep it, undo it, or ask for a change.
+5. Your team votes, **Release** ships it, and Oggy checks the live site for the new commit.
+
+![The Coding board with Queued, Working, Needs you and Done columns](landing/assets/screens/board.webp)
+
+---
+
+## 3. A Discord room where your whole agent team lives
+
+Oggy and all 7 agents sit together in the `#team` room, which Switch bridges to Discord. So the room on your desktop is the same room on your phone:
+
+- **Talk to any agent directly.** `@scout why does checkout fail on Safari?`
+- **Start a job from anywhere.** `@oggy fix the login bug in paytrack and deploy it`
+- **Approve steps.** Reply `yes` or `no` in the thread.
+- **Vote on deploys.** Every teammate votes from their own phone. One `no` stops it.
+- **Control your PC too.** `@oggy take a screenshot` in `#oggy-daily`.
+
+Every job is one thread: the plan, each hand-off, every question and the result. No open ports, no VPN, no separate mobile app.
+
+![A Discord thread where Oggy asks for approval and hands steps to the agents](landing/assets/screens/discord-release-approve.webp)
+
+---
+
+## 4. Every new project gets its own room
+
+Say *"create a new project called habit-tracker, a React app with an Express API"* and Oggy:
+
+1. **Creates a new Switch room (and Discord channel) for the project**, with you and the agents in it.
+2. Attaches the project's facts as room instructions, plus its GitHub repo and your team rules.
+3. Has the agents build it **inside that room**: Frontend and Backend in parallel, then Tester proves it installs, builds and passes.
+4. Sends every later job for that project to the same room.
+
+So each project has a dedicated channel where your human teammates and the 7 agents work as one engineering team, with a **Project log** that keeps what every job changed and what you decided. Done with it? *"Archive the habit-tracker room"* puts it away.
+
+---
+
+## Why Oggy?
+
+- **Two jobs, one box.** Laptop chores and real engineering work from the same sentence.
+- **An agent team, not a chatbot.** Each agent has one job, so its work is focused, checkable and can run in parallel.
+- **Your phone is the remote.** Everything runs through Discord, from anywhere.
+- **Safe by default.** Deletes, installs, key presses and deploys wait for a yes. Every change can be undone.
+- **Ships, then checks.** Tests and review before every deploy, a team vote, and Oggy confirms the new commit is live.
+- **Workflows you describe once.** Save a routine like *Release Day* and run it by name or on a schedule. [More on workflows](#workflows).
 
 ---
 
@@ -619,7 +640,7 @@ Invoke-RestMethod http://127.0.0.1:4317/commands -Method Post `
 
 **Does my code leave my PC?** Oggy runs locally. Planning uses the Claude Code CLI, which sends your request and relevant file names to Claude. Agents are Claude Code sessions. Room messages go through your Switch server and Discord.
 
-**Do I need all eight agents?** No. One is enough to start.
+**Do I need all 7 agents?** No. One general Claude agent is enough to start.
 
 **Do I need Discord?** Only for phone control and team votes.
 
